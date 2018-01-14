@@ -20,7 +20,6 @@ contract TrustGraph {
     function TrustGraph() {
 
         numNodes = 0;
-        nodeList.push(0);
 
     }
 

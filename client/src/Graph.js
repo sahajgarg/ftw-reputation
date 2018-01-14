@@ -8,6 +8,7 @@ class Graph extends Component {
     this.myGraph = ForceGraph3D();
 
     this.props.graphAPIObj.updateTo = (data) => {
+      console.log(data)
       this.myGraph.graphData(data);
     }
   }
@@ -17,30 +18,8 @@ class Graph extends Component {
   componentDidMount() {
     let container = document.getElementById('Graph__container');
     let data = {
-        "nodes": [
-            {
-              "id": "id1",
-              "name": "name 1 ",
-              "val": 3,
-              color: '#ff0',
-              opacity: 0.9,
-            },
-            {
-              "id": "id2",
-              "name": "name2",
-              "val": 10
-            },
-        ],
-        "links": [
-            {
-                "source": "id1",
-                "target": "id2"
-            },
-            {
-                "source": "id1",
-                "target": "id2"
-            },
-        ]
+        "nodes": [],
+        "links": []
     };
 
     this.myGraph.width(container.offsetWidth)
@@ -70,20 +49,19 @@ class Graph extends Component {
 
 
 
-      setInterval(() => {
-        this.myGraph.width(container.offsetWidth)
-        this.myGraph.height(container.offsetHeight)
+      // setInterval(() => {
+      //   this.myGraph.width(container.offsetWidth)
+      //   this.myGraph.height(container.offsetHeight)
 
-        // data.nodes.push({
-        //   "id": 'a' + Math.random(),
-        //   "name": 'a' + Math.random(),
-        //   "val": 2
-        // });
+      //   // data.nodes.push({
+      //   //   "id": 'a' + Math.random(),
+      //   //   "name": 'a' + Math.random(),
+      //   //   "val": 2
+      //   // });
 
-        this.myGraph.graphData(data);
 
-        // this.myGraph(container).graphData(data);
-      },1000)
+      //   // this.myGraph(container).graphData(data);
+      // },1000)
 
       window.addEventListener("resize", function () { // Watch for browser/canvas resize events
         this.myGraph.width(container.offsetWidth)

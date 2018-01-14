@@ -7,10 +7,10 @@ import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
-import { calculate_trust } from './pagerank.js'
+import { calculate_trust } from './pagerank.js';
+import random_name from 'node-random-name';
 
-const contractAddress = '0xf941bf092778900b20d08cd44f0950df6af4b9f7';
-
+const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -112,10 +112,18 @@ class App extends Component {
       var trusteeList = result[1];
       var ratingList = result[2];
 
+      let peerObjs = [];
+      let graphData = {"nodes": [], "links": []};
+
       for (var i = 0; i < trusterList.length; i++) {
         trusterList[i] = trusterList[i].toNumber();
         trusteeList[i] = trusteeList[i].toNumber();
         ratingList[i] = ratingList[i].toNumber();
+
+        graphData.links.push({
+          "source": nodeList[trusterList[i]],
+          "target": nodeList[trusteeList[i]]
+        });
       }
 
       //console.log(ratingList);
@@ -127,7 +135,32 @@ class App extends Component {
       //console.log(nodeList);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
       console.log(trustValues);
-      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues});
+
+      for (i = 0; i < nodeList.length; i++) {
+        let randomName = random_name({ random: Math.random});
+        peerObjs.push({
+          id: nodeList[i],
+          name: randomName,
+          rating: trustValues[i].toFixed(3)
+        });
+
+        graphData.nodes.push({
+          "id": nodeList[i],
+          "name": randomName,
+          "val": trustValues[i],
+          "color": Color.hex(nodeList[i]),
+          "opacity": 0.9,
+        })
+      }
+
+      if (!this.state.trusterList) {
+        this.graphAPI.updateTo(graphData); 
+      } else if (this.state.trusterList.length != trusterList.length) {
+        this.graphAPI.updateTo(graphData); 
+      }
+      
+
+      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
 
       console.log('done retreiving and calculating pagerank!!')
     });
