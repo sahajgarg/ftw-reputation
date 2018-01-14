@@ -63,7 +63,7 @@ const compute_page_rank = (adj_matrix, rank_source, personalization) => {
 	return principal;
 }
 
-const calculate = (data, rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
+const calculate_trust = (data, rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
 	node_list = data['node_list'];
 	truster_list = data['truster_list'];
 	trustee_list = data['trustee_list'];
@@ -82,10 +82,8 @@ const calculate = (data, rank_source=null, pubkey_rank_source=null, personalizat
 	adj_matrix = construct_graph(node_list, truster_list, trustee_list, trust_rating_list, rank_source);
 	console.log(adj_matrix)
 	trust_values = compute_page_rank(adj_matrix, rank_source, personalization);
-	console.log(trust_values);
 	
-	//ratings = compute_overall_ratings(global_rating_list, trust_values)
-
+	return trust_values;
 }
 
-module.exports = { calculate };
+module.exports = { calculate_trust };

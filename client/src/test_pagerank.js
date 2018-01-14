@@ -5,7 +5,7 @@ var web3 = new Web3("http://localhost:8545");
 
 //Replace address
 //const WTFcontract = new web3.eth.Contract(contractAbi, "0xdd73bcaf6cd68884edf2be65afe0bc7241dc9fbb");
-const { calculate } = require('./pagerank.js');
+const { calculate_trust } = require('./pagerank.js');
 
 //NON PAGERANK RELATED THINGS
 const handle_error = (error) => {
@@ -37,12 +37,12 @@ const retreive = (callback) => {
 // {node_list, node_trust_scores, ratings, truster_list, trustee_list}
 const handler = (rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
 	retreive(function(data) {
-		calculate(data, rank_source, pubkey_rank_source, personalization);
+		calculate_trust(data, rank_source, pubkey_rank_source, personalization);
 	});
 }
 
 const tester = (data, rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
-	calculate(data, rank_source, pubkey_rank_source, personalization);
+	calculate_trust(data, rank_source, pubkey_rank_source, personalization);
 }
 
 node_list = ['0', '1', '2', '3', '4']
