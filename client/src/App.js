@@ -12,7 +12,6 @@ import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgEbay from'./ebay.png';
-import { calculate_trust } from './pagerank.js'
 
 const contractAddress = '0xa27c43850e1e0095790cbc7cd043782d261506ab';
 
