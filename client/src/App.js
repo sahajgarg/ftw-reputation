@@ -101,8 +101,8 @@ class App extends Component {
         <div className="AppHeader__top">
           <a href="#" className="AppHeader__top__titleLink" onClick={() => {this.setState({page: 'overview'})}}><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
           <nav>
-            <div><a href="#" className={headerNavOverviewClass} onClick={() => {this.setState({page: 'overview'})}}>Overview</a></div>
-            <div><a href="#" className={headerNavExplorerClass} onClick={() => {this.setState({page: 'explorer'})}}>Explorer</a></div>
+            <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
+            <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
           </nav>
         </div>
         <div className="AppHeader__bottom">
