@@ -36,11 +36,15 @@ class App extends Component {
     if (this.state.page === 'overview') {
       content = <div>overview</div>
     } else if (this.state.page === 'explorer') {
-      let sink = <div className="Explorer__sink">
-        Options
-          - Sybil: [toggle]
-          -
-      </div>
+      // let sink = <div className="Explorer__sink">
+      //   Options
+      //     - Sybil: [toggle]
+      //     -
+      // </div>
+
+      // let results =  <div className="Explorer__content__results">
+      //   results
+      // </div>
 
       content = <div className="Explorer">
         <div className="Explorer__content">
@@ -49,9 +53,6 @@ class App extends Component {
           </div>
           <div className="Explorer__content__myTrust">
             mytrust
-          </div>
-          <div className="Explorer__content__results">
-            results
           </div>
         </div>
       </div>

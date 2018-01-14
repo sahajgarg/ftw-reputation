@@ -15,8 +15,9 @@ class Graph extends Component {
             {
               "id": "id1",
               "name": "name 1 ",
-              "val": 1,
+              "val": 3,
               color: '#ff0',
+              opacity: 0.9,
             },
             {
               "id": "id2",
@@ -40,12 +41,18 @@ class Graph extends Component {
     myGraph.linkColor('#ffffff')
     myGraph.backgroundColor('#000000');
 
-    myGraph.nodeResolution(20);
+
+    // myGraph.linkColor(() => {
+    //   return '#000000'
+    // })
+    // myGraph.backgroundColor('#ffffff');
+
+    myGraph.nodeResolution(24);
     myGraph(container);
     myGraph.graphData(data);
+    myGraph.nodeRelSize(5)
 
     myGraph.nodeColor(node => {
-      console.log(node)
       if (node.color) {
         return node.color;
       }
@@ -58,11 +65,14 @@ class Graph extends Component {
         myGraph.width(container.offsetWidth)
         myGraph.height(container.offsetHeight)
 
-        data.nodes.push({
-          "id": 'a' + Math.random(),
-          "name": 'a' + Math.random(),
-          "val": 10
-        });
+        // data.nodes.push({
+        //   "id": 'a' + Math.random(),
+        //   "name": 'a' + Math.random(),
+        //   "val": 2
+        // });
+
+        myGraph.graphData(data);
+
         // myGraph(container).graphData(data);
       },1000)
 

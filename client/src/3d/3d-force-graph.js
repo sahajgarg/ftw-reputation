@@ -7,6 +7,7 @@ import {
   Scene,
   PerspectiveCamera,
   AmbientLight,
+  PointLight,
   DirectionalLight,
   Raycaster,
   Vector2,
@@ -14,7 +15,7 @@ import {
 } from 'three';
 
 import ThreeTrackballControls from 'three-trackballcontrols';
-import ThreeForceGraph from 'three-forcegraph';
+import ThreeForceGraph from './three-forcegraph/index';
 
 import accessorFn from 'accessor-fn';
 import Kapsule from 'kapsule';
@@ -29,6 +30,7 @@ const three = window.THREE
     Scene,
     PerspectiveCamera,
     AmbientLight,
+    PointLight,
     DirectionalLight,
     Raycaster,
     Vector2,
@@ -112,7 +114,9 @@ export default Kapsule({
   },
 
   stateInit: () => {
-    let renderer = new three.WebGLRenderer();
+    let renderer = new three.WebGLRenderer({
+      antialias: true
+    });
     renderer.setPixelRatio(2)
 
     return {
@@ -131,16 +135,16 @@ export default Kapsule({
     // Add nav info section
     domNode.appendChild(state.navInfo = document.createElement('div'));
     state.navInfo.className = 'graph-nav-info';
-    state.navInfo.textContent = "MOVE mouse & press LEFT/A: rotate, MIDDLE/S: zoom, RIGHT/D: pan";
+    state.navInfo.innerHTML = "Rotate: LEFT drag<br />Zoom: scroll<br />Pan: RIGHT drag";
 
     // Add info space
     let infoElem;
     domNode.appendChild(infoElem = document.createElement('div'));
     infoElem.className = 'graph-info-msg';
-    infoElem.textContent = '';
-    state.forceGraph.onLoading(() => { infoElem.textContent = 'Loading...' });
+    infoElem.innerHTML = '';
+    state.forceGraph.onLoading(() => { infoElem.innerHTML = 'Loading...' });
     state.forceGraph.onFinishLoading(() => {
-      infoElem.textContent = '';
+      infoElem.innerHTML = '';
 
       // re-aim camera, if still in default position (not user modified)
       if (state.camera.position.x === 0 && state.camera.position.y === 0 && state.camera.position.z === state.lastSetCameraZ) {
@@ -190,16 +194,30 @@ export default Kapsule({
 
     // Setup renderer, camera and controls
     domNode.appendChild(state.renderer.domElement);
-    const tbControls = new ThreeTrackballControls(state.camera, state.renderer.domElement);
+    let tbControls = new ThreeTrackballControls(state.camera, state.renderer.domElement);
 
+    tbControls.panSpeed = 0.05
+    tbControls.dynamicDampingFactor = 0.05
+    tbControls.rotateSpeed = 1;
     state.renderer.setSize(state.width, state.height);
     state.camera.far = 20000;
 
     // Populate scene
     state.scene.add(state.forceGraph);
-    state.scene.add(new three.AmbientLight(0xaaaaaa));
+    state.scene.add(new three.AmbientLight(0xffffff));
     state.scene.add(new three.DirectionalLight(0xffffff, 0.6));
+    var light1 = new three.PointLight( 0xffffff, 0.5, 400 );
+    light1.position.set( 50, 50, 50 );
+    state.scene.add( light1 );
 
+
+    var light2 = new three.PointLight( 0xffffff, 0.5, 400 );
+    light2.position.set( -50, -50, 50 );
+    state.scene.add( light2 );
+
+    var light3 = new three.PointLight( 0xffffff, 0.5, 400 );
+    light3.position.set( 50, -50, -50 );
+    state.scene.add( light3 );
     //
 
     // Kick-off renderer
