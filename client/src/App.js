@@ -95,7 +95,7 @@ class App extends Component {
   }
 
   // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
-  retreive(callback) {
+  retrieve(callback) {
     console.log('starting reteival');
     var nodeList;
     var trustGraphInstance = this.state.trustGraphInstance;
@@ -145,7 +145,7 @@ class App extends Component {
 
         this.state.web3.eth.defaultAccount = accounts[0];
       }).then(() => {
-        this.retreive(() => {
+        this.retrieve(() => {
           console.log('done');
         })
       })

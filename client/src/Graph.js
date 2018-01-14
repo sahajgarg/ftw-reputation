@@ -30,6 +30,10 @@ class Graph extends Component {
                 "source": "id1",
                 "target": "id2"
             },
+            {
+                "source": "id1",
+                "target": "id2"
+            },
         ]
     };
     var myGraph = ForceGraph3D();
