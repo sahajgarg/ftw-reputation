@@ -1,6 +1,6 @@
 var TrustGraph = artifacts.require("./TrustGraph.sol");
 
-contract_address = '0xa27c43850e1e0095790cbc7cd043782d261506ab';
+contract_address = '0xa8c7c4b98d057022f0c42cda36e844840655ef2b';
 
 contract('TrustGraph', function(accounts) {
   it("should do a couple links", function() {
@@ -23,15 +23,6 @@ contract('TrustGraph', function(accounts) {
             }
         }
 
-    }).then(function() {
-        return graph.getNodeList.call();
-    }).then(function(nl) {
-        nodeList = nl;
-        return graph.getEdgeList.call();
-    }).then(function(el) {
-        edgeList = el;
-        console.log(nodeList)
-        console.log(edgeList);
     });
   });
 });

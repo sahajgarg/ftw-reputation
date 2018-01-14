@@ -26,7 +26,7 @@ contract TrustGraph {
         nodeList.push(addr);
         numNodes++;
         nodes[addr] = numNodes;
-        return numNodes - 1;
+        return numNodes;
 
     }
 
@@ -47,11 +47,11 @@ contract TrustGraph {
             trusteeIndex = addNode(trustee);
         }
 
-        trusterArr.push(trusterIndex);
-        trusteeArr.push(trusteeIndex);
+        trusterArr.push(trusterIndex - 1);
+        trusteeArr.push(trusteeIndex - 1);
         ratingArr.push(rating);
 
-        Rating(trusterIndex, trusteeIndex, rating);
+        Rating(trusterIndex - 1, trusteeIndex - 1, rating);
 
     }
 
@@ -59,8 +59,23 @@ contract TrustGraph {
         return nodeList;
     }
 
-    function getEdgeList() public constant returns(uint[], uint[], uint[]) {
+    function getTrusterList() public constant returns(uint[]) {
 
-        return (trusterArr, trusteeArr, ratingArr);
+        return trusterArr;
     }
+
+    function getTrusteeList() public constant returns(uint[]) {
+
+        return trusteeArr;
+    }
+
+    function getRatingList() public constant returns(uint[]) {
+
+        return ratingArr;
+    }
+
+    // function getEdgeList() public constant returns(uint[], uint[], uint[]) {
+
+    //     return (trusterArr, trusteeArr, ratingArr);
+    // }
 }
