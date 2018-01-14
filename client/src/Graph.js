@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import ForceGraph3D from './3d/index';
 
 class Graph extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.myGraph = ForceGraph3D();
+
+    this.props.graphAPIObj.updateTo = (data) => {
+      this.myGraph.graphData(data);
+    }
+  }
   shouldComponentUpdate() {
     return false;
   }
@@ -36,27 +42,26 @@ class Graph extends Component {
             },
         ]
     };
-    var myGraph = ForceGraph3D();
 
-    myGraph.width(container.offsetWidth)
-    myGraph.height(container.offsetHeight)
-    myGraph.linkOpacity(1)
+    this.myGraph.width(container.offsetWidth)
+    this.myGraph.height(container.offsetHeight)
+    this.myGraph.linkOpacity(1)
 
-    myGraph.linkColor('#ffffff')
-    myGraph.backgroundColor('#000000');
+    this.myGraph.linkColor('#ffffff')
+    this.myGraph.backgroundColor('#000000');
 
 
-    // myGraph.linkColor(() => {
+    // this.myGraph.linkColor(() => {
     //   return '#000000'
     // })
-    // myGraph.backgroundColor('#ffffff');
+    // this.myGraph.backgroundColor('#ffffff');
 
-    myGraph.nodeResolution(24);
-    myGraph(container);
-    myGraph.graphData(data);
-    myGraph.nodeRelSize(5)
+    this.myGraph.nodeResolution(24);
+    this.myGraph(container);
+    this.myGraph.graphData(data);
+    this.myGraph.nodeRelSize(5)
 
-    myGraph.nodeColor(node => {
+    this.myGraph.nodeColor(node => {
       if (node.color) {
         return node.color;
       }
@@ -66,8 +71,8 @@ class Graph extends Component {
 
 
       setInterval(() => {
-        myGraph.width(container.offsetWidth)
-        myGraph.height(container.offsetHeight)
+        this.myGraph.width(container.offsetWidth)
+        this.myGraph.height(container.offsetHeight)
 
         // data.nodes.push({
         //   "id": 'a' + Math.random(),
@@ -75,14 +80,14 @@ class Graph extends Component {
         //   "val": 2
         // });
 
-        myGraph.graphData(data);
+        this.myGraph.graphData(data);
 
-        // myGraph(container).graphData(data);
+        // this.myGraph(container).graphData(data);
       },1000)
 
       window.addEventListener("resize", function () { // Watch for browser/canvas resize events
-        myGraph.width(container.offsetWidth)
-        myGraph.height(container.offsetHeight)
+        this.myGraph.width(container.offsetWidth)
+        this.myGraph.height(container.offsetHeight)
       });
 
   }

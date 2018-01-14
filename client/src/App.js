@@ -20,6 +20,11 @@ const Search = Input.Search;
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.graphAPI = {
+      updateTo: (data) => {}, // This will get updated with a function from Graph.js
+    };
+
     this.state = {
       page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
@@ -341,7 +346,7 @@ class App extends Component {
       content = <div className="Explorer">
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
-            <Graph />
+            <Graph graphAPIObj={this.graphAPI} />
           </div>
           <div className="Explorer__content__myTrust">
             <div className="PeerListContainer">
