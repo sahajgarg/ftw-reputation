@@ -27,48 +27,50 @@ class App extends Component {
       updateTo: (data) => {}, // This will get updated with a function from Graph.js
     };
 
+
     this.state = {
       page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      explorerState: 'loading', // 'error', 'loaded'
       initialLoaded: false,
       peerObjs: [
-        {
-          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
-          name: 'Name Is Super Long And Waaoowowwwowoigaods',
-          rating: 5,
-        },
-        {
-          id: 'me2',
-          name: 'Name',
-          rating: 4,
-        },
-        {
-          id: 'me3',
-          name: 'Name',
-          rating: 3,
-        },
-        {
-          id: 'me32',
-          name: 'Name',
-          rating: 2,
-        },
-        {
-          id: 'me33',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me52',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me53',
-          name: 'Name',
-          rating: 0,
-        }
+        // {
+        //   id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+        //   name: 'Name Is Super Long And Waaoowowwwowoigaods',
+        //   rating: 5,
+        // },
+        // {
+        //   id: 'me2',
+        //   name: 'Name',
+        //   rating: 4,
+        // },
+        // {
+        //   id: 'me3',
+        //   name: 'Name',
+        //   rating: 3,
+        // },
+        // {
+        //   id: 'me32',
+        //   name: 'Name',
+        //   rating: 2,
+        // },
+        // {
+        //   id: 'me33',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me52',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me53',
+        //   name: 'Name',
+        //   rating: 0,
+        // }
       ]
     };
   }
@@ -87,18 +89,24 @@ class App extends Component {
       })
       // Instantiate contract once web3 provided.
       this.instantiateContract();
-      setInterval(() => {
-        this.retrieve();
-      }, 1000)
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
 
-    
+    setInterval(() => {
+      try {
+        this.retrieve();
+      } catch(e) {
+        console.log('Retrieve ',e)
+      }
+    }, 1000)
   }
 
   updateEdge(trustee, rating) {
+    if (!this.state.trustGraphInstance) {
+      return;
+    }
     this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount, gas: 1000000}).then((error, response) => {
       console.log('updated')
       console.log(error)
@@ -108,11 +116,16 @@ class App extends Component {
 
   // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
   retrieve(callback) {
-    console.log('starting reteival');
+    console.log('Starting retrieval');
     var nodeList;
     var trusterList;
     var trusteeList;
     var ratingList;
+
+    if (!this.state.trustGraphInstance) {
+      console.log('Ending retrieval')
+      return;
+    }
 
     var trustGraphInstance = this.state.trustGraphInstance;
     trustGraphInstance.getNodeList.call().then((result) => {
@@ -177,19 +190,12 @@ class App extends Component {
       let setInitialUpdated = false;
 
       if (!this.state.initialUpdated && this.state.page === 'explorer') {
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
         setInitialUpdated = true;
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       } else if (!this.state.trusterList) {
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       } else if (this.state.trusterList.length != trusterList.length) {
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       }
 
       this.setState({
@@ -198,6 +204,7 @@ class App extends Component {
         trusteeList: trusteeList,
         ratingList: ratingList,
         trustValues: trustValues,
+        explorerState: 'loaded',
         initialUpdated: setInitialUpdated || this.state.initialUpdated,
         peerObjs: peerObjs
       });
@@ -216,22 +223,35 @@ class App extends Component {
 
     // Get accounts.
 
-
     this.state.web3.eth.net.getId((error, id) => {
       if (id == '3') {
         contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
       }
       this.state.web3.eth.getAccounts((error, accounts) => {
-        trustGraph.at(contractAddress).then((instance) => {
-          trustGraphInstance = instance
-          this.setState({trustGraphInstance: trustGraphInstance});
+        try {
+          trustGraph.at(contractAddress).then((instance) => {
+            trustGraphInstance = instance
+            this.setState({trustGraphInstance: trustGraphInstance});
 
-          this.state.web3.eth.defaultAccount = accounts[0];
-        }).then(() => {
-          this.retrieve(() => {
-            console.log('done');
+            this.state.web3.eth.defaultAccount = accounts[0];
+          }).then(() => {
+            this.retrieve(() => {
+              console.log('done');
+            })
           })
-        })
+          .catch((e) => {
+            console.log('error', e)
+          })
+        } catch(e) {
+          this.setState({
+            explorerState: 'error',
+          })
+
+          setTimeout(() => {
+            console.log('Retrying instantiateContract()')
+            this.instantiateContract();
+          }, 2500)
+        }
       })
     })
   }
@@ -251,7 +271,7 @@ class App extends Component {
       let currentPage = 0;
       for (let i = 0; i < pages.length; i++) {
         let pageOffset = window.$(pages[i]).offset().top;
-        if (pageOffset < -200) {
+        if (pageOffset < -400) {
           currentPage += 1;
         }
       }
@@ -274,7 +294,7 @@ class App extends Component {
 
       window.$('#App-content').animate({
         scrollTop: window.$('#App-content').scrollTop() + window.$(pages[targetPage]).offset().top + 1
-      }, 300);
+      }, 200);
   });
   }
 
@@ -367,35 +387,39 @@ class App extends Component {
         </div>
 
         <div className="Page PageFillScreen PageProblem Page--bordered">
-          <div className="SlideTitle">Real world problems</div>
+          <div className="SlideTitle">Pain Point: Marketplace Reputation</div>
           <div className="ContentFrame">
             <div className="BoringContent">
-              <p>Woof Woof</p>
+              <p>Imagine a marketplace.</p>
+              <p>Scammer creates a million fake identities to pump the scammer's rating.</p>
+              <p><strong>How do we prevent this?</strong></p>
+              <br />
             </div>
             <div className="VertPad"></div>
             <div className="TwoBy">
-              <div className="ProblemExample">
+              <div className="ProblemExample TwoBy__45">
                 <div className="Height90px">
                   <img src={ImgOpenBazaar} />
                 </div>
                 <div className="BoringContent">
                   <div className="VertPad">
                     <ul>
-                      <li>Meow</li>
-                      <li>Blah</li>
+                      <li>Reputation accumulated through on-chain transactions</li>
+                      <li>Uses expensive BTC fees as as sybil mitigation</li>
+                      <li>Especially not feasible for helping the poor and unbanked</li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className="ProblemExample">
+              <div className="ProblemExample TwoBy__45">
                 <div className="Height90px" style={{paddingTop: '30px'}}>
                   <img src={ImgEbay}  width="123"/>
                 </div>
                 <div className="BoringContent">
                   <div className="VertPad">
                     <ul>
-                      <li>Meow</li>
-                      <li>Blah</li>
+                      <li>Centralized spam removal</li>
+                      <li>eBay Inc. is the final arbiter</li>
                     </ul>
                   </div>
                 </div>
@@ -405,6 +429,25 @@ class App extends Component {
         </div>
 
         <div className="Page PageFillScreen Page--gray">
+          <div className="SlideTitle">The Solution: <strong>Personalized</strong> Reputation</div>
+          <div className="BoringContent ContentFrame">
+            <p>Avoid global ratings that are centralized, expensive, and/or cheatable</p>
+            <br />
+            <p>We <strong>personalize</strong> reputation:</p>
+            <ul>
+              <li>Assign trust to my friends (and indirectly their friends, etc).</li>
+              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+            </ul>
+            <br />
+            <p>We put it on the blockchain:</p>
+            <ul>
+              <li>No centralized repository that may have conflicts of interest.</li>
+              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen">
           <div className="SlideTitle">Use Case: Marketplace Reputation</div>
           <div className="BoringContent ContentFrame">
             <p>Overcrowding in ICOs</p>
@@ -413,17 +456,27 @@ class App extends Component {
 
 
         <div className="Page PageFillScreen Page--graph">
-          <div className="SlideTitle">What we built at the hackathon</div>
+          <div className="SlideTitle">Reflections: What we built at this hackathon</div>
           <div className="BoringContent ContentFrame">
-            <p>Overcrowding in ICOs</p>
+            <p>We had a blast during this hackathon. This is what we built:</p>
             <br />
             <ul>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
+              <li>Flexible reputation system usable for anything</li>
+              <li>A decentralized and permissionless system</li>
+              <li>API that any other Dapp can use</li>
+              <li>JavaScript implementation of personalized Pagerank</li>
+              <li>Ethereum Solidity smart contract</li>
+              <li>MetaMask integration for browser interactions</li>
+              <li>Web client to interact with the reputation system</li>
+              <li>3D visualization of the reputation graph</li>
             </ul>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen">
+          <div className="SlideTitle">Demo!</div>
+          <div className="BoringContent ContentFrame">
+            <p>Lets actually see WTF this FTW thing does!</p>
           </div>
         </div>
 
@@ -446,9 +499,9 @@ class App extends Component {
         let show = false;
 
         if (this.state.filterText !== undefined) {
-          if (peer.id.indexOf(this.state.filterText) !== -1) {
+          if (peer.id.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
-          } else if (peer.name.indexOf(this.state.filterText) !== -1) {
+          } else if (peer.name.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
           }
         } else {
@@ -515,7 +568,26 @@ class App extends Component {
         5: '5',
       };
 
+      let errorText = 'loading...';
+      let errorContent;
+      if (this.state.explorerState === 'error') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      } else if (this.state.explorerState === 'loading') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      }
+
       content = <div className="Explorer">
+        {errorContent}
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
             <Graph graphAPIObj={this.graphAPI} />
