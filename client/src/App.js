@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
 
-var contractAddress = '0x688770523a8f74f7438b83c62b56056d69af461b';
+var contractAddress = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -329,7 +329,7 @@ class App extends Component {
         </div>
         <div className="AppHeader__bottom">
           <div className="AppHeader__bottom__links">
-            <a className="TODO">Github</a>
+            <a href="https://github.com/sahajgarg/ftw-reputation">Github</a>
           </div>
         </div>
       </header>
@@ -346,7 +346,7 @@ class App extends Component {
                 <div className="Intro__content">
                   <div className="Intro__content_FTW">FTW</div>
                   <div className="Intro__content__line">Decentralized reputation on Ethereum.</div>
-                  <div className="Intro__content__line">The world's first fully <b>sybil resistant</b>, truly decentralized reputation protocol.</div>
+                  <div className="Intro__content__line">The world's first <b>sybil resistant</b>, fully decentralized reputation protocol.</div>
                 </div>
               </div>
           </div>
@@ -410,35 +410,24 @@ class App extends Component {
                 <div className="Height90px">
                   <img src={ImgOpenBazaar} />
                 </div>
-                <div className="BoringContent">
-                  <div className="VertPad">
-                    <ul>
-                      <li>Reputation accumulated through on-chain transactions</li>
-                      <li>Uses expensive BTC fees as as sybil mitigation</li>
-                      <li>Especially not feasible for helping the poor and unbanked</li>
-                    </ul>
-                  </div>
-                </div>
               </div>
               <div className="ProblemExample TwoBy__45">
-                <div className="Height90px" style={{paddingTop: '10px'}}>
+                <div className="Height90px" style={{paddingTop: '5px'}}>
                   <img src={ImgPropy}  width="300"/>
-                </div>
-                <div className="BoringContent">
-                  <div className="VertPad">
-                    <ul>
-                      <li>Marketplace/registry for title deeds</li>
-                      <li>High value exchanges need trusted reputation</li>
-                      <li>Marketplace ratings are spoofable</li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>
             <br />
+            <br />
             <div className="BoringContent">
-              <p>The problem: <strong>sbyil attacks</strong>. </p>
-              <p>What if a scammer creates a hundred fake identities that all rate him/her highly?</p>
+              <p>In any decentralized marketplace, we need a way for buyers to rate sellers.</p>
+              <br />
+              <p>The core challenge: <strong>sybil attacks</strong>. </p>
+              <ul>
+                <li>What if a scammer creates a hundred fake identities that all rate him highly?</li>
+                <li>Traditional systems solve it through centralized identity verification.</li>
+                <li>For decentralized, pseudononymous systems, we need something better.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -446,19 +435,13 @@ class App extends Component {
         <div className="Page PageFillScreen Page--gray">
           <div className="SlideTitle">Our Solution: <strong>Personalized</strong> Reputation</div>
           <div className="BoringContent ContentFrame">
-            <p>Avoid global ratings that are centralized, expensive, and/or cheatable</p>
-            <br />
             <p>We <strong>personalize</strong> reputation:</p>
             <ul>
               <li>Create a <strong>web of trust</strong> by asssigning trust to my friends (and indirectly their friends, etc).</li>
-              <li>Implemented a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who I trust.</li>
             </ul>
             <br />
-            <p>We put it on the Ethereum and POA Network blockchains:</p>
-            <ul>
-              <li>No centralized repository that may have conflicts of interest.</li>
-              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
-            </ul>
+            <p>We put it on the Ethereum and POA Network blockchains. That way, there's no centralized repository that may have conflicts of interest.</p>
           </div>
         </div>
 
@@ -501,7 +484,9 @@ class App extends Component {
           <div className="BoringContent ContentFrame">
             <p>We read a lot of papers to devise the best method for this project. Here are the most important:</p>
             <ol>
-              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>
+              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>              
+              <li>Manipulability of PageRank under Sybil Strategies</li>              
+              <li>Survey of Sybil Attacks in Social Networks</li>
             </ol>
           </div>
         </div>
@@ -610,6 +595,14 @@ class App extends Component {
 
       let peerNewDisabled = this.state.newPeerAddress.length === 42 ? false : true;
       let peerNewButtonType = this.state.newPeerAddress.length === 42 ? 'primary': 'dashed';
+
+      let metamaskWarning;
+      if (window.fallback) {
+        metamaskWarning = <div className="metaMaskWarning">
+          NOTE: please sign in through MetaMask on the <strong>Ropsten Test Network</strong> to interact with the application and add trusted nodes.
+        </div>
+      }
+
       content = <div className="Explorer">
         {errorContent}
         <div className="Explorer__content">
@@ -637,6 +630,7 @@ class App extends Component {
                   })
                 }} />
               </div>
+              {metamaskWarning}
               <div className="PeerNew">
                 <div className="PeerNew__text">Add reputation to new account</div>
                 <Input size="small" placeholder="Address. E.g.: 0xD9c93AaFB0f23Bf7CaF9637D707883f33eF90f1C" value={this.state.newPeerAddress} onChange={event => {

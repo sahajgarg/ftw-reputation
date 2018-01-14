@@ -1,6 +1,6 @@
 var TrustGraph = artifacts.require("./TrustGraph.sol");
 
-contract_address = '0x688770523a8f74f7438b83c62b56056d69af461b';
+contract_address = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
 
 contract('TrustGraph', function(accounts) {
   it("should do a couple links", function() {
@@ -13,12 +13,13 @@ contract('TrustGraph', function(accounts) {
     return TrustGraph.at(contract_address).then(function(instance) {
         graph = instance;
         console.log(graph.address);
+        num_nodes = Math.floor(accounts.length/2);
 
-        for(var i = 0; i < accounts.length; i++) {
-            numTrusted = Math.floor(Math.random()*accounts.length/6)
+        for(var i = 0; i < num_nodes; i++) {
+            numTrusted = Math.floor(Math.random()*num_nodes/6)
             for(var trusted = 0; trusted < numTrusted; trusted++) 
             {
-                graph.addEdge(accounts[Math.floor(Math.random()*accounts.length)], 
+                graph.addEdge(accounts[Math.floor(Math.random()*num_nodes)], 
                                             Math.floor(Math.random()*5), {from: accounts[i]});
             }
         }
