@@ -332,7 +332,7 @@ class App extends Component {
             <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
             <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
           </nav>
-          <div className="AppHeader__top__message">FTW is deployed on both the <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
+          <div className="AppHeader__top__message">FTW is deployed on both the Ethereum <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
         </div>
         <div className="AppHeader__bottom">
           <div className="AppHeader__bottom__links">
