@@ -15,6 +15,7 @@ const handle_error = (error) => {
 	}
 }
 
+/*
 const retreive = (callback) => {
 	// Retreive adjacency list and rating list from contract
 	WTFcontract.methods.get_node_list().call(function(error, response) {
@@ -41,6 +42,7 @@ const handler = (rank_source=null, pubkey_rank_source=null, personalization=0.15
 		return {'node_list': data['node_list'], 'trust_values': trust_values};
 	});
 }
+*/
 
 const tester = (data, rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
 	calculate_trust(data, rank_source, pubkey_rank_source, personalization);
