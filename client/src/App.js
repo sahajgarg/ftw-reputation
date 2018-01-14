@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'explorer', // overview, explorer
+      page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
       filterMin: 0,
       filterMax: 5,
@@ -26,6 +26,11 @@ class App extends Component {
   }
 
   componentWillMount() {
+    window.addEventListener("hashchange", (event) => {
+      this.setState({
+        page: window.location.hash.replace('#','')
+      })
+    }, false);
     getWeb3
     .then(results => {
       //results.web3.eth.defaultAccount = results.web3.eth.accounts[0];
@@ -99,7 +104,7 @@ class App extends Component {
   }
 
   render() {
-    let headerNavOverviewClass = this.state.page === 'overview' ? 'active' : '';
+    let headerNavOverviewClass = this.state.page === '' ? 'active' : '';
     let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
 
     let header = (
@@ -107,8 +112,8 @@ class App extends Component {
         <div className="AppHeader__top">
           <a href="#" className="AppHeader__top__titleLink" onClick={() => {this.setState({page: 'overview'})}}><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
           <nav>
-            <div><a href="#" className={headerNavOverviewClass} onClick={() => {this.setState({page: 'overview'})}}>Overview</a></div>
-            <div><a href="#" className={headerNavExplorerClass} onClick={() => {this.setState({page: 'explorer'})}}>Explorer</a></div>
+            <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
+            <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
           </nav>
         </div>
         <div className="AppHeader__bottom">
@@ -121,7 +126,7 @@ class App extends Component {
 
     let content = <div>Unknown page: {this.state.page}</div>
 
-    if (this.state.page === 'overview') {
+    if (this.state.page === '') {
       content = <div>overview</div>
     } else if (this.state.page === 'explorer') {
       // let sink = <div className="Explorer__sink">

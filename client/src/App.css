@@ -56,7 +56,7 @@ Green = #68c86f
 }
 .AppHeader h1.AppHeader__titleLink:hover {
   color: #666;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 .AppHeader__top nav {
   display: flex;
@@ -66,7 +66,7 @@ Green = #68c86f
   padding-right: 1px;
 }
 .AppHeader__top__titleLink {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 
@@ -119,7 +119,7 @@ Green = #68c86f
   display: flex;
 }
 .Explorer__content__graph {
-  background: orange;
+  background: black;
   flex-grow: 1;
 
 }
