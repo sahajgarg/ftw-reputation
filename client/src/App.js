@@ -346,7 +346,7 @@ class App extends Component {
                 <div className="Intro__content">
                   <div className="Intro__content_FTW">FTW</div>
                   <div className="Intro__content__line">Decentralized reputation on Ethereum.</div>
-                  <div className="Intro__content__line">The world's first fully <b>sybil resistant</b>, truly decentralized reputation protocol.</div>
+                  <div className="Intro__content__line">The world's first <b>sybil resistant</b>, fully decentralized reputation protocol.</div>
                 </div>
               </div>
           </div>
@@ -410,35 +410,24 @@ class App extends Component {
                 <div className="Height90px">
                   <img src={ImgOpenBazaar} />
                 </div>
-                <div className="BoringContent">
-                  <div className="VertPad">
-                    <ul>
-                      <li>Reputation accumulated through on-chain transactions</li>
-                      <li>Uses expensive BTC fees as as sybil mitigation</li>
-                      <li>Especially not feasible for helping the poor and unbanked</li>
-                    </ul>
-                  </div>
-                </div>
               </div>
               <div className="ProblemExample TwoBy__45">
-                <div className="Height90px" style={{paddingTop: '10px'}}>
+                <div className="Height90px" style={{paddingTop: '5px'}}>
                   <img src={ImgPropy}  width="300"/>
-                </div>
-                <div className="BoringContent">
-                  <div className="VertPad">
-                    <ul>
-                      <li>Marketplace/registry for title deeds</li>
-                      <li>High value exchanges need trusted reputation</li>
-                      <li>Marketplace ratings are spoofable</li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>
             <br />
+            <br />
             <div className="BoringContent">
-              <p>The problem: <strong>sbyil attacks</strong>. </p>
-              <p>What if a scammer creates a hundred fake identities that all rate him/her highly?</p>
+              <p>In any decentralized marketplace, we need a way for buyers to rate sellers.</p>
+              <br />
+              <p>The core challenge: <strong>sybil attacks</strong>. </p>
+              <ul>
+                <li>What if a scammer creates a hundred fake identities that all rate him highly?</li>
+                <li>Traditional systems solve it through centralized identity verification.</li>
+                <li>For decentralized, pseudononymous systems, we need something better.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -446,19 +435,13 @@ class App extends Component {
         <div className="Page PageFillScreen Page--gray">
           <div className="SlideTitle">Our Solution: <strong>Personalized</strong> Reputation</div>
           <div className="BoringContent ContentFrame">
-            <p>Avoid global ratings that are centralized, expensive, and/or cheatable</p>
-            <br />
             <p>We <strong>personalize</strong> reputation:</p>
             <ul>
               <li>Create a <strong>web of trust</strong> by asssigning trust to my friends (and indirectly their friends, etc).</li>
-              <li>Implemented a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who I trust.</li>
             </ul>
             <br />
-            <p>We put it on the Ethereum and POA Network blockchains:</p>
-            <ul>
-              <li>No centralized repository that may have conflicts of interest.</li>
-              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
-            </ul>
+            <p>We put it on the Ethereum and POA Network blockchains. That way, there's no centralized repository that may have conflicts of interest.</p>
           </div>
         </div>
 
@@ -501,7 +484,9 @@ class App extends Component {
           <div className="BoringContent ContentFrame">
             <p>We read a lot of papers to devise the best method for this project. Here are the most important:</p>
             <ol>
-              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>
+              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>              
+              <li>Manipulability of PageRank under Sybil Strategies</li>              
+              <li>Survey of Sybil Attacks in Social Networks</li>
             </ol>
           </div>
         </div>
