@@ -237,9 +237,9 @@ class App extends Component {
     // Get accounts.
 
     this.state.web3.version.getNetwork((error, id) => {
-      if (id == '3') {
+      if (id == '3' || id == '77') {
         contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
-      }
+      } 
       try {
         trustGraph.at(contractAddress).then((instance) => {
           trustGraphInstance = instance
