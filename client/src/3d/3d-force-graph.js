@@ -14,7 +14,7 @@ import {
 } from 'three';
 
 import ThreeTrackballControls from 'three-trackballcontrols';
-import ThreeForceGraph from 'three-forcegraph';
+import ThreeForceGraph from './three-forcegraph/index';
 
 import accessorFn from 'accessor-fn';
 import Kapsule from 'kapsule';
@@ -112,7 +112,9 @@ export default Kapsule({
   },
 
   stateInit: () => {
-    let renderer = new three.WebGLRenderer();
+    let renderer = new three.WebGLRenderer({
+      antialias: true
+    });
     renderer.setPixelRatio(2)
 
     return {
