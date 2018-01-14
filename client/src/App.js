@@ -113,10 +113,18 @@ class App extends Component {
       var trusteeList = result[1];
       var ratingList = result[2];
 
+      let peerObjs = [];
+      let graphData = {"nodes": [], "links": []};
+
       for (var i = 0; i < trusterList.length; i++) {
         trusterList[i] = trusterList[i].toNumber();
         trusteeList[i] = trusteeList[i].toNumber();
         ratingList[i] = ratingList[i].toNumber();
+
+        graphData.links.push({
+          "source": nodeList[trusterList[i]],
+          "target": nodeList[trusteeList[i]]
+        });
       }
 
       //console.log(ratingList);
@@ -129,15 +137,29 @@ class App extends Component {
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
       console.log(trustValues);
 
-      let peerObjs = [];
-
-      for (var i = 0; i < trustValues; i++) {
+      for (i = 0; i < nodeList.length; i++) {
+        let randomName = random_name({ random: Math.random});
         peerObjs.push({
           id: nodeList[i],
-          name: random_name(),
-          rating: trustValues[i]
+          name: randomName,
+          rating: trustValues[i].toFixed(3)
         });
+
+        graphData.nodes.push({
+          "id": nodeList[i],
+          "name": randomName,
+          "val": trustValues[i],
+          "color": Color.hex(nodeList[i]),
+          "opacity": 0.9,
+        })
       }
+
+      if (!this.state.trusterList) {
+        this.graphAPI.updateTo(graphData); 
+      } else if (this.state.trusterList.length != trusterList.length) {
+        this.graphAPI.updateTo(graphData); 
+      }
+      
 
       this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
 
