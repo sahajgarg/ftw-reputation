@@ -661,6 +661,9 @@ class App extends Component {
                   // PEER ADDRESS: this.state.newPeerAddress
                   // PEER RATING: this.state.newSlider
 
+                  this.updateEdge(this.state.newPeerAddress, this.state.newSlider);
+
+
                   this.setState({
                     newPeerAddress: '', // Reset the address
                   })
