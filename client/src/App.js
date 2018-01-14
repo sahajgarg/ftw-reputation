@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'explorer', // overview, explorer
+      page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
       filterMin: 0,
       filterMax: 5,
@@ -25,6 +25,11 @@ class App extends Component {
   }
 
   componentWillMount() {
+    window.addEventListener("hashchange", (event) => {
+      this.setState({
+        page: window.location.hash.replace('#','')
+      })
+    }, false);
     getWeb3
     .then(results => {
       this.setState({
@@ -88,7 +93,7 @@ class App extends Component {
   }
 
   render() {
-    let headerNavOverviewClass = this.state.page === 'overview' ? 'active' : '';
+    let headerNavOverviewClass = this.state.page === '' ? 'active' : '';
     let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
 
     let header = (
@@ -110,7 +115,7 @@ class App extends Component {
 
     let content = <div>Unknown page: {this.state.page}</div>
 
-    if (this.state.page === 'overview') {
+    if (this.state.page === '') {
       content = <div>overview</div>
     } else if (this.state.page === 'explorer') {
       // let sink = <div className="Explorer__sink">
