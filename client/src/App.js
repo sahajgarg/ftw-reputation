@@ -5,10 +5,11 @@ import Graph from './Graph.js';
 import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
-const contractAddress = '0xb79d6277e32da0c9956d78c5366c82a6525c0945';
-
-
 import ColorHash from 'color-hash';
+
+const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
+
+
 
 let Color = new ColorHash({saturation: 0.5});
 const Search = Input.Search;
@@ -27,9 +28,12 @@ class App extends Component {
   componentWillMount() {
     getWeb3
     .then(results => {
+      //results.web3.eth.defaultAccount = results.web3.eth.accounts[0];
+
       this.setState({
         web3: results.web3
       })
+
 
       // Instantiate contract once web3 provided.
       this.instantiateContract();
@@ -40,8 +44,13 @@ class App extends Component {
   }
 
   updateEdge(trustee, rating) {
-    this.state.trustGraphInstance.addEdge(trustee, rating);
-    console.log('completed')
+    
+
+    this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount}).then(() => {
+      console.log('completed')
+    });
+
+    
   }
 
   instantiateContract() {
@@ -58,6 +67,8 @@ class App extends Component {
       trustGraph.at(contractAddress).then((instance) => {
         trustGraphInstance = instance
         this.setState({trustGraphInstance: trustGraphInstance});
+
+        this.state.web3.eth.defaultAccount = accounts[0];
 
         // Stores a given value, 5 by default.
         return trustGraphInstance.getNodeList.call()
@@ -82,7 +93,7 @@ class App extends Component {
             //Temporary tester code
           console.log('about to update edge');
           console.log(trustGraphInstance)
-          this.updateEdge('0xf7253aefa415ea790cdc946e171a361a1b5c9842', 2)
+          this.updateEdge('0xf7253aefa415ea790cdc946e171a361a1b5c9842', 2);
       });
     })
   }
