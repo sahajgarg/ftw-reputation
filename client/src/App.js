@@ -10,7 +10,7 @@ import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
 
-const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
+const contractAddress = '0xa27c43850e1e0095790cbc7cd043782d261506ab';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -106,65 +106,65 @@ class App extends Component {
     var trustGraphInstance = this.state.trustGraphInstance;
     trustGraphInstance.getNodeList.call().then((result) => {
       nodeList = result;
-      return trustGraphInstance.getEdgeList.call();
-    }).then((result) => {
-      var trusterList = result[0];
-      var trusteeList = result[1];
-      var ratingList = result[2];
+      return trustGraphInstance.getEdgeList.call().then((result) => {
+        var trusterList = result[0];
+        var trusteeList = result[1];
+        var ratingList = result[2];
+        console.log(result);
 
-      let peerObjs = [];
-      let graphData = {"nodes": [], "links": []};
+        let peerObjs = [];
+        let graphData = {"nodes": [], "links": []};
 
-      for (var i = 0; i < trusterList.length; i++) {
-        trusterList[i] = trusterList[i].toNumber();
-        trusteeList[i] = trusteeList[i].toNumber();
-        ratingList[i] = ratingList[i].toNumber();
+        for (var i = 0; i < trusterList.length; i++) {
+          trusterList[i] = trusterList[i].toNumber();
+          trusteeList[i] = trusteeList[i].toNumber();
+          ratingList[i] = ratingList[i].toNumber();
 
-        graphData.links.push({
-          "source": nodeList[trusterList[i]],
-          "target": nodeList[trusteeList[i]]
-        });
-      }
+          graphData.links.push({
+            "source": nodeList[trusterList[i]],
+            "target": nodeList[trusteeList[i]]
+          });
+        }
 
-      //console.log(ratingList);
+        //console.log(ratingList);
 
-      // Compute pagerank
-      var data = {'node_list': nodeList, 'truster_list': trusterList,
-        'trustee_list': trusteeList, 'trust_rating_list': ratingList};
+        // Compute pagerank
+        var data = {'node_list': nodeList, 'truster_list': trusterList,
+          'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
-      //console.log(nodeList);
-      let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
-      console.log(trustValues);
+        //console.log(nodeList);
+        let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
+        console.log(trustValues);
 
-      for (i = 0; i < nodeList.length; i++) {
-        let randomName = random_name({ random: Math.random});
-        peerObjs.push({
-          id: nodeList[i],
-          name: randomName,
-          rating: trustValues[i].toFixed(3)
-        });
+        for (i = 0; i < nodeList.length; i++) {
+          let randomName = random_name({ random: Math.random});
+          peerObjs.push({
+            id: nodeList[i],
+            name: randomName,
+            rating: (trustValues[i]*5).toFixed(3)
+          });
 
-        graphData.nodes.push({
-          "id": nodeList[i],
-          "name": randomName,
-          "val": trustValues[i],
-          "color": Color.hex(nodeList[i]),
-          "opacity": 0.9,
-        })
-      }
+          graphData.nodes.push({
+            "id": nodeList[i],
+            "name": randomName,
+            "val": trustValues[i]*5,
+            "color": Color.hex(nodeList[i]),
+            "opacity": 0.9,
+          })
+        }
 
-      if (!this.state.trusterList) {
-        this.graphAPI.updateTo(graphData); 
-      } else if (this.state.trusterList.length != trusterList.length) {
-        this.graphAPI.updateTo(graphData); 
-      }
-      
+        if (!this.state.trusterList) {
+          this.graphAPI.updateTo(graphData); 
+        } else if (this.state.trusterList.length != trusterList.length) {
+          this.graphAPI.updateTo(graphData); 
+        }
+        
 
-      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
+        this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
 
-      console.log('done retreiving and calculating pagerank!!')
+        console.log('done retreiving and calculating pagerank!!')
+      });
     });
-
   }
 
   instantiateContract() {

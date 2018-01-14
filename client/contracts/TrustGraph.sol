@@ -7,13 +7,9 @@ contract TrustGraph {
 
     uint public numNodes;
 
-    struct Edge {
-        uint trusterIndex;
-        uint trusteeIndex;
-        uint rating;
-    }
-
-    Edge[] public edges;
+    uint[] public trusterArr;
+    uint[] public trusteeArr;
+    uint[] public ratingArr;
 
     event Rating(uint trusterIndex, uint trusteeIndex, uint rating);
 
@@ -51,10 +47,11 @@ contract TrustGraph {
             trusteeIndex = addNode(trustee);
         }
 
-        edges.push(Edge(trusterIndex, trusteeIndex, rating));
+        trusterArr.push(trusterIndex);
+        trusteeArr.push(trusteeIndex);
+        ratingArr.push(rating);
 
         Rating(trusterIndex, trusteeIndex, rating);
-
 
     }
 
@@ -63,16 +60,7 @@ contract TrustGraph {
     }
 
     function getEdgeList() public constant returns(uint[], uint[], uint[]) {
-        uint[] memory trusterList = new uint[](edges.length);
-        uint[] memory trusteeList = new uint[](edges.length);
-        uint[] memory ratingList = new uint[](edges.length);
 
-        for(uint i = 0; i < edges.length; i++) {
-            trusterList[i] = edges[i].trusterIndex;
-            trusteeList[i] = edges[i].trusteeIndex;
-            ratingList[i] = edges[i].rating;
-        }
-
-        return (trusterList, trusteeList, ratingList);
+        return (trusterArr, trusteeArr, ratingArr);
     }
 }
