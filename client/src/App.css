@@ -37,7 +37,7 @@ Green = #68c86f
   width: 160px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #ddd;
   justify-content: space-between;
 }
 .AppHeader .letter {
@@ -58,14 +58,19 @@ Green = #68c86f
   flex-direction: column;
   border-top: 1px solid #eee;
   user-select: none;
+  padding-right: 1px;
 }
 .AppHeader__top__titleLink {
   text-decoration: none;
 }
 
-.AppHeader__top nav a {
-  padding: 16px;
+
+.AppHeader__top nav div {
   border-bottom: 1px solid #eee;
+}
+.AppHeader__top nav a {
+  display:block;
+  padding: 16px;
   text-decoration: none;
   color: #000;
   transition: all 0.4s;
@@ -89,4 +94,38 @@ Green = #68c86f
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.Explorer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.Explorer__sink {
+  height: 140px;
+  border-bottom: 1px solid #ddd;
+}
+
+.Explorer__content {
+  flex-grow: 1;
+
+  display: flex;
+}
+.Explorer__content__graph {
+  background: orange;
+  flex-grow: 1;
+
+}
+.Explorer__content__myTrust {
+  background: blue;
+  width: 240px;
+  border-left: 1px solid #ddd;
+
+}
+.Explorer__content__results {
+  background: red;
+  width: 240px;
+  border-left: 1px solid #ddd;
 }
