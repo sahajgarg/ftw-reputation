@@ -5,6 +5,7 @@
   "dependencies": {
     "accessor-fn": "^1.2.2",
     "antd": "^3.1.0",
+    "color-hash": "^1.0.3",
     "d3-force-3d": "^1.1.0",
     "d3-scale-chromatic": "^1.1.1",
     "kapsule": "^1.9.0",

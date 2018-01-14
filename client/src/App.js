@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
-import { Slider } from 'antd';
+import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 const contractAddress = '0xb79d6277e32da0c9956d78c5366c82a6525c0945';
 
+
+import ColorHash from 'color-hash';
+
+let Color = new ColorHash({saturation: 0.5});
+const Search = Input.Search;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'explorer', // overview, explorer
+      filterText: '',
+      filterMin: 0,
+      filterMax: 5,
     };
   }
 
@@ -117,25 +125,39 @@ class App extends Component {
 
       let peerObjs = [
         {
-          id: 'me'
+          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+          name: 'Name Is Super Long And Waaoowowwwowoigaods',
+          rating: 5,
         },
         {
-          id: 'me2'
+          id: 'me2',
+          name: 'Name',
+          rating: 4,
         },
         {
-          id: 'me3'
+          id: 'me3',
+          name: 'Name',
+          rating: 3,
         },
         {
-          id: 'me32'
+          id: 'me32',
+          name: 'Name',
+          rating: 2,
         },
         {
-          id: 'me33'
+          id: 'me33',
+          name: 'Name',
+          rating: 0,
         },
         {
-          id: 'me52'
+          id: 'me52',
+          name: 'Name',
+          rating: 0,
         },
         {
-          id: 'me53'
+          id: 'me53',
+          name: 'Name',
+          rating: 0,
         }
       ];
 
@@ -143,21 +165,73 @@ class App extends Component {
 
       for (let index in peerObjs) {
         let peer = peerObjs[index];
-        console.log(peer)
-        peerItems.push(<div className="Peer" key={peer.id}>
-          <div className="PeerContent">
-            {peer.id}
+        let show = false;
 
-          </div>
+        if (this.state.filterText !== undefined) {
+          if (peer.id.indexOf(this.state.filterText) !== -1) {
+            show = true;
+          } else if (peer.name.indexOf(this.state.filterText) !== -1) {
+            show = true;
+          }
+        } else {
+          show = true;
+        }
 
-          <div className="PeerRating">
-            Rate this user:
-            <Slider min={0} max={5} onAfterChange={(value) => {
-              console.log('Setting peer ' + peer.id + ' to ' + value)
-            }} />
-          </div>
-        </div>)
+        if (peer.rating < this.state.filterMin) {
+          show = false;
+        }
+        if (peer.rating > this.state.filterMax) {
+          show = false;
+        }
+
+        if (show) {
+          let peerColor = Color.hex(peer.id)
+          let peerColorRGB = Color.rgb(peer.id)
+
+          let colorStyle = {
+            borderColor: peerColor,
+          };
+          let lightBackgroundStyle = {
+            background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
+          }
+          peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
+            <div className="PeerContent" style={lightBackgroundStyle}>
+              <div className="PeerContent__title">
+                <div className="PeerContent__title__name">
+                  {peer.name}
+                </div>
+                <div className="PeerContent__title__rating">
+                  {peer.rating}/5
+                </div>
+              </div>
+              <div className="PeerContent__id">
+                {peer.id}
+              </div>
+              <div className="PeerContent__body">
+                red
+              </div>
+
+            </div>
+
+            <div className="PeerRating">
+              Rate this user:
+              <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
+                console.log('Setting peer ' + peer.id + ' to ' + value)
+              }} />
+            </div>
+          </div>)
+        }
+
       }
+
+      const sliderMarks = {
+        0: '0',
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+        5: '5',
+      };
 
       content = <div className="Explorer">
         <div className="Explorer__content">
@@ -166,6 +240,25 @@ class App extends Component {
           </div>
           <div className="Explorer__content__myTrust">
             <div className="PeerListContainer">
+              <div className="PeerListSearch">
+                <Search
+                  placeholder="Filter peers by name"
+                  value={this.state.filterText}
+                  onChange={event => {
+                    this.setState({
+                      filterText: event.target.value
+                    })
+                  }}
+                />
+              </div>
+              <div className="PeerListSlider">
+                <Slider range min={0} max={5} defaultValue={[this.state.filterMin, this.state.filterMax]} marks={sliderMarks} onChange={(value) => {
+                  this.setState({
+                    filterMin: value[0],
+                    filterMax: value[1],
+                  })
+                }} />
+              </div>
               <div className="PeerList">
                 {peerItems}
               </div>
