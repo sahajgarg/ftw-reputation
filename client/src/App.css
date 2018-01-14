@@ -1,5 +1,30 @@
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+
+}
+.TODO {
+  color: red;
+}
+
+/*
+
+
+Light green = #c3e9c5
+Green = #68c86f
+
+*/
+#root {
+  /*outline: 1px solid green;*/
+  width: 100%;
+}
 .App {
-  text-align: center;
+  display: flex;
+  min-height: 100%;
+  width: 100%;
 }
 
 .App-logo {
@@ -7,19 +32,58 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.AppHeader {
+  background-color: #fdfdfd;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #eee;
+  justify-content: space-between;
+}
+.AppHeader .letter {
+  color: #000;
+  font-weight: 800;
+}
+.AppHeader__top {
+  width: 160px;
+}
+.AppHeader h1.AppHeader__titleLink {
+  text-align: left;
+  color: #999;
+  padding: 16px;
+  padding-bottom: 30px;
+}
+.AppHeader__top nav {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #eee;
+  user-select: none;
+}
+.AppHeader__top__titleLink {
+  text-decoration: none;
 }
 
-.App-title {
-  font-size: 1.5em;
+.AppHeader__top nav a {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.4s;
+  border-right: 10px solid transparent;
+}
+.AppHeader__top nav a:hover {
+  background: #f7f7f7;
+}
+.AppHeader__top nav a.active {
+  border-right: 10px solid #68c86f;
 }
 
-.App-intro {
-  font-size: large;
+.App-content {
+  flex-grow: 1;
+}
+
+.AppHeader__bottom__links {
+  padding: 16px;
 }
 
 @keyframes App-logo-spin {
