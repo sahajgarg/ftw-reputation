@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgEbay from'./ebay.png';
 
-var contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
+var contractAddress = '0x688770523a8f74f7438b83c62b56056d69af461b';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -85,13 +85,14 @@ class App extends Component {
     getWeb3
     .then(results => {
       this.setState({
-        web3: results.web3
+        web3: results.web3,
+        provider: results.provider
       })
       // Instantiate contract once web3 provided.
       this.instantiateContract();
     })
-    .catch(() => {
-      console.log('Error finding web3.')
+    .catch((e) => {
+      console.error(e)
     })
 
     setInterval(() => {
@@ -216,44 +217,59 @@ class App extends Component {
   instantiateContract() {
     const contract = require('truffle-contract')
     const trustGraph = contract(TrustGraphContract)
-    trustGraph.setProvider(this.state.web3.currentProvider)
+    window.web3 = this.state.web3;
+    // if(this.state.provider) {
+    //   trustGraph.setProvider(this.state.provider.currentProvider)
+    // } else {
+      trustGraph.setProvider(this.state.web3.currentProvider)
+    //}
+    
 
     // Declaring this for later so we can chain functions on TrustGraph.
     var trustGraphInstance
 
     // Get accounts.
 
-    this.state.web3.eth.net.getId((error, id) => {
+    this.state.web3.version.getNetwork((error, id) => {
       if (id == '3') {
         contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
       }
-      this.state.web3.eth.getAccounts((error, accounts) => {
-        try {
-          trustGraph.at(contractAddress).then((instance) => {
-            trustGraphInstance = instance
-            this.setState({trustGraphInstance: trustGraphInstance});
+      try {
+        trustGraph.at(contractAddress).then((instance) => {
+          trustGraphInstance = instance
+          this.setState({trustGraphInstance: trustGraphInstance});
+        }).then(() => {
+          this.retrieve(() => {
+            console.log('done');
+          })
+        })
+        .catch((e) => {
+          console.log('error', e)
+          console.error( e)
+          throw e;
+        })
+      } catch(e) {
+        this.setState({
+          explorerState: 'error',
+        })
 
-            this.state.web3.eth.defaultAccount = accounts[0];
-          }).then(() => {
-            this.retrieve(() => {
-              console.log('done');
-            })
-          })
-          .catch((e) => {
-            console.log('error', e)
-          })
-        } catch(e) {
-          this.setState({
-            explorerState: 'error',
-          })
+        setTimeout(() => {
+          console.log('Retrying instantiateContract()')
+          this.instantiateContract();
+        }, 2500)
 
-          setTimeout(() => {
-            console.log('Retrying instantiateContract()')
-            this.instantiateContract();
-          }, 2500)
-        }
-      })
+        throw e;
+      }
     })
+
+    try {
+      this.state.web3.eth.getAccounts((error, accounts) => {
+        if (error) {
+          throw error;
+        }
+        this.state.web3.eth.defaultAccount = accounts[0];
+      })
+    } catch(e) {}
   }
 
 
