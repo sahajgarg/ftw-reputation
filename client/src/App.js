@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
+import { Slider } from 'antd';
 
 class App extends Component {
   constructor(props) {
@@ -46,13 +47,61 @@ class App extends Component {
       //   results
       // </div>
 
+      let peerObjs = [
+        {
+          id: 'me'
+        },
+        {
+          id: 'me2'
+        },
+        {
+          id: 'me3'
+        },
+        {
+          id: 'me32'
+        },
+        {
+          id: 'me33'
+        },
+        {
+          id: 'me52'
+        },
+        {
+          id: 'me53'
+        }
+      ];
+
+      let peerItems = [];
+
+      for (let index in peerObjs) {
+        let peer = peerObjs[index];
+        console.log(peer)
+        peerItems.push(<div className="Peer" key={peer.id}>
+          <div className="PeerContent">
+            {peer.id}
+
+          </div>
+
+          <div className="PeerRating">
+            Rate this user:
+            <Slider min={0} max={5} onAfterChange={(value) => {
+              console.log('Setting peer ' + peer.id + ' to ' + value)
+            }} />
+          </div>
+        </div>)
+      }
+
       content = <div className="Explorer">
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
             <Graph />
           </div>
           <div className="Explorer__content__myTrust">
-            mytrust
+            <div className="PeerListContainer">
+              <div className="PeerList">
+                {peerItems}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -119,9 +119,9 @@ Green = #68c86f
 
 }
 .Explorer__content__myTrust {
-  background: blue;
+  /*background: blue;*/
   width: 240px;
-  border-left: 1px solid #ddd;
+  /*border-left: 1px solid #ddd;*/
 
 }
 .Explorer__content__results {
@@ -134,11 +134,42 @@ Green = #68c86f
   width: 100%;
   height: 100%;
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
 }
 #Graph__container {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: green;
+  background: #000;
+}
+
+.tooltipContent {
+  padding: 4px 8px;
+}
+
+.PeerListContainer {
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+}
+.PeerList {
+  display: flex;
+  flex-direction: column;
+}
+.Peer {
+  border: 1px solid blue;
+  /*background: skyblue;*/
+  margin: 8px;
+  border-radius: 4px;
+}
+
+.PeerContent {
+  padding: 16px;
+}
+.PeerRating {
+  border-top: 1px solid blue;
+  padding: 8px;
+}
+.PeerRating .ant-slider {
+  margin: 4px 8px;
 }

@@ -250,7 +250,8 @@ export default Kapsule({
             state[`on${objType === 'node' ? 'Node' : 'Link'}Hover`](objData, prevObjType === objType ? prevObjData : null);
           }
 
-          toolTipElem.textContent = topObject ? accessorFn(state[`${objType}Label`])(objData) : '';
+          let label = accessorFn(state[`${objType}Label`])(objData);
+          toolTipElem.innerHTML = topObject && label !== undefined ? '<div class="tooltipContent">' + accessorFn(state[`${objType}Label`])(objData) + '</div>': '';
 
           state.hoverObj = topObject;
         }

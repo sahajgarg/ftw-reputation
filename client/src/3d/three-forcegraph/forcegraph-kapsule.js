@@ -141,7 +141,7 @@ export default Kapsule({
     state.onLoading();
 
     if (state.graphData.nodes.length || state.graphData.links.length) {
-      console.info('force-graph loading', state.graphData.nodes.length + ' nodes', state.graphData.links.length + ' links');
+      // console.info('force-graph loading', state.graphData.nodes.length + ' nodes', state.graphData.links.length + ' links');
     }
 
     if (!state.fetchingJson && state.jsonUrl && !state.graphData.nodes.length && !state.graphData.links.length) {
