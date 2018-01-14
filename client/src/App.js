@@ -151,7 +151,6 @@ class App extends Component {
       })
     })
   }
-
   render() {
     let headerNavOverviewClass = this.state.page === '' ? 'active' : '';
     let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
@@ -182,39 +181,56 @@ class App extends Component {
           <div className="VertCenter Page__content PageIntro__content">
               <div className="Intro">
                 <div className="Intro__content">
-                  <strong>Flexible Trust Web</strong> is a reputation system that runs on Ethereum blockchain.
-                  <br />
-                  <br />
-                  We solve the problem of trustable ratings in a fully decentralized manner.
+                  <div className="Intro__content_FTW">FTW</div>
+                  <div className="Intro__content__line">Decentralized reputation on Ethereum.</div>
+                  <div className="Intro__content__line">We solve the problem of trustable ratings in a fully decentralized manner.</div>
                 </div>
               </div>
           </div>
         </div>
 
-        <div className="Page Page--green">
-          <div className="TwoBy">
-            <div className="VertCenter TwoBy__30">
-              <div className="Title">
+        <div className="Page Page--paper PageTeam">
+          <div className="TwoBy TeamContainer">
+            <div className="TwoBy__40 TeamSection__Name VertCenter">
+            </div>
+            <div className="Team TwoBy__60 VertCenter">
+              <div className="PlainTitle PageTeam__Title">
                 Team
               </div>
             </div>
-            <div className="Team TwoBy__70">
+          </div>
+          <div className="TwoBy TeamContainer">
+            <div className="TwoBy__40 TeamSection__Name VertCenter">
+              <div className="TeamSection__Name__text">Sunny<br /> Aggarwal</div>
+            </div>
+            <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
-                <div className="TeamSection__Name">Sunny Aggarwal</div>
                 <div className="TeamSection__line">Research Scientist at Tendermint/Cosmos</div>
                 <div className="TeamSection__line">Co-founder of Blockchain at Berkeley</div>
                 <div className="TeamSection__line">UC Berkeley Computer Science</div>
               </div>
+            </div>
+          </div>
 
+          <div className="TwoBy TeamContainer">
+            <div className="TwoBy__40 TeamSection__Name VertCenter">
+              <div className="TeamSection__Name__text">Iris<br /> Li</div>
+            </div>
+            <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
-                <div className="TeamSection__Name">Iris Li</div>
                 <div className="TeamSection__line">Former Software Engineer at Stellar</div>
                 <div className="TeamSection__line">Co-founder of Bitcoin at Berkeley</div>
                 <div className="TeamSection__line">UC Berkeley Computer Science</div>
               </div>
+            </div>
+          </div>
 
+          <div className="TwoBy TeamContainer">
+            <div className="TwoBy__40 TeamSection__Name VertCenter">
+              <div className="TeamSection__Name__text">Sahaj<br /> Garg</div>
+            </div>
+            <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
-                <div className="TeamSection__Name">Sahaj Garg</div>
                 <div className="TeamSection__line">Machine Learning Researcher at Google</div>
                 <div className="TeamSection__line">Previously Quant Intern at Jane Street</div>
                 <div className="TeamSection__line">Stanford Computer Science</div>
@@ -222,7 +238,6 @@ class App extends Component {
             </div>
           </div>
         </div>
-
       </div>
     } else if (this.state.page === 'explorer') {
       // let sink = <div className="Explorer__sink">
