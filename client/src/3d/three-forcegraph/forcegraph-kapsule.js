@@ -192,6 +192,10 @@ export default Kapsule({
         const color = colorAccessor(node);
         if (!sphereMaterials.hasOwnProperty(color)) {
           let thisNodeOpacity = node.opacity ? node.opacity : state.nodeOpacity;
+          if (window.currentHover) {
+            console.log(window.currentHover)
+            thisNodeOpacity = node.id === window.currentHover ? 1.0 : 0.3;
+          }
           // sphereMaterials[color] = new three.MeshLambertMaterial({
           //   color: colorStr2Hex(color || '#ffffaa'),
           //   transparent: true,

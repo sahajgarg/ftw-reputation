@@ -20,6 +20,8 @@
   color: lavender;
   opacity: 0.7;
   font-size: 22px;
+  user-select: none;
+
 }
 
 .graph-tooltip {
@@ -28,9 +30,11 @@
   font-family: 'Montserrat';
   background: rgba(255,255,255,0.2);
   border-radius: 3px;
+  user-select: none;
+
 }
 
 .graph-info-msg, .graph-nav-info, .graph-tooltip {
   position: absolute;
-  font-family: Sans-serif;
+  font-family: 'Montserrat';
 }

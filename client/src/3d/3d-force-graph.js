@@ -135,7 +135,7 @@ export default Kapsule({
     // Add nav info section
     domNode.appendChild(state.navInfo = document.createElement('div'));
     state.navInfo.className = 'graph-nav-info';
-    state.navInfo.innerHTML = "Rotate: LEFT drag<br />Zoom: scroll<br />Pan: RIGHT drag";
+    state.navInfo.innerHTML = "Rotate: LEFT-click + drag<br />Zoom: scroll/mousewheel<br />Pan: RIGHT-click + drag";
 
     // Add info space
     let infoElem;
