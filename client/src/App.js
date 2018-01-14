@@ -448,9 +448,9 @@ class App extends Component {
               <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who you trust.</li>
             </ul>
             <br />
-            <p>We put it on the Ethereum and POA Network blockchains. That way, there's no centralized repository that may have conflicts of interest.</p>
+            <p>Our smart contract is deployed on both the Ethereum Ropsten and POA Sokol network. That way, there's no centralized repository that may have conflicts of interest.</p>
             <br />
-            <p>On top of it, we build a NodeJS library through which arbitrary dapps can interact with reputation.</p>
+            <p>On top of it, we built a NodeJS library through which arbitrary dapps can interact with reputation.</p>
           </div>
         </div>
 
