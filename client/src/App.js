@@ -17,7 +17,9 @@ class App extends Component {
     super(props);
     this.state = {
       page: 'explorer', // overview, explorer
-      filter: '',
+      filterText: '',
+      filterMin: 0,
+      filterMax: 5,
     };
   }
 
@@ -119,30 +121,37 @@ class App extends Component {
         {
           id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
           name: 'Name Is Super Long And Waaoowowwwowoigaods',
+          rating: 5,
         },
         {
           id: 'me2',
           name: 'Name',
+          rating: 4,
         },
         {
           id: 'me3',
           name: 'Name',
+          rating: 3,
         },
         {
           id: 'me32',
           name: 'Name',
+          rating: 2,
         },
         {
           id: 'me33',
           name: 'Name',
+          rating: 0,
         },
         {
           id: 'me52',
           name: 'Name',
+          rating: 0,
         },
         {
           id: 'me53',
           name: 'Name',
+          rating: 0,
         }
       ];
 
@@ -152,14 +161,21 @@ class App extends Component {
         let peer = peerObjs[index];
         let show = false;
 
-        if (this.state.filter !== undefined) {
-          if (peer.id.indexOf(this.state.filter) !== -1) {
+        if (this.state.filterText !== undefined) {
+          if (peer.id.indexOf(this.state.filterText) !== -1) {
             show = true;
-          } else if (peer.name.indexOf(this.state.filter) !== -1) {
+          } else if (peer.name.indexOf(this.state.filterText) !== -1) {
             show = true;
           }
         } else {
           show = true;
+        }
+
+        if (peer.rating < this.state.filterMin) {
+          show = false;
+        }
+        if (peer.rating > this.state.filterMax) {
+          show = false;
         }
 
         if (show) {
@@ -179,7 +195,7 @@ class App extends Component {
                   {peer.name}
                 </div>
                 <div className="PeerContent__title__rating">
-                  5.0/5
+                  {peer.rating}/5
                 </div>
               </div>
               <div className="PeerContent__id">
@@ -202,6 +218,15 @@ class App extends Component {
 
       }
 
+      const sliderMarks = {
+        0: '0',
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+        5: '5',
+      };
+
       content = <div className="Explorer">
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
@@ -211,14 +236,22 @@ class App extends Component {
             <div className="PeerListContainer">
               <div className="PeerListSearch">
                 <Search
-                  placeholder="Filter peers"
-                  value={this.state.filter}
+                  placeholder="Filter peers by name"
+                  value={this.state.filterText}
                   onChange={event => {
                     this.setState({
-                      filter: event.target.value
+                      filterText: event.target.value
                     })
                   }}
                 />
+              </div>
+              <div className="PeerListSlider">
+                <Slider range min={0} max={5} defaultValue={[this.state.filterMin, this.state.filterMax]} marks={sliderMarks} onChange={(value) => {
+                  this.setState({
+                    filterMin: value[0],
+                    filterMax: value[1],
+                  })
+                }} />
               </div>
               <div className="PeerList">
                 {peerItems}
