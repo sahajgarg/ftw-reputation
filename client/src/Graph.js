@@ -5,7 +5,7 @@ class Graph extends Component {
   constructor(props) {
     super(props);
 
-    this.myGraph = ForceGraph3D();
+    this.myGraph;
     this.initted = false;
 
     this.init = () => {
@@ -13,6 +13,8 @@ class Graph extends Component {
           "nodes": [],
           "links": []
       };
+
+      this.myGraph = ForceGraph3D();
 
       this.myGraph.width(this.container.offsetWidth)
       this.myGraph.height(this.container.offsetHeight)
@@ -72,8 +74,6 @@ class Graph extends Component {
     return (
       <div className="Graph">
         <div id="Graph__container">
-
-          D3 graph here
         </div>
       </div>
     );

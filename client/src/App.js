@@ -3,7 +3,7 @@ import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import Particles from './Particles.js';
-import { Slider, Input } from 'antd';
+import { Slider, Input, Button } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
 
-const contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
+var contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -27,48 +27,52 @@ class App extends Component {
       updateTo: (data) => {}, // This will get updated with a function from Graph.js
     };
 
+
     this.state = {
       page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      newSlider: 5,
+      newPeerAddress: '',
+      explorerState: 'loading', // 'error', 'loaded'
       initialLoaded: false,
       peerObjs: [
-        {
-          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
-          name: 'Name Is Super Long And Waaoowowwwowoigaods',
-          rating: 5,
-        },
-        {
-          id: 'me2',
-          name: 'Name',
-          rating: 4,
-        },
-        {
-          id: 'me3',
-          name: 'Name',
-          rating: 3,
-        },
-        {
-          id: 'me32',
-          name: 'Name',
-          rating: 2,
-        },
-        {
-          id: 'me33',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me52',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me53',
-          name: 'Name',
-          rating: 0,
-        }
+        // {
+        //   id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+        //   name: 'Name Is Super Long And Waaoowowwwowoigaods',
+        //   rating: 5,
+        // },
+        // {
+        //   id: 'me2',
+        //   name: 'Name',
+        //   rating: 4,
+        // },
+        // {
+        //   id: 'me3',
+        //   name: 'Name',
+        //   rating: 3,
+        // },
+        // {
+        //   id: 'me32',
+        //   name: 'Name',
+        //   rating: 2,
+        // },
+        // {
+        //   id: 'me33',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me52',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me53',
+        //   name: 'Name',
+        //   rating: 0,
+        // }
       ]
     };
   }
@@ -85,6 +89,7 @@ class App extends Component {
       this.setState({
         web3: results.web3
       })
+      window.web3 = results.web3;
       // Instantiate contract once web3 provided.
       this.instantiateContract();
     })
@@ -188,13 +193,6 @@ class App extends Component {
       let setInitialUpdated = false;
 
       if (!this.state.initialUpdated && this.state.page === 'explorer') {
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
         setInitialUpdated = true;
         this.graphAPI.updateTo(graphData);
       } else if (!this.state.trusterList) {
@@ -209,6 +207,7 @@ class App extends Component {
         trusteeList: trusteeList,
         ratingList: ratingList,
         trustValues: trustValues,
+        explorerState: 'loaded',
         initialUpdated: setInitialUpdated || this.state.initialUpdated,
         peerObjs: peerObjs
       });
@@ -226,24 +225,37 @@ class App extends Component {
     var trustGraphInstance
 
     // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      try {
-        trustGraph.at(contractAddress).then((instance) => {
-          trustGraphInstance = instance
-          this.setState({trustGraphInstance: trustGraphInstance});
 
-          this.state.web3.eth.defaultAccount = accounts[0];
-        }).then(() => {
-          this.retrieve(() => {
-            console.log('done');
-          })
-        })
-        .catch((e) => {
-          console.log('error', e)
-        })
-      } catch(e) {
-        console.error(e)
+    this.state.web3.eth.net.getId((error, id) => {
+      if (id == '3') {
+        contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
       }
+      this.state.web3.eth.getAccounts((error, accounts) => {
+        try {
+          trustGraph.at(contractAddress).then((instance) => {
+            trustGraphInstance = instance
+            this.setState({trustGraphInstance: trustGraphInstance});
+
+            this.state.web3.eth.defaultAccount = accounts[0];
+          }).then(() => {
+            this.retrieve(() => {
+              console.log('done');
+            })
+          })
+          .catch((e) => {
+            console.log('error', e)
+          })
+        } catch(e) {
+          this.setState({
+            explorerState: 'error',
+          })
+
+          setTimeout(() => {
+            console.log('Retrying instantiateContract()')
+            this.instantiateContract();
+          }, 2500)
+        }
+      })
     })
   }
 
@@ -500,9 +512,9 @@ class App extends Component {
         let show = false;
 
         if (this.state.filterText !== undefined) {
-          if (peer.id.indexOf(this.state.filterText) !== -1) {
+          if (peer.id.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
-          } else if (peer.name.indexOf(this.state.filterText) !== -1) {
+          } else if (peer.name.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
           }
         } else {
@@ -569,7 +581,28 @@ class App extends Component {
         5: '5',
       };
 
+      let errorText = 'loading...';
+      let errorContent;
+      if (this.state.explorerState === 'error') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      } else if (this.state.explorerState === 'loading') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      }
+
+      let peerNewDisabled = this.state.newPeerAddress.length === 42 ? false : true;
+      let peerNewButtonType = this.state.newPeerAddress.length === 42 ? 'primary': 'dashed';
       content = <div className="Explorer">
+        {errorContent}
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
             <Graph graphAPIObj={this.graphAPI} />
@@ -594,6 +627,28 @@ class App extends Component {
                     filterMax: value[1],
                   })
                 }} />
+              </div>
+              <div className="PeerNew">
+                <div className="PeerNew__text">Add reputation to new account</div>
+                <Input size="small" placeholder="Address. E.g.: 0xD9c93AaFB0f23Bf7CaF9637D707883f33eF90f1C" value={this.state.newPeerAddress} onChange={event => {
+                  this.setState({
+                    newPeerAddress: event.target.value.trim()
+                  })
+                }} />
+                <Slider min={0} max={5} defaultValue={1} marks={sliderMarks} onChange={(value) => {
+                  this.setState({
+                    newSlider: value
+                  })
+                }} />
+                <Button type={peerNewButtonType} disabled={peerNewDisabled} onClick={() => {
+                  console.log('Submit new peer ' + this.state.newPeerAddress)
+                  // PEER ADDRESS: this.state.newPeerAddress
+                  // PEER RATING: this.state.newSlider
+
+                  this.setState({
+                    newPeerAddress: '', // Reset the address
+                  })
+                }}>Add rating</Button>
               </div>
               <div className="PeerList">
                 {peerItems}
