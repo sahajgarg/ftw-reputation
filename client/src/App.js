@@ -245,7 +245,7 @@ class App extends Component {
     this.state.web3.version.getNetwork((error, id) => {
       if (id == '3' || id == '77') {
         contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
-      } 
+      }
       try {
         trustGraph.at(contractAddress).then((instance) => {
           trustGraphInstance = instance
@@ -332,10 +332,11 @@ class App extends Component {
             <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
             <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
           </nav>
+          <div className="AppHeader__top__message">FTW is deployed on both the <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
         </div>
         <div className="AppHeader__bottom">
           <div className="AppHeader__bottom__links">
-            <a href="https://github.com/sahajgarg/ftw-reputation">Github</a>
+            <a href="https://github.com/sahajgarg/ftw-reputation" target="_blank">Github</a>
           </div>
         </div>
       </header>
@@ -492,8 +493,8 @@ class App extends Component {
           <div className="BoringContent ContentFrame">
             <p>We read a lot of papers to devise the best method for this project. Here are the most important:</p>
             <ol>
-              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>              
-              <li>Manipulability of PageRank under Sybil Strategies</li>              
+              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>
+              <li>Manipulability of PageRank under Sybil Strategies</li>
               <li>Survey of Sybil Attacks in Social Networks</li>
               <li>A physical model for efficient ranking in networks</li>
             </ol>
