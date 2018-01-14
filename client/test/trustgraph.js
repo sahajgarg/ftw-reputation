@@ -8,7 +8,7 @@ contract('TrustGraph', function(accounts) {
     var nodeList;
     var edgeList;
 
-    return TrustGraph.at('0xd52d80cefbd2696082d3b32cd15ea26a98740fe4').then(function(instance) {
+    return TrustGraph.at('0x13cdd4059841d7648cb265a08e5b15821b85ff14').then(function(instance) {
         graph = instance;
         console.log(graph.address);
         return graph.addEdge(accounts[1], 5, {from: accounts[0]});

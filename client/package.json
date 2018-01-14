@@ -12,6 +12,7 @@
     "ngraph.forcelayout": "^0.2.1",
     "ngraph.forcelayout3d": "^0.0.16",
     "ngraph.graph": "^0.0.14",
+    "node-random-name": "^1.0.1",
     "numeric": "1.2.6",
     "qwest": "^4.5.0",
     "react": "^16.2.0",

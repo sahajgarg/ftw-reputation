@@ -7,9 +7,10 @@ import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
-import { calculate_trust } from './pagerank.js'
+import { calculate_trust } from './pagerank.js';
+import random_name from 'node-random-name';
 
-const contractAddress = '0xd52d80cefbd2696082d3b32cd15ea26a98740fe4';
+const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
 
 
 
@@ -122,7 +123,18 @@ class App extends Component {
       //console.log(nodeList);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
       console.log(trustValues);
-      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues});
+
+      let peerObjs = [];
+
+      for (var i = 0; i < trustValues; i++) {
+        peerObjs.push({
+          id: nodeList[i],
+          name: random_name(),
+          rating: trustValues[i]
+        });
+      }
+
+      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
 
       console.log('done retreiving and calculating pagerank!!')
     });
