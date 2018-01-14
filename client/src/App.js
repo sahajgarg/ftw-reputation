@@ -469,11 +469,12 @@ class App extends Component {
               <li>3D visualization of the reputation graph using D3</li>
               <li>Deployed application on Ropsten TestNet</li>
               <li>Hosted at FTWreputation.com</li>
+              <li>Fully decentralized hosting using IPFS</li>
             </ul>
           </div>
         </div>
 
-        <div className="Page PageFillScreen">
+        <div className="Page PageFillScreen  Page--bordered">
           <div className="SlideTitle">Demo!</div>
           <div className="BoringContent ContentFrame">
             <p>Lets actually see WTF this FTW thing does!</p>
@@ -488,7 +489,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div className="Page PageFillScreen">
+        <div className="Page PageFillScreen Page--gray">
           <div className="SlideTitle">Papers Referenced in Literature Review</div>
           <div className="BoringContent ContentFrame">
             <br />
