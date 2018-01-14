@@ -3,6 +3,7 @@ import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import { Slider } from 'antd';
+import TrustGraphContract from '../build/contracts/TrustGraph.json'
 
 class App extends Component {
   constructor(props) {
@@ -11,6 +12,62 @@ class App extends Component {
       page: 'explorer', // overview, explorer
     };
   }
+
+  componentWillMount() {
+    getWeb3
+    .then(results => {
+      this.setState({
+        web3: results.web3
+      })
+
+      // Instantiate contract once web3 provided.
+      this.instantiateContract()
+    })
+    .catch(() => {
+      console.log('Error finding web3.')
+    })
+  }
+
+  instantiateContract() {
+
+    const contract = require('truffle-contract')
+    const trustGraph = contract(TrustGraphContract)
+    trustGraph.setProvider(this.state.web3.currentProvider)
+
+    // Declaring this for later so we can chain functions on TrustGraph.
+    var trustGraphInstance
+    
+
+    // Get accounts.
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      trustGraph.deployed().then((instance) => {
+        trustGraphInstance = instance
+
+        // Stores a given value, 5 by default.
+        return trustGraphInstance.getNodeList.call()
+      }).then((result) => {
+        this.setState({ nodeList: result })
+        return trustGraphInstance.getEdgeList.call()
+      }).then((result) => {
+        var trusterList = result[0];
+        var trusteeList = result[1];
+        var ratingList = result[2];
+
+        for (var i = 0; i < result.length; i++) {
+          trusterList[i] = trusterList[i].toNumber();
+          trusteeList[i] = trusteeList[i].toNumber();
+          ratingList[i] = ratingList[i].toNumber();
+        }
+
+        trusterList.shift();
+        trusteeList.shift();
+        ratingList.shift();
+
+        return this.setState({ trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList })
+      })
+    })
+  }
+
   render() {
     let headerNavOverviewClass = this.state.page === 'overview' ? 'active' : '';
     let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
