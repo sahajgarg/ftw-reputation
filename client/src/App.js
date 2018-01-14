@@ -93,11 +93,18 @@ class App extends Component {
     })
 
     setInterval(() => {
-      this.retrieve();
+      try {
+        this.retrieve();
+      } catch(e) {
+        console.log('Retrieve ',e)
+      }
     }, 1000)
   }
 
   updateEdge(trustee, rating) {
+    if (!this.state.trustGraphInstance) {
+      return;
+    }
     this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount, gas: 1000000}).then((error, response) => {
       console.log('updated')
       console.log(error)
@@ -107,11 +114,16 @@ class App extends Component {
 
   // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
   retrieve(callback) {
-    console.log('starting reteival');
+    console.log('Starting retrieval');
     var nodeList;
     var trusterList;
     var trusteeList;
     var ratingList;
+
+    if (!this.state.trustGraphInstance) {
+      console.log('Ending retrieval')
+      return;
+    }
 
     var trustGraphInstance = this.state.trustGraphInstance;
     trustGraphInstance.getNodeList.call().then((result) => {
@@ -184,11 +196,11 @@ class App extends Component {
         console.log('May the force')
         console.log('May the force')
         setInitialUpdated = true;
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       } else if (!this.state.trusterList) {
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       } else if (this.state.trusterList.length != trusterList.length) {
-        this.graphAPI.updateTo(graphData); 
+        this.graphAPI.updateTo(graphData);
       }
 
       this.setState({
@@ -215,16 +227,23 @@ class App extends Component {
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      trustGraph.at(contractAddress).then((instance) => {
-        trustGraphInstance = instance
-        this.setState({trustGraphInstance: trustGraphInstance});
+      try {
+        trustGraph.at(contractAddress).then((instance) => {
+          trustGraphInstance = instance
+          this.setState({trustGraphInstance: trustGraphInstance});
 
-        this.state.web3.eth.defaultAccount = accounts[0];
-      }).then(() => {
-        this.retrieve(() => {
-          console.log('done');
+          this.state.web3.eth.defaultAccount = accounts[0];
+        }).then(() => {
+          this.retrieve(() => {
+            console.log('done');
+          })
         })
-      })
+        .catch((e) => {
+          console.log('error', e)
+        })
+      } catch(e) {
+        console.error(e)
+      }
     })
   }
 
@@ -243,7 +262,7 @@ class App extends Component {
       let currentPage = 0;
       for (let i = 0; i < pages.length; i++) {
         let pageOffset = window.$(pages[i]).offset().top;
-        if (pageOffset < -200) {
+        if (pageOffset < -400) {
           currentPage += 1;
         }
       }
@@ -266,7 +285,7 @@ class App extends Component {
 
       window.$('#App-content').animate({
         scrollTop: window.$('#App-content').scrollTop() + window.$(pages[targetPage]).offset().top + 1
-      }, 300);
+      }, 200);
   });
   }
 
@@ -359,35 +378,39 @@ class App extends Component {
         </div>
 
         <div className="Page PageFillScreen PageProblem Page--bordered">
-          <div className="SlideTitle">Real world problems</div>
+          <div className="SlideTitle">Pain Point: Marketplace Reputation</div>
           <div className="ContentFrame">
             <div className="BoringContent">
-              <p>Woof Woof</p>
+              <p>Imagine a marketplace.</p>
+              <p>Scammer creates a million fake identities to pump the scammer's rating.</p>
+              <p><strong>How do we prevent this?</strong></p>
+              <br />
             </div>
             <div className="VertPad"></div>
             <div className="TwoBy">
-              <div className="ProblemExample">
+              <div className="ProblemExample TwoBy__45">
                 <div className="Height90px">
                   <img src={ImgOpenBazaar} />
                 </div>
                 <div className="BoringContent">
                   <div className="VertPad">
                     <ul>
-                      <li>Meow</li>
-                      <li>Blah</li>
+                      <li>Reputation accumulated through on-chain transactions</li>
+                      <li>Uses expensive BTC fees as as sybil mitigation</li>
+                      <li>Especially not feasible for helping the poor and unbanked</li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className="ProblemExample">
+              <div className="ProblemExample TwoBy__45">
                 <div className="Height90px" style={{paddingTop: '30px'}}>
                   <img src={ImgEbay}  width="123"/>
                 </div>
                 <div className="BoringContent">
                   <div className="VertPad">
                     <ul>
-                      <li>Meow</li>
-                      <li>Blah</li>
+                      <li>Centralized spam removal</li>
+                      <li>eBay Inc. is the final arbiter</li>
                     </ul>
                   </div>
                 </div>
@@ -397,6 +420,25 @@ class App extends Component {
         </div>
 
         <div className="Page PageFillScreen Page--gray">
+          <div className="SlideTitle">The Solution: <strong>Personalized</strong> Reputation</div>
+          <div className="BoringContent ContentFrame">
+            <p>Avoid global ratings that are centralized, expensive, and/or cheatable</p>
+            <br />
+            <p>We <strong>personalize</strong> reputation:</p>
+            <ul>
+              <li>Assign trust to my friends (and indirectly their friends, etc).</li>
+              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+            </ul>
+            <br />
+            <p>We put it on the blockchain:</p>
+            <ul>
+              <li>No centralized repository that may have conflicts of interest.</li>
+              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen">
           <div className="SlideTitle">Use Case: Marketplace Reputation</div>
           <div className="BoringContent ContentFrame">
             <p>Overcrowding in ICOs</p>
@@ -405,17 +447,27 @@ class App extends Component {
 
 
         <div className="Page PageFillScreen Page--graph">
-          <div className="SlideTitle">What we built at the hackathon</div>
+          <div className="SlideTitle">Reflections: What we built at this hackathon</div>
           <div className="BoringContent ContentFrame">
-            <p>Overcrowding in ICOs</p>
+            <p>We had a blast during this hackathon. This is what we built:</p>
             <br />
             <ul>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
-              <li>asdf</li>
+              <li>Flexible reputation system usable for anything</li>
+              <li>A decentralized and permissionless system</li>
+              <li>API that any other Dapp can use</li>
+              <li>JavaScript implementation of personalized Pagerank</li>
+              <li>Ethereum Solidity smart contract</li>
+              <li>MetaMask integration for browser interactions</li>
+              <li>Web client to interact with the reputation system</li>
+              <li>3D visualization of the reputation graph</li>
             </ul>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen">
+          <div className="SlideTitle">Demo!</div>
+          <div className="BoringContent ContentFrame">
+            <p>Lets actually see WTF this FTW thing does!</p>
           </div>
         </div>
 

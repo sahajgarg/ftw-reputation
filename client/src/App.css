@@ -163,6 +163,7 @@ Green = #68c86f
 
 .TwoBy {
   display: flex;
+  justify-content: space-between;
 }
 .TwoBy > div {
   width: 50%;
@@ -190,8 +191,8 @@ Green = #68c86f
   background-size: 72px 144px;
 }
 .PageTeam {
-  padding-top: 70px;
-  padding-bottom: 80px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .Team {
   /*display: flex;*/
@@ -241,6 +242,9 @@ Green = #68c86f
 .TwoBy .TwoBy__40 {
   width: 40%;
 }
+.TwoBy .TwoBy__45 {
+  width: 45%;
+}
 
 .TwoBy .TwoBy__70 {
   width: 70%;
@@ -252,7 +256,7 @@ Green = #68c86f
   background: #e8f7e9;
 }
 .ProblemExample {
-  padding: 30px;
+  /*padding: 30px;*/
 }
 .ProblemExample img {
   max-width: 300px;
@@ -269,6 +273,7 @@ Green = #68c86f
 .BoringContent li {
   font-size: 24px;
   margin-left: 15px;
+  position: relative;
 }
 .BoringContent br {
   content: '';
@@ -279,9 +284,10 @@ Green = #68c86f
 }
 .BoringContent li:before {
   content: '-';
-  position: relative;
+  position: absolute;
   display: inline;
   left: -15px;
+  opacity: 0.5;
 }
 .VertPad {
   padding-top: 20px;
@@ -309,7 +315,7 @@ Green = #68c86f
 }
 
 .ContentFrame {
-  max-width: 980px;
+  max-width: 1000px;
   padding: 32px 40px;
   margin: 0 auto;
 }
