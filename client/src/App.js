@@ -4,8 +4,9 @@ import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import { Slider } from 'antd';
 import getWeb3 from './utils/getWeb3';
-
 import TrustGraphContract from './TrustGraph.json';
+const contractAddress = '0xb79d6277e32da0c9956d78c5366c82a6525c0945';
+
 
 class App extends Component {
   constructor(props) {
@@ -23,11 +24,16 @@ class App extends Component {
       })
 
       // Instantiate contract once web3 provided.
-      this.instantiateContract()
+      this.instantiateContract();
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
+  }
+
+  updateEdge(trustee, rating) {
+    this.state.trustGraphInstance.addEdge(trustee, rating);
+    console.log('completed')
   }
 
   instantiateContract() {
@@ -39,11 +45,11 @@ class App extends Component {
     // Declaring this for later so we can chain functions on TrustGraph.
     var trustGraphInstance
     
-
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      trustGraph.at('0xb9a6fd9c1bcc651e0dc9b9ca666983f435f2c22e').then((instance) => {
+      trustGraph.at(contractAddress).then((instance) => {
         trustGraphInstance = instance
+        this.setState({trustGraphInstance: trustGraphInstance});
 
         // Stores a given value, 5 by default.
         return trustGraphInstance.getNodeList.call()
@@ -55,21 +61,21 @@ class App extends Component {
         var trusteeList = result[1];
         var ratingList = result[2];
 
-
         for (var i = 0; i < trusterList.length; i++) {
           trusterList[i] = trusterList[i].toNumber();
           trusteeList[i] = trusteeList[i].toNumber();
           ratingList[i] = ratingList[i].toNumber();
         }
 
-        trusterList.shift();
-        trusteeList.shift();
-        ratingList.shift();
-
         console.log(ratingList);
 
-        return this.setState({ trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList })
-      })
+        this.setState({ trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList })   
+      }).then(()=> {
+            //Temporary tester code
+          console.log('about to update edge');
+          console.log(trustGraphInstance)
+          this.updateEdge('0xf7253aefa415ea790cdc946e171a361a1b5c9842', 2)
+      });
     })
   }
 
