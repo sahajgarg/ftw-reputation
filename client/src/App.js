@@ -103,6 +103,9 @@ class App extends Component {
         this.retrieve();
       } catch(e) {
         console.log('Retrieve ',e)
+        this.setState({
+          explorerState: 'error',
+        })
       }
     }, 1000)
   }
@@ -226,7 +229,7 @@ class App extends Component {
     // } else {
       trustGraph.setProvider(this.state.web3.currentProvider)
     //}
-    
+
 
     // Declaring this for later so we can chain functions on TrustGraph.
     var trustGraphInstance
@@ -247,21 +250,15 @@ class App extends Component {
           })
         })
         .catch((e) => {
-          console.log('error', e)
-          console.error( e)
-          throw e;
+          console.log('Promise error')
+          console.error(e)
         })
       } catch(e) {
-        this.setState({
-          explorerState: 'error',
-        })
-
         setTimeout(() => {
           console.log('Retrying instantiateContract()')
           this.instantiateContract();
         }, 2500)
 
-        throw e;
       }
     })
 
@@ -567,9 +564,6 @@ class App extends Component {
               <div className="PeerContent__id">
                 {peer.id}
               </div>
-              <div className="PeerContent__body">
-                red
-              </div>
 
             </div>
 
@@ -607,10 +601,9 @@ class App extends Component {
           </div>
         </div>
       } else if (this.state.explorerState === 'loading') {
-        errorText = 'Error: Unable to reach network';
         errorContent = <div className="Explorer__error">
           <div className="Explorer__error__text">
-            {errorText}
+            loading...
           </div>
         </div>
       }
