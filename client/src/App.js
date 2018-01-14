@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './3d/3d-force-graph.css';
+import Graph from './Graph.js';
 
 class App extends Component {
   constructor(props) {
@@ -35,15 +36,16 @@ class App extends Component {
     if (this.state.page === 'overview') {
       content = <div>overview</div>
     } else if (this.state.page === 'explorer') {
+      let sink = <div className="Explorer__sink">
+        Options
+          - Sybil: [toggle]
+          -
+      </div>
+
       content = <div className="Explorer">
-        <div className="Explorer__sink">
-          Options
-            - Sybil: [toggle]
-            -
-        </div>
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
-            D3 graph here
+            <Graph />
           </div>
           <div className="Explorer__content__myTrust">
             mytrust
