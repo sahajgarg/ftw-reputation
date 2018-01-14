@@ -23,6 +23,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
       // use the development console's port by default.
       var provider = new Web3.providers.HttpProvider('https://ropsten.infura.io/8gfotrp87jMHGgJRvLSU')
       //var provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545')
+      window.fallback = true;
 
       web3 = new Web3(provider)
 
