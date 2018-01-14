@@ -370,11 +370,16 @@ class App extends Component {
         </div>
 
 
-        <div className="Page PageFillScreen">
+        <div className="Page PageFillScreen Page--graph">
           <div className="SlideTitle">What we built at the hackathon</div>
           <div className="BoringContent ContentFrame">
             <p>Overcrowding in ICOs</p>
+            <br />
             <ul>
+              <li>asdf</li>
+              <li>asdf</li>
+              <li>asdf</li>
+              <li>asdf</li>
               <li>asdf</li>
             </ul>
           </div>
