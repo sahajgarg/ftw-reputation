@@ -9,7 +9,7 @@ import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js'
 
-const contractAddress = '0xd52d80cefbd2696082d3b32cd15ea26a98740fe4';
+const contractAddress = '0xf991cb7f62d85bdb6b2cc55235d1fc2d73fb7a90';
 
 
 
