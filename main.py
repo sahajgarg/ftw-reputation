@@ -1,4 +1,11 @@
 import numpy as np
+import web3
+
+from web3 import Web3, HTTPProvider, TestRPCProvider
+
+
+web3 = Web3(HTTPProvider('http://localhost:8545'))
+
 
 # Currently, removes all dangling links
 # Later features: allow variable trust ratings
@@ -41,20 +48,20 @@ def compute_page_rank(key_mapping, adjacency_matrix, rank_source, weighting):
 def retreive_web_of_trust():
 	pass
 
+def verify_signature(data, signature, pubkey): 
+	pass
+
 #Data is {'pubkey': pubkey, 
 #		  'new_trusted_edges': [list of trusted edges]}
 def new_edges(data, signature):
-	# TODO: Verify signature
+	assert(verify_signature(data, signature, data['pubkey']))
 
-
-
+	pubkey = data['pubkey']
+	new_trusted_edges = data['new_trusted_edges']
 	if pubkey not in adj_list: 
 		adj_list[pubkey] = new_trusted_edges
-
-
-
-
-	pass
+	else:
+		adj_list[pubkey] += new_trusted_edges
 
 def remove_edge():
 	pass
