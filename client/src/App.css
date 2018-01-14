@@ -4,6 +4,7 @@ html, body {
 
 body {
   display: flex;
+  color: #111;
 
 }
 .TODO {
@@ -90,6 +91,7 @@ Green = #68c86f
 
 .App-content {
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .AppHeader__bottom__links {
@@ -100,6 +102,107 @@ Green = #68c86f
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+
+
+
+.Page {
+  position: relative;
+}
+.Page__content {
+  position: relative;
+  z-index: 5;
+}
+.PageIntro {
+  min-height: 90vh;
+}
+.PageIntro__content {
+  height: 100%;
+  position: absolute;
+}
+.Intro {
+  font-size: 34px;
+  max-width: 900px;
+  padding: 0 30px;
+  margin: 0 auto;
+  color: #000;
+}
+.Intro__content {
+  padding: 30px;
+}
+#particle-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  user-select: none;
+
+}
+
+.TwoBy {
+  display: flex;
+}
+.TwoBy > div {
+  width: 50%;
+}
+.Team {
+  /*display: flex;*/
+  padding: 60px 0;
+}
+.TeamSection {
+  margin: 16px;
+  padding: 16px 30px;
+  /*background: rgba(255,255,255,0.2);*/
+}
+.TeamSection__Name {
+  font-size: 36px;
+  font-weight: 600;
+}
+.TeamSection__line {
+  font-size: 20px;
+}
+.VertCenter {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.Title {
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+.TwoBy .TwoBy__60 {
+  width: 60%;
+}
+.TwoBy .TwoBy__40 {
+  width: 60%;
+}
+
+.TwoBy .TwoBy__70 {
+  width: 70%;
+}
+.TwoBy .TwoBy__30 {
+  width: 30%;
+}
+.Page--green {
+  background: #e8f7e9;
+}
+
+
+
+
+
+
+
+
+
+
 
 .Explorer {
   display: flex;

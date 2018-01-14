@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
+import Particles from './Particles.js';
 import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
@@ -32,6 +33,7 @@ class App extends Component {
         page: window.location.hash.replace('#','')
       })
     }, false);
+
     getWeb3
     .then(results => {
       this.setState({
@@ -73,14 +75,14 @@ class App extends Component {
       //console.log(ratingList);
 
       // Compute pagerank
-      var data = {'node_list': nodeList, 'truster_list': trusterList, 
+      var data = {'node_list': nodeList, 'truster_list': trusterList,
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
       console.log(trustValues);
       this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues});
-      
+
       console.log('done retreiving and calculating pagerank!!')
     });
 
@@ -93,7 +95,7 @@ class App extends Component {
 
     // Declaring this for later so we can chain functions on TrustGraph.
     var trustGraphInstance
-    
+
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       trustGraph.at(contractAddress).then((instance) => {
@@ -133,7 +135,54 @@ class App extends Component {
     let content = <div>Unknown page: {this.state.page}</div>
 
     if (this.state.page === '') {
-      content = <div>overview</div>
+      content = <div>
+        <div className="Page PageIntro">
+          <Particles />
+          <div className="VertCenter Page__content PageIntro__content">
+              <div className="Intro">
+                <div className="Intro__content">
+                  <strong>Flexible Trust Web</strong> is a reputation system that runs on Ethereum blockchain.
+                  <br />
+                  <br />
+                  We solve the problem of trustable ratings in a fully decentralized manner.
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div className="Page Page--green">
+          <div className="TwoBy">
+            <div className="VertCenter TwoBy__30">
+              <div className="Title">
+                Team
+              </div>
+            </div>
+            <div className="Team TwoBy__70">
+              <div className="TeamSection">
+                <div className="TeamSection__Name">Sunny Aggarwal</div>
+                <div className="TeamSection__line">Research Scientist at Tendermint/Cosmos</div>
+                <div className="TeamSection__line">Co-founder of Blockchain at Berkeley</div>
+                <div className="TeamSection__line">UC Berkeley Computer Science</div>
+              </div>
+
+              <div className="TeamSection">
+                <div className="TeamSection__Name">Iris Li</div>
+                <div className="TeamSection__line">Former Software Engineer at Stellar</div>
+                <div className="TeamSection__line">Co-founder of Bitcoin at Berkeley</div>
+                <div className="TeamSection__line">UC Berkeley Computer Science</div>
+              </div>
+
+              <div className="TeamSection">
+                <div className="TeamSection__Name">Sahaj Garg</div>
+                <div className="TeamSection__line">Machine Learning Researcher at Google</div>
+                <div className="TeamSection__line">Previously Quant Intern at Jane Street</div>
+                <div className="TeamSection__line">Stanford Computer Science</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     } else if (this.state.page === 'explorer') {
       // let sink = <div className="Explorer__sink">
       //   Options
