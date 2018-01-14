@@ -3,7 +3,9 @@ import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import { Slider } from 'antd';
-import TrustGraphContract from '../build/contracts/TrustGraph.json'
+import getWeb3 from './utils/getWeb3';
+
+import TrustGraphContract from './TrustGraph.json';
 
 class App extends Component {
   constructor(props) {
@@ -62,6 +64,8 @@ class App extends Component {
         trusterList.shift();
         trusteeList.shift();
         ratingList.shift();
+
+        console.log(ratingList);
 
         return this.setState({ trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList })
       })
