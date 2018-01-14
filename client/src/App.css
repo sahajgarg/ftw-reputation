@@ -268,10 +268,12 @@ Green = #68c86f
   height: 90px;
 }
 .BoringContent p {
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 36px;
 }
 .BoringContent li {
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 36px;
   margin-left: 15px;
   position: relative;
 }
@@ -465,7 +467,7 @@ Green = #68c86f
   word-break: break-all;
   font-size: 10px;
   padding: 2px 8px;
-  border-bottom: 1px solid;
+  /*border-bottom: 1px solid;*/
   border-color: inherit;
 }
 .PeerRating {

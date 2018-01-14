@@ -61,11 +61,12 @@ class Graph extends Component {
   }
   componentDidMount() {
     this.container = document.getElementById('Graph__container');
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize",  () => {
       try {
         this.myGraph.width(this.container.offsetWidth)
         this.myGraph.height(this.container.offsetHeight)
       } catch(e) {
+        console.log('Unable to work')
       }
     });
   }
