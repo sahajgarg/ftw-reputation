@@ -5,7 +5,9 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "numeric": "1.2.6",
+    "web3": "1.0.0-beta.27"
   },
   "scripts": {
     "start": "react-scripts start",
