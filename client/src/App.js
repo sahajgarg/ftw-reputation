@@ -5,10 +5,10 @@ import Graph from './Graph.js';
 import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
+import ColorHash from 'color-hash';
 const contractAddress = '0xb79d6277e32da0c9956d78c5366c82a6525c0945';
 
 
-import ColorHash from 'color-hash';
 
 let Color = new ColorHash({saturation: 0.5});
 const Search = Input.Search;
