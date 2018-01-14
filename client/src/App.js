@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgEbay from'./ebay.png';
 
-const contractAddress = '0xa8c7c4b98d057022f0c42cda36e844840655ef2b';
+const contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -32,6 +32,7 @@ class App extends Component {
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      initialLoaded: false,
       peerObjs: [
         {
           id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
@@ -93,7 +94,7 @@ class App extends Component {
 
     setInterval(() => {
       this.retrieve();
-    }, 5000)
+    }, 1000)
   }
 
   updateEdge(trustee, rating) {
@@ -119,15 +120,12 @@ class App extends Component {
       return trustGraphInstance.getTrusterList.call();
     }).then((result) => {
       trusterList = result;
-      console.log(result);
       return trustGraphInstance.getTrusteeList.call()
     }).then((result) => {
       trusteeList = result;
-      console.log(result);
       return trustGraphInstance.getRatingList.call()
     }).then((result) => {
       ratingList = result;
-      console.log(result);
 
       let peerObjs = [];
       let graphData = {"nodes": [], "links": []};
@@ -150,11 +148,14 @@ class App extends Component {
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
+      console.log(this.state.rankSource);
+      console.log(this.state.web3.eth.defaultAccount);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
       console.log(trustValues);
 
+      var randomName;
       for (i = 0; i < nodeList.length; i++) {
-        let randomName = random_name({ random: () => {return i;} });
+        randomName = random_name({ seed: i+1 });
         peerObjs.push({
           id: nodeList[i],
           name: randomName,
@@ -170,13 +171,35 @@ class App extends Component {
         })
       }
 
-      if (!this.state.trusterList) {
+      console.log('Close to updating')
+
+      let setInitialUpdated = false;
+
+      if (!this.state.initialUpdated && this.state.page === 'explorer') {
+        console.log('May the force')
+        console.log('May the force')
+        console.log('May the force')
+        console.log('May the force')
+        console.log('May the force')
+        console.log('May the force')
+        console.log('May the force')
+        setInitialUpdated = true;
+        this.graphAPI.updateTo(graphData); 
+      } else if (!this.state.trusterList) {
         this.graphAPI.updateTo(graphData); 
       } else if (this.state.trusterList.length != trusterList.length) {
         this.graphAPI.updateTo(graphData); 
       }
 
-      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
+      this.setState({
+        nodeList: nodeList,
+        trusterList: trusterList,
+        trusteeList: trusteeList,
+        ratingList: ratingList,
+        trustValues: trustValues,
+        initialUpdated: setInitialUpdated || this.state.initialUpdated,
+        peerObjs: peerObjs
+      });
 
       console.log('done retreiving and calculating pagerank!!')
     });

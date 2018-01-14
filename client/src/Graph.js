@@ -8,6 +8,11 @@ class Graph extends Component {
     this.myGraph = ForceGraph3D();
 
     this.props.graphAPIObj.updateTo = (data) => {
+      console.log('ACTUALLLY to updating')
+      console.log('ACTUALLLY to updating')
+      console.log('ACTUALLLY to updating')
+      console.log('ACTUALLLY to updating')
+      console.log('ACTUALLLY to updating')
       console.log(data)
       this.myGraph.graphData(data);
     }
@@ -63,10 +68,14 @@ class Graph extends Component {
       //   // this.myGraph(container).graphData(data);
       // },1000)
 
-      window.addEventListener("resize", function () { // Watch for browser/canvas resize events
+    window.addEventListener("resize", function () {
+      try {
         this.myGraph.width(container.offsetWidth)
         this.myGraph.height(container.offsetHeight)
-      });
+      } catch(e) {
+
+      }
+    });
 
   }
   render() {

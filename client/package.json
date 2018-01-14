@@ -8,6 +8,7 @@
     "color-hash": "^1.0.3",
     "d3-force-3d": "^1.1.0",
     "d3-scale-chromatic": "^1.1.1",
+    "ganache-cli": "^6.0.3",
     "kapsule": "^1.9.0",
     "ngraph.forcelayout": "^0.2.1",
     "ngraph.forcelayout3d": "^0.0.16",

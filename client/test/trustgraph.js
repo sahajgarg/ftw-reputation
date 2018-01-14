@@ -1,6 +1,6 @@
 var TrustGraph = artifacts.require("./TrustGraph.sol");
 
-contract_address = '0xa8c7c4b98d057022f0c42cda36e844840655ef2b';
+contract_address = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
 
 contract('TrustGraph', function(accounts) {
   it("should do a couple links", function() {

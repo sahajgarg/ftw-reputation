@@ -34,7 +34,7 @@ contract TrustGraph {
         
         address truster = msg.sender;
 
-        //require(truster != trustee);
+        require(truster != trustee);
 
         uint trusterIndex = nodes[truster];
         uint trusteeIndex = nodes[trustee];
