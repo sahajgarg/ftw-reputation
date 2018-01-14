@@ -8,6 +8,11 @@
     "react-scripts": "1.0.17",
     "numeric": "1.2.6",
     "web3": "1.0.0-beta.27"
+    "accessor-fn": "^1.2.2",
+    "kapsule": "^1.9.0",
+    "three": "^0.89.0",
+    "three-forcegraph": "^1.4.1",
+    "three-trackballcontrols": "^0.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
