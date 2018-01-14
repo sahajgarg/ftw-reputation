@@ -410,11 +410,15 @@ Green = #68c86f
 .PeerListSlider {
   padding: 0 10px;
   border-bottom: 1px solid #ccc;
-  margin-bottom: 6px;
+  /*margin-bottom: 6px;*/
 }
 .PeerListSlider .ant-slider-mark-text {
   font-size: 12px;
   font-weight: 600;
+}
+.metaMaskWarning {
+  background: #ffffe0;
+  padding: 10px;
 }
 .PeerList {
   display: flex;

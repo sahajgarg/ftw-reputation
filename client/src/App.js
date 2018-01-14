@@ -610,6 +610,14 @@ class App extends Component {
 
       let peerNewDisabled = this.state.newPeerAddress.length === 42 ? false : true;
       let peerNewButtonType = this.state.newPeerAddress.length === 42 ? 'primary': 'dashed';
+
+      let metamaskWarning;
+      if (window.fallback) {
+        metamaskWarning = <div className="metaMaskWarning">
+          NOTE: please sign in through MetaMask on the <strong>Ropsten Test Network</strong> to interact with the application and add trusted nodes.
+        </div>
+      }
+
       content = <div className="Explorer">
         {errorContent}
         <div className="Explorer__content">
@@ -637,6 +645,7 @@ class App extends Component {
                   })
                 }} />
               </div>
+              {metamaskWarning}
               <div className="PeerNew">
                 <div className="PeerNew__text">Add reputation to new account</div>
                 <Input size="small" placeholder="Address. E.g.: 0xD9c93AaFB0f23Bf7CaF9637D707883f33eF90f1C" value={this.state.newPeerAddress} onChange={event => {
