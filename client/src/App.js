@@ -3,7 +3,7 @@ import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import Particles from './Particles.js';
-import { Slider, Input } from 'antd';
+import { Slider, Input, Button } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
@@ -11,7 +11,7 @@ import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
-import ImgEbay from'./ebay.png';
+import ImgPropy from'./propy.jpg';
 
 var contractAddress = '0x688770523a8f74f7438b83c62b56056d69af461b';
 
@@ -33,6 +33,8 @@ class App extends Component {
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      newSlider: 5,
+      newPeerAddress: '',
       explorerState: 'loading', // 'error', 'loaded'
       initialLoaded: false,
       peerObjs: [
@@ -88,6 +90,7 @@ class App extends Component {
         web3: results.web3,
         provider: results.provider
       })
+      window.web3 = results.web3;
       // Instantiate contract once web3 provided.
       this.instantiateContract();
     })
@@ -346,7 +349,7 @@ class App extends Component {
                 <div className="Intro__content">
                   <div className="Intro__content_FTW">FTW</div>
                   <div className="Intro__content__line">Decentralized reputation on Ethereum.</div>
-                  <div className="Intro__content__line">We solve the problem of trustable ratings in a fully decentralized manner.</div>
+                  <div className="Intro__content__line">The world's first fully <b>sybil resistant</b>, truly decentralized reputation protocol.</div>
                 </div>
               </div>
           </div>
@@ -395,7 +398,7 @@ class App extends Component {
             <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
                 <div className="TeamSection__line">Machine Learning Researcher at Google</div>
-                <div className="TeamSection__line">Previously Quant Intern at Jane Street</div>
+                <div className="TeamSection__line">Former Quant Intern at Jane Street</div>
                 <div className="TeamSection__line">Stanford Computer Science</div>
               </div>
             </div>
@@ -403,15 +406,8 @@ class App extends Component {
         </div>
 
         <div className="Page PageFillScreen PageProblem Page--bordered">
-          <div className="SlideTitle">Pain Point: Marketplace Reputation</div>
+          <div className="SlideTitle">Every decentralized app needs sybil-resistant reputation.</div>
           <div className="ContentFrame">
-            <div className="BoringContent">
-              <p>Imagine a marketplace.</p>
-              <p>Scammer creates a million fake identities to pump the scammer's rating.</p>
-              <p><strong>How do we prevent this?</strong></p>
-              <br />
-            </div>
-            <div className="VertPad"></div>
             <div className="TwoBy">
               <div className="ProblemExample TwoBy__45">
                 <div className="Height90px">
@@ -428,34 +424,40 @@ class App extends Component {
                 </div>
               </div>
               <div className="ProblemExample TwoBy__45">
-                <div className="Height90px" style={{paddingTop: '30px'}}>
-                  <img src={ImgEbay}  width="123"/>
+                <div className="Height90px" style={{paddingTop: '10px'}}>
+                  <img src={ImgPropy}  width="300"/>
                 </div>
                 <div className="BoringContent">
                   <div className="VertPad">
                     <ul>
-                      <li>Centralized spam removal</li>
-                      <li>eBay Inc. is the final arbiter</li>
+                      <li>Marketplace/registry for title deeds</li>
+                      <li>High value exchanges need trusted reputation</li>
+                      <li>Marketplace ratings are spoofable</li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
+            <br />
+            <div className="BoringContent">
+              <p>The problem: <strong>sbyil attacks</strong>. </p>
+              <p>What if a scammer creates a hundred fake identities that all rate him/her highly?</p>
+            </div>
           </div>
         </div>
 
         <div className="Page PageFillScreen Page--gray">
-          <div className="SlideTitle">The Solution: <strong>Personalized</strong> Reputation</div>
+          <div className="SlideTitle">Our Solution: <strong>Personalized</strong> Reputation</div>
           <div className="BoringContent ContentFrame">
             <p>Avoid global ratings that are centralized, expensive, and/or cheatable</p>
             <br />
             <p>We <strong>personalize</strong> reputation:</p>
             <ul>
-              <li>Assign trust to my friends (and indirectly their friends, etc).</li>
-              <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
+              <li>Create a <strong>web of trust</strong> by asssigning trust to my friends (and indirectly their friends, etc).</li>
+              <li>Implemented a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
             </ul>
             <br />
-            <p>We put it on the blockchain:</p>
+            <p>We put it on the Ethereum and POA Network blockchains:</p>
             <ul>
               <li>No centralized repository that may have conflicts of interest.</li>
               <li>Use a modified version of Google's PageRank algorithm to calculate trust ratings based on who I trust.</li>
@@ -463,28 +465,21 @@ class App extends Component {
           </div>
         </div>
 
-        <div className="Page PageFillScreen">
-          <div className="SlideTitle">Use Case: Marketplace Reputation</div>
-          <div className="BoringContent ContentFrame">
-            <p>Overcrowding in ICOs</p>
-          </div>
-        </div>
-
-
         <div className="Page PageFillScreen Page--graph">
           <div className="SlideTitle">Reflections: What we built at this hackathon</div>
           <div className="BoringContent ContentFrame">
             <p>We had a blast during this hackathon. This is what we built:</p>
             <br />
             <ul>
-              <li>Flexible reputation system usable for anything</li>
-              <li>A decentralized and permissionless system</li>
-              <li>API that any other Dapp can use</li>
-              <li>JavaScript implementation of personalized Pagerank</li>
-              <li>Ethereum Solidity smart contract</li>
-              <li>MetaMask integration for browser interactions</li>
-              <li>Web client to interact with the reputation system</li>
-              <li>3D visualization of the reputation graph</li>
+              <li>Flexible reputation system usable by any decentralized application</li>
+              <li>Ethereum Solidity smart contract to manage a decentralized trust graph</li>
+              <li>Backend implementation of personalized PageRank from scratch in NodeJS</li>
+              <li>Metamask integration with injected web3 to guarantee transaction security</li>
+              <li>Created an API that any other Dapp can use to take advantage of reputation</li>
+              <li>Web client to manage trusted nodes with the reputation system built using React</li>
+              <li>3D visualization of the reputation graph using D3</li>
+              <li>Deployed application on Ropsten TestNet</li>
+              <li>Hosted at FTWreputation.com</li>
             </ul>
           </div>
         </div>
@@ -493,6 +488,24 @@ class App extends Component {
           <div className="SlideTitle">Demo!</div>
           <div className="BoringContent ContentFrame">
             <p>Lets actually see WTF this FTW thing does!</p>
+            <br />
+            <p><strong>Future Directions</strong></p>
+            <ul>
+              <li>Perform PageRank computation using TrueBit for fully verifiable, decentralized computation that still occurs off chain.</li>
+              <li>Build arbitrary rating abstraction (smart contract) on top of reputation graphs to rate anything.</li>
+              <li>Add ability to distrust a node and anyone that references it -- automatically clean up your network if someone accidentally points to a scammer.</li>
+              <li>Build some dapps to show the potential of our platform and get other people to dev with our API!</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen">
+          <div className="SlideTitle">Papers Referenced in Literature Review</div>
+          <div className="BoringContent ContentFrame">
+            <p>We read a lot of papers to devise the best method for this project. Here are the most important:</p>
+            <ol>
+              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>
+            </ol>
           </div>
         </div>
 
@@ -602,6 +615,8 @@ class App extends Component {
         </div>
       }
 
+      let peerNewDisabled = this.state.newPeerAddress.length === 42 ? false : true;
+      let peerNewButtonType = this.state.newPeerAddress.length === 42 ? 'primary': 'dashed';
       content = <div className="Explorer">
         {errorContent}
         <div className="Explorer__content">
@@ -628,6 +643,28 @@ class App extends Component {
                     filterMax: value[1],
                   })
                 }} />
+              </div>
+              <div className="PeerNew">
+                <div className="PeerNew__text">Add reputation to new account</div>
+                <Input size="small" placeholder="Address. E.g.: 0xD9c93AaFB0f23Bf7CaF9637D707883f33eF90f1C" value={this.state.newPeerAddress} onChange={event => {
+                  this.setState({
+                    newPeerAddress: event.target.value.trim()
+                  })
+                }} />
+                <Slider min={0} max={5} defaultValue={1} marks={sliderMarks} onChange={(value) => {
+                  this.setState({
+                    newSlider: value
+                  })
+                }} />
+                <Button type={peerNewButtonType} disabled={peerNewDisabled} onClick={() => {
+                  console.log('Submit new peer ' + this.state.newPeerAddress)
+                  // PEER ADDRESS: this.state.newPeerAddress
+                  // PEER RATING: this.state.newSlider
+
+                  this.setState({
+                    newPeerAddress: '', // Reset the address
+                  })
+                }}>Add rating</Button>
               </div>
               <div className="PeerList">
                 {peerItems}
