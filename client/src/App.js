@@ -6,8 +6,9 @@ import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
+import { calculate_trust } from './pagerank.js'
 
-const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
+const contractAddress = '0xd52d80cefbd2696082d3b32cd15ea26a98740fe4';
 
 
 
@@ -33,13 +34,9 @@ class App extends Component {
     }, false);
     getWeb3
     .then(results => {
-      //results.web3.eth.defaultAccount = results.web3.eth.accounts[0];
-
       this.setState({
         web3: results.web3
       })
-
-
       // Instantiate contract once web3 provided.
       this.instantiateContract();
     })
@@ -49,17 +46,47 @@ class App extends Component {
   }
 
   updateEdge(trustee, rating) {
-    
-
     this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount}).then(() => {
-      console.log('completed')
+      console.log('updated')
+    });
+  }
+
+  // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
+  retreive(callback) {
+    console.log('starting reteival');
+    var nodeList;
+    var trustGraphInstance = this.state.trustGraphInstance;
+    trustGraphInstance.getNodeList.call().then((result) => {
+      nodeList = result;
+      return trustGraphInstance.getEdgeList.call();
+    }).then((result) => {
+      var trusterList = result[0];
+      var trusteeList = result[1];
+      var ratingList = result[2];
+
+      for (var i = 0; i < trusterList.length; i++) {
+        trusterList[i] = trusterList[i].toNumber();
+        trusteeList[i] = trusteeList[i].toNumber();
+        ratingList[i] = ratingList[i].toNumber();
+      }
+
+      //console.log(ratingList);
+
+      // Compute pagerank
+      var data = {'node_list': nodeList, 'truster_list': trusterList, 
+        'trustee_list': trusteeList, 'trust_rating_list': ratingList};
+
+      //console.log(nodeList);
+      let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
+      console.log(trustValues);
+      this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues});
+      
+      console.log('done retreiving and calculating pagerank!!')
     });
 
-    
   }
 
   instantiateContract() {
-
     const contract = require('truffle-contract')
     const trustGraph = contract(TrustGraphContract)
     trustGraph.setProvider(this.state.web3.currentProvider)
@@ -74,32 +101,11 @@ class App extends Component {
         this.setState({trustGraphInstance: trustGraphInstance});
 
         this.state.web3.eth.defaultAccount = accounts[0];
-
-        // Stores a given value, 5 by default.
-        return trustGraphInstance.getNodeList.call()
-      }).then((result) => {
-        this.setState({ nodeList: result })
-        return trustGraphInstance.getEdgeList.call()
-      }).then((result) => {
-        var trusterList = result[0];
-        var trusteeList = result[1];
-        var ratingList = result[2];
-
-        for (var i = 0; i < trusterList.length; i++) {
-          trusterList[i] = trusterList[i].toNumber();
-          trusteeList[i] = trusteeList[i].toNumber();
-          ratingList[i] = ratingList[i].toNumber();
-        }
-
-        console.log(ratingList);
-
-        this.setState({ trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList })   
-      }).then(()=> {
-            //Temporary tester code
-          console.log('about to update edge');
-          console.log(trustGraphInstance)
-          this.updateEdge('0xf7253aefa415ea790cdc946e171a361a1b5c9842', 2);
-      });
+      }).then(() => {
+        this.retreive(() => {
+          console.log('done');
+        })
+      })
     })
   }
 
