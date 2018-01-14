@@ -8,6 +8,7 @@ import {
   BufferAttribute,
   Mesh,
   MeshLambertMaterial,
+  MeshPhysicalMaterial,
   Line,
   LineBasicMaterial
 } from 'three';
@@ -39,6 +40,7 @@ const three = window.THREE
     BufferAttribute,
     Mesh,
     MeshLambertMaterial,
+    MeshPhysicalMaterial,
     Line,
     LineBasicMaterial
   };
@@ -181,11 +183,26 @@ export default Kapsule({
 
         const color = colorAccessor(node);
         if (!sphereMaterials.hasOwnProperty(color)) {
-          sphereMaterials[color] = new three.MeshLambertMaterial({
+          let thisNodeOpacity = node.opacity ? node.opacity : state.nodeOpacity;
+          // sphereMaterials[color] = new three.MeshLambertMaterial({
+          //   color: colorStr2Hex(color || '#ffffaa'),
+          //   transparent: true,
+          //   opacity: thisNodeOpacity
+          // });
+
+
+          sphereMaterials[color] = new three.MeshPhysicalMaterial( {
+            // map: null,
             color: colorStr2Hex(color || '#ffffaa'),
+            metalness: 0.6,
+            roughness: 0.8,
+            opacity: thisNodeOpacity,
+            // side: three.BackSide,
             transparent: true,
-            opacity: state.nodeOpacity
-          });
+            // envMapIntensity: 5,
+            // premultipliedAlpha: true
+            // TODO: Add custom blend mode that modulates background color by this materials color.
+          } );
         }
 
         obj = new three.Mesh(sphereGeometries[val], sphereMaterials[color]);

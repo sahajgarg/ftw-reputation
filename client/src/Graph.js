@@ -17,6 +17,7 @@ class Graph extends Component {
               "name": "name 1 ",
               "val": 1,
               color: '#ff0',
+              opacity: 0.8,
             },
             {
               "id": "id2",
@@ -40,7 +41,7 @@ class Graph extends Component {
     myGraph.linkColor('#ffffff')
     myGraph.backgroundColor('#000000');
 
-    myGraph.nodeResolution(20);
+    myGraph.nodeResolution(24);
     myGraph(container);
     myGraph.graphData(data);
 
