@@ -241,7 +241,11 @@ class App extends Component {
         this.setState({
           explorerState: 'error',
         })
-        console.error(e)
+
+        setTimeout(() => {
+          console.log('Retrying instantiateContract()')
+          this.instantiateContract();
+        }, 2500)
       }
     })
   }
