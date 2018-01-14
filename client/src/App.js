@@ -3,14 +3,14 @@ import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
 import Particles from './Particles.js';
-import { Slider, Input } from 'antd';
+import { Slider, Input, Button } from 'antd';
 import getWeb3 from './utils/getWeb3';
 import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
-import ImgLedgerNano from'./ledgerNano.png';
+// import ImgLedgerNano from'./ledgerNano.png';
 import ImgEbay from'./ebay.png';
 
 var contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
@@ -33,6 +33,8 @@ class App extends Component {
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      newSlider: 5,
+      newPeerAddress: '',
       explorerState: 'loading', // 'error', 'loaded'
       initialLoaded: false,
       peerObjs: [
@@ -87,6 +89,7 @@ class App extends Component {
       this.setState({
         web3: results.web3
       })
+      window.web3 = results.web3;
       // Instantiate contract once web3 provided.
       this.instantiateContract();
     })
@@ -586,6 +589,8 @@ class App extends Component {
         </div>
       }
 
+      let peerNewDisabled = this.state.newPeerAddress.length === 42 ? false : true;
+      let peerNewButtonType = this.state.newPeerAddress.length === 42 ? 'primary': 'dashed';
       content = <div className="Explorer">
         {errorContent}
         <div className="Explorer__content">
@@ -612,6 +617,28 @@ class App extends Component {
                     filterMax: value[1],
                   })
                 }} />
+              </div>
+              <div className="PeerNew">
+                <div className="PeerNew__text">Add reputation to new account</div>
+                <Input size="small" placeholder="Address. E.g.: 0xD9c93AaFB0f23Bf7CaF9637D707883f33eF90f1C" value={this.state.newPeerAddress} onChange={event => {
+                  this.setState({
+                    newPeerAddress: event.target.value.trim()
+                  })
+                }} />
+                <Slider min={0} max={5} defaultValue={1} marks={sliderMarks} onChange={(value) => {
+                  this.setState({
+                    newSlider: value
+                  })
+                }} />
+                <Button type={peerNewButtonType} disabled={peerNewDisabled} onClick={() => {
+                  console.log('Submit new peer ' + this.state.newPeerAddress)
+                  // PEER ADDRESS: this.state.newPeerAddress
+                  // PEER RATING: this.state.newSlider
+
+                  this.setState({
+                    newPeerAddress: '', // Reset the address
+                  })
+                }}>Add rating</Button>
               </div>
               <div className="PeerList">
                 {peerItems}

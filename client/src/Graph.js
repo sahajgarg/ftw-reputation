@@ -74,8 +74,6 @@ class Graph extends Component {
     return (
       <div className="Graph">
         <div id="Graph__container">
-
-          D3 graph here
         </div>
       </div>
     );
