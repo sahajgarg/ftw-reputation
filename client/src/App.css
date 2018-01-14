@@ -54,6 +54,10 @@ Green = #68c86f
   line-height: 1.5;
   font-weight: 800;
 }
+.AppHeader h1.AppHeader__titleLink:hover {
+  color: #666;
+  text-decoration: none;
+}
 .AppHeader__top nav {
   display: flex;
   flex-direction: column;
@@ -153,6 +157,11 @@ Green = #68c86f
   width: 100%;
   overflow-y: scroll;
 }
+.PeerListSearch {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 6px;
+}
 .PeerList {
   display: flex;
   flex-direction: column;
@@ -160,7 +169,7 @@ Green = #68c86f
 .Peer {
   border: 1px solid;
   /*background: skyblue;*/
-  margin: 4px 8px;
+  margin: 6px 10px;
   border-radius: 4px;
   border-color: orange;
 }
@@ -184,7 +193,7 @@ Green = #68c86f
 }
 .PeerContent__title__rating {
   /*width: 20px;*/
-  background: #eee;
+  /*background: #eee;*/
   font-size: 20px;
   font-weight: 800;
   padding: 3px 8px;

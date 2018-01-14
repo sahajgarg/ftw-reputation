@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './3d/3d-force-graph.css';
 import Graph from './Graph.js';
-import { Slider } from 'antd';
+import { Slider, Input } from 'antd';
 import getWeb3 from './utils/getWeb3';
 
 import TrustGraphContract from './TrustGraph.json';
@@ -10,12 +10,14 @@ import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
 
 let Color = new ColorHash({saturation: 0.5});
+const Search = Input.Search;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'explorer', // overview, explorer
+      filter: '',
     };
   }
 
@@ -148,41 +150,56 @@ class App extends Component {
 
       for (let index in peerObjs) {
         let peer = peerObjs[index];
-        let peerColor = Color.hex(peer.id)
-        let peerColorRGB = Color.rgb(peer.id)
+        let show = false;
 
-        let colorStyle = {
-          borderColor: peerColor,
-        };
-        let lightBackgroundStyle = {
-          background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
+        if (this.state.filter !== undefined) {
+          if (peer.id.indexOf(this.state.filter) !== -1) {
+            show = true;
+          } else if (peer.name.indexOf(this.state.filter) !== -1) {
+            show = true;
+          }
+        } else {
+          show = true;
         }
-        peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
-          <div className="PeerContent" style={lightBackgroundStyle}>
-            <div className="PeerContent__title">
-              <div className="PeerContent__title__name">
-                {peer.name}
+
+        if (show) {
+          let peerColor = Color.hex(peer.id)
+          let peerColorRGB = Color.rgb(peer.id)
+
+          let colorStyle = {
+            borderColor: peerColor,
+          };
+          let lightBackgroundStyle = {
+            background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
+          }
+          peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
+            <div className="PeerContent" style={lightBackgroundStyle}>
+              <div className="PeerContent__title">
+                <div className="PeerContent__title__name">
+                  {peer.name}
+                </div>
+                <div className="PeerContent__title__rating">
+                  5.0/5
+                </div>
               </div>
-              <div className="PeerContent__title__rating">
-                5.0/5
+              <div className="PeerContent__id">
+                {peer.id}
               </div>
-            </div>
-            <div className="PeerContent__id">
-              {peer.id}
-            </div>
-            <div className="PeerContent__body">
-              red
+              <div className="PeerContent__body">
+                red
+              </div>
+
             </div>
 
-          </div>
+            <div className="PeerRating">
+              Rate this user:
+              <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
+                console.log('Setting peer ' + peer.id + ' to ' + value)
+              }} />
+            </div>
+          </div>)
+        }
 
-          <div className="PeerRating">
-            Rate this user:
-            <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
-              console.log('Setting peer ' + peer.id + ' to ' + value)
-            }} />
-          </div>
-        </div>)
       }
 
       content = <div className="Explorer">
@@ -192,6 +209,17 @@ class App extends Component {
           </div>
           <div className="Explorer__content__myTrust">
             <div className="PeerListContainer">
+              <div className="PeerListSearch">
+                <Search
+                  placeholder="Filter peers"
+                  value={this.state.filter}
+                  onChange={event => {
+                    this.setState({
+                      filter: event.target.value
+                    })
+                  }}
+                />
+              </div>
               <div className="PeerList">
                 {peerItems}
               </div>
