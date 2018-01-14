@@ -601,10 +601,9 @@ class App extends Component {
           </div>
         </div>
       } else if (this.state.explorerState === 'loading') {
-        errorText = 'Error: Unable to reach network';
         errorContent = <div className="Explorer__error">
           <div className="Explorer__error__text">
-            {errorText}
+            loading...
           </div>
         </div>
       }
