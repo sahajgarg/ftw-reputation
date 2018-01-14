@@ -160,7 +160,7 @@ Green = #68c86f
 .Peer {
   border: 1px solid;
   /*background: skyblue;*/
-  margin: 8px;
+  margin: 4px 8px;
   border-radius: 4px;
   border-color: orange;
 }
@@ -208,4 +208,10 @@ Green = #68c86f
 }
 .PeerRating .ant-slider {
   margin: 4px 8px;
+}
+.PeerRating .ant-slider-track {
+  background: currentColor !important;
+}
+.PeerRating .ant-slider-handle {
+  border-color: currentColor !important;
 }

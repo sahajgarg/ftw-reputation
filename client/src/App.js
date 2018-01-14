@@ -7,6 +7,10 @@ import getWeb3 from './utils/getWeb3';
 
 import TrustGraphContract from './TrustGraph.json';
 
+import ColorHash from 'color-hash';
+
+let Color = new ColorHash({saturation: 0.5});
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -144,9 +148,17 @@ class App extends Component {
 
       for (let index in peerObjs) {
         let peer = peerObjs[index];
-        console.log(peer)
-        peerItems.push(<div className="Peer" key={peer.id}>
-          <div className="PeerContent">
+        let peerColor = Color.hex(peer.id)
+        let peerColorRGB = Color.rgb(peer.id)
+
+        let colorStyle = {
+          borderColor: peerColor,
+        };
+        let lightBackgroundStyle = {
+          background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
+        }
+        peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
+          <div className="PeerContent" style={lightBackgroundStyle}>
             <div className="PeerContent__title">
               <div className="PeerContent__title__name">
                 {peer.name}
@@ -166,7 +178,7 @@ class App extends Component {
 
           <div className="PeerRating">
             Rate this user:
-            <Slider min={0} max={5} onAfterChange={(value) => {
+            <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
               console.log('Setting peer ' + peer.id + ' to ' + value)
             }} />
           </div>
