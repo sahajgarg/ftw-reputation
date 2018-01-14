@@ -437,11 +437,13 @@ class App extends Component {
           <div className="BoringContent ContentFrame">
             <p>We <strong>personalize</strong> reputation:</p>
             <ul>
-              <li>Create a <strong>web of trust</strong> by asssigning trust to my friends (and indirectly their friends, etc).</li>
-              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who I trust.</li>
+              <li>We create a <strong>web of trust</strong> on the blockchain by asssigning trust to my friends (and indirectly their friends, etc).</li>
+              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who you trust.</li>
             </ul>
             <br />
             <p>We put it on the Ethereum and POA Network blockchains. That way, there's no centralized repository that may have conflicts of interest.</p>
+            <br />
+            <p>On top of it, we build a NodeJS library through which arbitrary dapps can interact with reputation.</p>
           </div>
         </div>
 
@@ -487,6 +489,7 @@ class App extends Component {
               <li>The PageRank Citation Ranking: Bringing Order to the Web</li>              
               <li>Manipulability of PageRank under Sybil Strategies</li>              
               <li>Survey of Sybil Attacks in Social Networks</li>
+              <li>A physical model for efficient ranking in networks</li>
             </ol>
           </div>
         </div>
