@@ -15,7 +15,7 @@ class Particles extends Component {
       background: '#fff',
       interactive: false,
       speed: 'fast',
-      density: 3000,
+      density: 5000,
     };
     var particleCanvas = new ParticleNetwork(document.getElementById('particle-canvas'), options);
   }

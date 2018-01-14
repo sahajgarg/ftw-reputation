@@ -24,7 +24,7 @@ Green = #68c86f
 }
 .App {
   display: flex;
-  min-height: 100%;
+  height: 100%;
   width: 100%;
 }
 
@@ -89,7 +89,7 @@ Green = #68c86f
   border-right: 10px solid #68c86f;
 }
 
-.App-content {
+#App-content {
   flex-grow: 1;
   overflow-y: scroll;
 }
@@ -136,7 +136,7 @@ Green = #68c86f
   font-size: 200px;
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   /*opacity: 0.5;*/
   text-indent: -10px;
 }
@@ -144,6 +144,9 @@ Green = #68c86f
   margin-bottom: 34px;
 }
 
+/*.particle-canvas-container {
+
+}*/
 #particle-canvas {
   width: 100%;
   height: 100%;
@@ -154,6 +157,7 @@ Green = #68c86f
   bottom: 0;
   z-index: 0;
   user-select: none;
+  /*transform: scale3d(0.5,0.5,1);*/
 
 }
 
@@ -177,7 +181,7 @@ Green = #68c86f
 }
 .PageTeam {
   padding-top: 70px;
-  padding-bottom: 70px;
+  padding-bottom: 80px;
 }
 .Team {
   /*display: flex;*/
@@ -237,11 +241,64 @@ Green = #68c86f
 .Page--green {
   background: #e8f7e9;
 }
+.ProblemExample {
+  padding: 30px;
+}
+.ProblemExample img {
+  max-width: 300px;
+}
+.PageProblem {
+  padding: 30px 0;
+}
+.Height90px {
+  height: 90px;
+}
+.BoringContent p {
+  font-size: 24px;
+}
+.BoringContent li {
+  font-size: 24px;
+  margin-left: 15px;
 
+}
+.BoringContent ul {
+}
+.BoringContent li:before {
+  content: '-';
+  position: relative;
+  display: inline;
+  left: -15px;
+}
+.VertPad {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
+.Page--bordered {
+  border-bottom: 1px solid #ddd;
+  /*padding-top: 30px;*/
+  /*padding-bottom: 30px;*/
+}
+.SlideTitle {
+  font-size: 36px;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+  padding-top: 5vh;
+}
+.PageFillScreen {
+  min-height: 100vh;
+}
 
+.Page--gray {
+  background: #f8f8f8;
+}
 
-
+.ContentFrame {
+  max-width: 980px;
+  padding: 30px 40px;
+  margin: 0 auto;
+}
 
 
 
