@@ -13,7 +13,6 @@ import random_name from 'node-random-name';
 const contractAddress = '0x13cdd4059841d7648cb265a08e5b15821b85ff14';
 
 
-
 let Color = new ColorHash({saturation: 0.5});
 const Search = Input.Search;
 
@@ -134,7 +133,7 @@ class App extends Component {
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
-      let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
+      let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
       console.log(trustValues);
 
       for (i = 0; i < nodeList.length; i++) {

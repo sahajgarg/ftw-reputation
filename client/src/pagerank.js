@@ -61,7 +61,11 @@ const compute_page_rank = (adj_matrix, rank_source, personalization) => {
 	}
 	var principal = [];
 	numeric._getCol(eig_ans['E']['x'], index, principal);
-	principal = numeric.div(principal, numeric.sum(principal))
+	
+	if(principal[0] < 0) 
+		principal = numeric.mul(principal, -1)
+
+	principal = numeric.div(principal, Math.max.apply(null, principal));
 
 	return principal;
 }
@@ -80,11 +84,18 @@ const calculate_trust = (data, rank_source=null, pubkey_rank_source=null, person
 	else if (pubkey_rank_source != null)
 	{
 		rank_source = new Array(node_list.length).fill(0);
-		rank_source[node_list.indexOf(pubkey_rank_source)] = 1
+		var index = node_list.indexOf(pubkey_rank_source);
+		if(index == -1) 
+		{
+			rank_source = new Array(node_list.length).fill(1.0/node_list.length);
+
+		} else 
+		{
+			rank_source[node_list.indexOf(pubkey_rank_source)] = 1;
+		}
 	}
 
 	var adj_matrix = construct_graph(node_list, truster_list, trustee_list, trust_rating_list, rank_source);
-	console.log(adj_matrix)
 	var trust_values = compute_page_rank(adj_matrix, rank_source, personalization);
 	
 	return trust_values;
