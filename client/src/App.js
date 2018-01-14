@@ -10,11 +10,15 @@ import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
-import ImgLedgerNano from'./ledgerNano.png';
+// import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
 
 var contractAddress = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
 
+
+let logDebug = (message) => {
+  // console.log(message)
+}
 
 let Color = new ColorHash({saturation: 0.5});
 const Search = Input.Search;
@@ -25,6 +29,8 @@ class App extends Component {
 
     this.graphAPI = {
       updateTo: (data) => {}, // This will get updated with a function from Graph.js
+      hover: (id) => {},
+      offHover: id => {},
     };
 
 
@@ -102,7 +108,7 @@ class App extends Component {
       try {
         this.retrieve();
       } catch(e) {
-        console.log('Retrieve ',e)
+        logDebug('Retrieve ',e)
         this.setState({
           explorerState: 'error',
         })
@@ -115,29 +121,29 @@ class App extends Component {
       return;
     }
     this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount, gas: 1000000}).then((error, response) => {
-      console.log('updated')
-      console.log(error)
-      console.log(response)
+      logDebug('updated')
+      logDebug(error)
+      logDebug(response)
     });
   }
 
   // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
   retrieve(callback) {
-    console.log('Starting retrieval');
+    logDebug('Starting retrieval');
     var nodeList;
     var trusterList;
     var trusteeList;
     var ratingList;
 
     if (!this.state.trustGraphInstance) {
-      console.log('Ending retrieval')
+      logDebug('Ending retrieval')
       return;
     }
 
     var trustGraphInstance = this.state.trustGraphInstance;
     trustGraphInstance.getNodeList.call().then((result) => {
       nodeList = result;
-      console.log(result);
+      logDebug(result);
       return trustGraphInstance.getTrusterList.call();
     }).then((result) => {
       trusterList = result;
@@ -169,10 +175,10 @@ class App extends Component {
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
-      console.log(this.state.rankSource);
-      console.log(this.state.web3.eth.defaultAccount);
+      logDebug(this.state.rankSource);
+      logDebug(this.state.web3.eth.defaultAccount);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
-      console.log(trustValues);
+      logDebug(trustValues);
 
       var randomName;
       for (i = 0; i < nodeList.length; i++) {
@@ -192,7 +198,7 @@ class App extends Component {
         })
       }
 
-      console.log('Close to updating')
+      logDebug('Close to updating')
 
       let setInitialUpdated = false;
 
@@ -216,7 +222,7 @@ class App extends Component {
         peerObjs: peerObjs
       });
 
-      console.log('done retreiving and calculating pagerank!!')
+      logDebug('done retreiving and calculating pagerank!!')
     });
   }
 
@@ -237,25 +243,25 @@ class App extends Component {
     // Get accounts.
 
     this.state.web3.version.getNetwork((error, id) => {
-      if (id == '3') {
+      if (id == '3' || id == '77') {
         contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
-      }
+      } 
       try {
         trustGraph.at(contractAddress).then((instance) => {
           trustGraphInstance = instance
           this.setState({trustGraphInstance: trustGraphInstance});
         }).then(() => {
           this.retrieve(() => {
-            console.log('done');
+            logDebug('done');
           })
         })
         .catch((e) => {
-          console.log('Promise error')
+          logDebug('Promise error')
           console.error(e)
         })
       } catch(e) {
         setTimeout(() => {
-          console.log('Retrying instantiateContract()')
+          logDebug('Retrying instantiateContract()')
           this.instantiateContract();
         }, 2500)
 
@@ -539,7 +545,15 @@ class App extends Component {
           let lightBackgroundStyle = {
             background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
           }
-          peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
+          peerItems.push(<div className="PeerWrap"
+            onMouseEnter={() => {
+              console.log('on',peer.id)
+              this.graphAPI.hover(peer.id)
+            }}
+            onMouseLeave={() => {
+              console.log('off',peer.id)
+              this.graphAPI.offHover(peer.id)
+            }}><div className="Peer" key={peer.id} style={colorStyle}>
             <div className="PeerContent" style={lightBackgroundStyle}>
               <div className="PeerContent__title">
                 <div className="PeerContent__title__name">
@@ -552,7 +566,6 @@ class App extends Component {
               <div className="PeerContent__id">
                 {peer.id}
               </div>
-
             </div>
 
             <div className="PeerRating">
@@ -562,9 +575,9 @@ class App extends Component {
                 this.updateEdge(peer.id, value);
 
                 console.log('Setting peer ' + peer.id + ' to ' + value)
-
               }} />
             </div>
+          </div>
           </div>)
         }
 

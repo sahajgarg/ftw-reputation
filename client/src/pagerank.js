@@ -42,13 +42,13 @@ const construct_graph = (node_list, truster_list, trustee_list, trust_rating_lis
 }
 
 const compute_page_rank = (adj_matrix, rank_source, personalization) => {
-	var rank_source_matrix = numeric.dot(numeric.transpose([rank_source]), 
+	var rank_source_matrix = numeric.dot(numeric.transpose([rank_source]),
 		[new Array(adj_matrix.length).fill(1)]);
 
-	var pagerank_matrix = numeric.add(numeric.mul((1-personalization), adj_matrix), 
+	var pagerank_matrix = numeric.add(numeric.mul((1-personalization), adj_matrix),
 		numeric.mul(personalization, rank_source_matrix));
 
-	console.log(pagerank_matrix)
+	// console.log(pagerank_matrix)
 
 	var start = numeric.transpose([rank_source]);
 	for (var i = 0; i < 100; i++) {
@@ -71,7 +71,7 @@ const compute_page_rank = (adj_matrix, rank_source, personalization) => {
 	var principal = [];
 	numeric._getCol(eig_ans['E']['x'], index, principal);
 
-	if(principal[0] < 0) 
+	if(principal[0] < 0)
 		principal = numeric.mul(principal, -1)
 */
 	principal = numeric.div(principal, Math.max.apply(null, principal));
@@ -81,7 +81,7 @@ const compute_page_rank = (adj_matrix, rank_source, personalization) => {
 
 const calculate_trust = (data, rank_source, pubkey_rank_source, personalization = 0.15) => {
 	var node_list = data['node_list'];
-	if(node_list.length == 0) 
+	if(node_list.length == 0)
 	{
 		return null;
 	}
@@ -90,7 +90,7 @@ const calculate_trust = (data, rank_source, pubkey_rank_source, personalization 
 	var trust_rating_list = data['trust_rating_list'];
 	var rank_source;
 
-	if (pubkey_rank_source == undefined && rank_source == undefined) 
+	if (pubkey_rank_source == undefined && rank_source == undefined)
 	{
 		rank_source = new Array(node_list.length).fill(1.0/node_list.length);
 	}
@@ -102,11 +102,11 @@ const calculate_trust = (data, rank_source, pubkey_rank_source, personalization 
 		rank_source = new Array(node_list.length).fill(0);
 		var index = node_list.indexOf(pubkey_rank_source.toLowerCase());
 		//console.log(index)
-		if(index == -1) 
+		if(index == -1)
 		{
 			rank_source = new Array(node_list.length).fill(1.0/node_list.length);
 
-		} else 
+		} else
 		{
 			rank_source[index] = 1;
 		}
@@ -116,7 +116,7 @@ const calculate_trust = (data, rank_source, pubkey_rank_source, personalization 
 
 	var adj_matrix = construct_graph(node_list, truster_list, trustee_list, trust_rating_list, rank_source);
 	var trust_values = compute_page_rank(adj_matrix, rank_source, personalization);
-	
+
 	return trust_values;
 }
 
