@@ -12,6 +12,7 @@ class Graph extends Component {
 
     this.myGraph;
     this.initted = false;
+    window.currentHover = null;
 
     this.myGraph = ForceGraph3D();
 
@@ -64,6 +65,16 @@ class Graph extends Component {
       }
       console.log('ACTUALLLY to updating')
       latestData = data;
+      this.myGraph.graphData(latestData);
+    }
+    this.props.graphAPIObj.hover = id => {
+      window.currentHover = id;
+      this.myGraph.graphData(latestData);
+    }
+    this.props.graphAPIObj.offHover = id => {
+      if (window.currentHover === id) {
+        window.currentHover = null;
+      }
       this.myGraph.graphData(latestData);
     }
   }

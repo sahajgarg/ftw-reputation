@@ -10,11 +10,15 @@ import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
-import ImgLedgerNano from'./ledgerNano.png';
+// import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
 
 var contractAddress = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
 
+
+let logDebug = (message) => {
+  // console.log(message)
+}
 
 let Color = new ColorHash({saturation: 0.5});
 const Search = Input.Search;
@@ -25,6 +29,8 @@ class App extends Component {
 
     this.graphAPI = {
       updateTo: (data) => {}, // This will get updated with a function from Graph.js
+      hover: (id) => {},
+      offHover: id => {},
     };
 
 
@@ -102,7 +108,7 @@ class App extends Component {
       try {
         this.retrieve();
       } catch(e) {
-        console.log('Retrieve ',e)
+        logDebug('Retrieve ',e)
         this.setState({
           explorerState: 'error',
         })
@@ -115,29 +121,29 @@ class App extends Component {
       return;
     }
     this.state.trustGraphInstance.addEdge(trustee, rating, {from: this.state.web3.eth.defaultAccount, gas: 1000000}).then((error, response) => {
-      console.log('updated')
-      console.log(error)
-      console.log(response)
+      logDebug('updated')
+      logDebug(error)
+      logDebug(response)
     });
   }
 
   // Set state -- node_list, truster_list, trustee_list, rating_list, trust_score_list
   retrieve(callback) {
-    console.log('Starting retrieval');
+    logDebug('Starting retrieval');
     var nodeList;
     var trusterList;
     var trusteeList;
     var ratingList;
 
     if (!this.state.trustGraphInstance) {
-      console.log('Ending retrieval')
+      logDebug('Ending retrieval')
       return;
     }
 
     var trustGraphInstance = this.state.trustGraphInstance;
     trustGraphInstance.getNodeList.call().then((result) => {
       nodeList = result;
-      console.log(result);
+      logDebug(result);
       return trustGraphInstance.getTrusterList.call();
     }).then((result) => {
       trusterList = result;
@@ -169,10 +175,10 @@ class App extends Component {
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
-      console.log(this.state.rankSource);
-      console.log(this.state.web3.eth.defaultAccount);
+      logDebug(this.state.rankSource);
+      logDebug(this.state.web3.eth.defaultAccount);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
-      console.log(trustValues);
+      logDebug(trustValues);
 
       var randomName;
       for (i = 0; i < nodeList.length; i++) {
@@ -192,7 +198,7 @@ class App extends Component {
         })
       }
 
-      console.log('Close to updating')
+      logDebug('Close to updating')
 
       let setInitialUpdated = false;
 
@@ -216,7 +222,7 @@ class App extends Component {
         peerObjs: peerObjs
       });
 
-      console.log('done retreiving and calculating pagerank!!')
+      logDebug('done retreiving and calculating pagerank!!')
     });
   }
 
@@ -246,16 +252,16 @@ class App extends Component {
           this.setState({trustGraphInstance: trustGraphInstance});
         }).then(() => {
           this.retrieve(() => {
-            console.log('done');
+            logDebug('done');
           })
         })
         .catch((e) => {
-          console.log('Promise error')
+          logDebug('Promise error')
           console.error(e)
         })
       } catch(e) {
         setTimeout(() => {
-          console.log('Retrying instantiateContract()')
+          logDebug('Retrying instantiateContract()')
           this.instantiateContract();
         }, 2500)
 
@@ -437,11 +443,13 @@ class App extends Component {
           <div className="BoringContent ContentFrame">
             <p>We <strong>personalize</strong> reputation:</p>
             <ul>
-              <li>Create a <strong>web of trust</strong> by asssigning trust to my friends (and indirectly their friends, etc).</li>
-              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who I trust.</li>
+              <li>We create a <strong>web of trust</strong> on the blockchain by asssigning trust to my friends (and indirectly their friends, etc).</li>
+              <li>Use a modified version of Google's PageRank algorithm that we implemented to calculate trust ratings based on who you trust.</li>
             </ul>
             <br />
             <p>We put it on the Ethereum and POA Network blockchains. That way, there's no centralized repository that may have conflicts of interest.</p>
+            <br />
+            <p>On top of it, we build a NodeJS library through which arbitrary dapps can interact with reputation.</p>
           </div>
         </div>
 
@@ -487,6 +495,7 @@ class App extends Component {
               <li>The PageRank Citation Ranking: Bringing Order to the Web</li>              
               <li>Manipulability of PageRank under Sybil Strategies</li>              
               <li>Survey of Sybil Attacks in Social Networks</li>
+              <li>A physical model for efficient ranking in networks</li>
             </ol>
           </div>
         </div>
@@ -536,7 +545,15 @@ class App extends Component {
           let lightBackgroundStyle = {
             background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
           }
-          peerItems.push(<div className="Peer" key={peer.id} style={colorStyle}>
+          peerItems.push(<div className="PeerWrap"
+            onMouseEnter={() => {
+              console.log('on',peer.id)
+              this.graphAPI.hover(peer.id)
+            }}
+            onMouseLeave={() => {
+              console.log('off',peer.id)
+              this.graphAPI.offHover(peer.id)
+            }}><div className="Peer" key={peer.id} style={colorStyle}>
             <div className="PeerContent" style={lightBackgroundStyle}>
               <div className="PeerContent__title">
                 <div className="PeerContent__title__name">
@@ -549,7 +566,6 @@ class App extends Component {
               <div className="PeerContent__id">
                 {peer.id}
               </div>
-
             </div>
 
             <div className="PeerRating">
@@ -559,9 +575,9 @@ class App extends Component {
                 this.updateEdge(peer.id, value);
 
                 console.log('Setting peer ' + peer.id + ' to ' + value)
-
               }} />
             </div>
+          </div>
           </div>)
         }
 

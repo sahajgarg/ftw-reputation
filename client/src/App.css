@@ -427,9 +427,11 @@ Green = #68c86f
 .Peer {
   border: 1px solid;
   /*background: skyblue;*/
-  margin: 6px 10px;
   border-radius: 4px;
   border-color: orange;
+}
+.PeerWrap {
+  padding: 6px 10px;
 }
 .PeerNew {
   border: 1px solid #444;
