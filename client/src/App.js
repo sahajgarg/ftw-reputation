@@ -329,7 +329,7 @@ class App extends Component {
         </div>
         <div className="AppHeader__bottom">
           <div className="AppHeader__bottom__links">
-            <a className="TODO">Github</a>
+            <a href="https://github.com/sahajgarg/ftw-reputation">Github</a>
           </div>
         </div>
       </header>
