@@ -42,7 +42,7 @@ class App extends Component {
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      trustGraph.deployed().then((instance) => {
+      trustGraph.at('0xb9a6fd9c1bcc651e0dc9b9ca666983f435f2c22e').then((instance) => {
         trustGraphInstance = instance
 
         // Stores a given value, 5 by default.
@@ -55,7 +55,8 @@ class App extends Component {
         var trusteeList = result[1];
         var ratingList = result[2];
 
-        for (var i = 0; i < result.length; i++) {
+
+        for (var i = 0; i < trusterList.length; i++) {
           trusterList[i] = trusterList[i].toNumber();
           trusteeList[i] = trusteeList[i].toNumber();
           ratingList[i] = ratingList[i].toNumber();
