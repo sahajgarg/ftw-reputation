@@ -111,25 +111,32 @@ class App extends Component {
 
       let peerObjs = [
         {
-          id: 'me'
+          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+          name: 'Name Is Super Long And Waaoowowwwowoigaods',
         },
         {
-          id: 'me2'
+          id: 'me2',
+          name: 'Name',
         },
         {
-          id: 'me3'
+          id: 'me3',
+          name: 'Name',
         },
         {
-          id: 'me32'
+          id: 'me32',
+          name: 'Name',
         },
         {
-          id: 'me33'
+          id: 'me33',
+          name: 'Name',
         },
         {
-          id: 'me52'
+          id: 'me52',
+          name: 'Name',
         },
         {
-          id: 'me53'
+          id: 'me53',
+          name: 'Name',
         }
       ];
 
@@ -140,7 +147,20 @@ class App extends Component {
         console.log(peer)
         peerItems.push(<div className="Peer" key={peer.id}>
           <div className="PeerContent">
-            {peer.id}
+            <div className="PeerContent__title">
+              <div className="PeerContent__title__name">
+                {peer.name}
+              </div>
+              <div className="PeerContent__title__rating">
+                5.0/5
+              </div>
+            </div>
+            <div className="PeerContent__id">
+              {peer.id}
+            </div>
+            <div className="PeerContent__body">
+              red
+            </div>
 
           </div>
 

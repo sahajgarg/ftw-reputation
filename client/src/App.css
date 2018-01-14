@@ -42,7 +42,6 @@ Green = #68c86f
 }
 .AppHeader .letter {
   color: #000;
-  font-weight: 800;
 }
 .AppHeader__top {
   width: 160px;
@@ -52,6 +51,8 @@ Green = #68c86f
   color: #999;
   padding: 16px;
   padding-bottom: 30px;
+  line-height: 1.5;
+  font-weight: 800;
 }
 .AppHeader__top nav {
   display: flex;
@@ -120,7 +121,7 @@ Green = #68c86f
 }
 .Explorer__content__myTrust {
   /*background: blue;*/
-  width: 240px;
+  width: 280px;
   /*border-left: 1px solid #ddd;*/
 
 }
@@ -157,17 +158,52 @@ Green = #68c86f
   flex-direction: column;
 }
 .Peer {
-  border: 1px solid blue;
+  border: 1px solid;
   /*background: skyblue;*/
   margin: 8px;
   border-radius: 4px;
+  border-color: orange;
 }
 
 .PeerContent {
-  padding: 16px;
+  /*padding: 16px;*/
+  border-color: inherit;
+}
+.PeerContent__title {
+  display: flex;
+  /*height: 40px;*/
+}
+.PeerContent__title__name {
+  flex-grow: 1;
+  /*background: orange;*/
+  font-size: 16px;
+  padding: 8px 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.PeerContent__title__rating {
+  /*width: 20px;*/
+  background: #eee;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 3px 8px;
+  text-align: center;
+  border-radius: 0 4px 0 8px;
+}
+.PeerContent__id {
+  word-break: break-all;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-bottom: 1px solid;
+  border-color: inherit;
 }
 .PeerRating {
-  border-top: 1px solid blue;
+  border-top: 1px solid;
+  border-color: inherit;
+  padding: 8px;
+}
+.PeerContent__body {
   padding: 8px;
 }
 .PeerRating .ant-slider {
