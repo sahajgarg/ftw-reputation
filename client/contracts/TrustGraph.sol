@@ -28,10 +28,10 @@ contract TrustGraph {
         
         //require(nodes[node] != 0);
 
-        numNodes++;
         nodeList.push(addr);
+        numNodes++;
         nodes[addr] = numNodes;
-        return numNodes;
+        return numNodes - 1;
 
     }
 

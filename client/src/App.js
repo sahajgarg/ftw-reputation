@@ -22,6 +22,43 @@ class App extends Component {
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      peerObjs: [
+        {
+          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+          name: 'Name Is Super Long And Waaoowowwwowoigaods',
+          rating: 5,
+        },
+        {
+          id: 'me2',
+          name: 'Name',
+          rating: 4,
+        },
+        {
+          id: 'me3',
+          name: 'Name',
+          rating: 3,
+        },
+        {
+          id: 'me32',
+          name: 'Name',
+          rating: 2,
+        },
+        {
+          id: 'me33',
+          name: 'Name',
+          rating: 0,
+        },
+        {
+          id: 'me52',
+          name: 'Name',
+          rating: 0,
+        },
+        {
+          id: 'me53',
+          name: 'Name',
+          rating: 0,
+        }
+      ]
     };
   }
 
@@ -46,6 +83,10 @@ class App extends Component {
     .catch(() => {
       console.log('Error finding web3.')
     })
+
+    setInterval(() => {
+      this.retrieve();
+    }, 5000)
   }
 
   updateEdge(trustee, rating) {
@@ -139,48 +180,10 @@ class App extends Component {
       //   results
       // </div>
 
-      let peerObjs = [
-        {
-          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
-          name: 'Name Is Super Long And Waaoowowwwowoigaods',
-          rating: 5,
-        },
-        {
-          id: 'me2',
-          name: 'Name',
-          rating: 4,
-        },
-        {
-          id: 'me3',
-          name: 'Name',
-          rating: 3,
-        },
-        {
-          id: 'me32',
-          name: 'Name',
-          rating: 2,
-        },
-        {
-          id: 'me33',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me52',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me53',
-          name: 'Name',
-          rating: 0,
-        }
-      ];
-
       let peerItems = [];
 
-      for (let index in peerObjs) {
-        let peer = peerObjs[index];
+      for (let index in this.state.peerObjs) {
+        let peer = this.state.peerObjs[index];
         let show = false;
 
         if (this.state.filterText !== undefined) {
@@ -232,7 +235,11 @@ class App extends Component {
             <div className="PeerRating">
               Rate this user:
               <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
+
+                this.updateEdge(peer.id, value);
+
                 console.log('Setting peer ' + peer.id + ' to ' + value)
+
               }} />
             </div>
           </div>)
