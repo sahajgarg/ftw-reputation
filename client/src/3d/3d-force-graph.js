@@ -135,16 +135,16 @@ export default Kapsule({
     // Add nav info section
     domNode.appendChild(state.navInfo = document.createElement('div'));
     state.navInfo.className = 'graph-nav-info';
-    state.navInfo.textContent = "MOVE mouse & press LEFT/A: rotate, MIDDLE/S: zoom, RIGHT/D: pan";
+    state.navInfo.innerHTML = "Rotate: LEFT drag<br />Zoom: scroll<br />Pan: RIGHT drag";
 
     // Add info space
     let infoElem;
     domNode.appendChild(infoElem = document.createElement('div'));
     infoElem.className = 'graph-info-msg';
-    infoElem.textContent = '';
-    state.forceGraph.onLoading(() => { infoElem.textContent = 'Loading...' });
+    infoElem.innerHTML = '';
+    state.forceGraph.onLoading(() => { infoElem.innerHTML = 'Loading...' });
     state.forceGraph.onFinishLoading(() => {
-      infoElem.textContent = '';
+      infoElem.innerHTML = '';
 
       // re-aim camera, if still in default position (not user modified)
       if (state.camera.position.x === 0 && state.camera.position.y === 0 && state.camera.position.z === state.lastSetCameraZ) {
@@ -196,9 +196,9 @@ export default Kapsule({
     domNode.appendChild(state.renderer.domElement);
     let tbControls = new ThreeTrackballControls(state.camera, state.renderer.domElement);
 
-    tbControls.panSpeed = 0.2
-    tbControls.dynamicDampingFactor = 0.08
-    tbControls.rotateSpeed = 2;
+    tbControls.panSpeed = 0.05
+    tbControls.dynamicDampingFactor = 0.05
+    tbControls.rotateSpeed = 1;
     state.renderer.setSize(state.width, state.height);
     state.camera.far = 20000;
 

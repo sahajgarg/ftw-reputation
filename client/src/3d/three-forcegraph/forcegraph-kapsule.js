@@ -9,6 +9,7 @@ import {
   Mesh,
   MeshLambertMaterial,
   MeshPhysicalMaterial,
+  TextureLoader,
   Line,
   LineBasicMaterial
 } from 'three';
@@ -31,7 +32,6 @@ import accessorFn from 'accessor-fn';
 import { autoColorObjects, colorStr2Hex } from './color-utils';
 
 
-
 const three = window.THREE
   ? window.THREE // Prefer consumption from global THREE, if exists
   : {
@@ -41,12 +41,20 @@ const three = window.THREE
     Mesh,
     MeshLambertMaterial,
     MeshPhysicalMaterial,
+    TextureLoader,
     Line,
     LineBasicMaterial
   };
 const ngraph = { graph, forcelayout, forcelayout3d };
 
 //
+
+// var texture = new three.TextureLoader().load( "./checker.png" );
+// texture.wrapS = three.RepeatWrapping;
+// texture.wrapT = three.RepeatWrapping;
+// texture.repeat.set( 4, 4 );
+
+
 
 export default Kapsule({
 
@@ -79,7 +87,7 @@ export default Kapsule({
     nodeResolution: { default: 8 }, // how many slice segments in the sphere's circumference
     nodeColor: { default: 'color' },
     nodeAutoColorBy: {},
-    nodeOpacity: { default: 0.75 },
+    nodeOpacity: { default: 0.9 },
     nodeThreeObject: {},
     linkSource: { default: 'source' },
     linkTarget: { default: 'target' },
