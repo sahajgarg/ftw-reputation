@@ -432,7 +432,7 @@ class App extends Component {
               <p>The core challenge: <strong>sybil attacks</strong>. </p>
               <ul>
                 <li>What if a scammer creates a hundred fake identities that all rate him highly?</li>
-                <li>Traditional systems solve it through centralized identity verification.</li>
+                <li>Traditional systems solve this problem through centralized identity verification.</li>
                 <li>For decentralized, pseudononymous systems, we need something better.</li>
               </ul>
             </div>
