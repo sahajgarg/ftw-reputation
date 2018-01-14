@@ -76,9 +76,15 @@ const compute_page_rank = (adj_matrix, rank_source, personalization) => {
 	pagerank_matrix = numeric.add(numeric.mul((1-personalization), adj_matrix), 
 		numeric.mul(personalization, rank_source_matrix));
 
-	
+	eig_ans = numeric.eig(pagerank_matrix);
+	real_condition = numeric.leq(numeric.abs(numeric.sub(eig_ans['lambda']['x'],1)), 0.01);
+	imag_condition = numeric.leq(numeric.abs(eig_ans['lambda']['y']), 0.01);
+	index = numeric.and(real_condition, imag_condition).indexOf(true);
+	principal = [];
+	numeric._getCol(eig_ans['E']['x'], index, principal);
+	principal = numeric.div(principal, numeric.sum(principal))
 
-	return null;
+	return principal;
 }
 
 const calculate = (data, rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
@@ -100,7 +106,7 @@ const calculate = (data, rank_source=null, pubkey_rank_source=null, personalizat
 
 	trust_values = compute_page_rank(adj_matrix, rank_source, personalization);
 	console.log(trust_values);
-	console.log(rank_source)
+	//console.log(rank_source)
 	
 	//ratings = compute_overall_ratings(global_rating_list, trust_values)
 

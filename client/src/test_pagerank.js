@@ -8,5 +8,5 @@ trust_rating_list = [1, 1, 1, 1, 1, 1]
 data = {'node_list': node_list, 'truster_list': truster_list, 
 	'trustee_list': trustee_list, 'trust_rating_list': trust_rating_list};
 
-tester(data)
+tester(data, undefined, '0')
 
