@@ -9,6 +9,9 @@ import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js';
 import random_name from 'node-random-name';
+import ImgOpenBazaar from'./openBazaar.png';
+import ImgLedgerNano from'./ledgerNano.png';
+import ImgEbay from'./ebay.png';
 
 const contractAddress = '0xa8c7c4b98d057022f0c42cda36e844840655ef2b';
 
@@ -172,7 +175,6 @@ class App extends Component {
       } else if (this.state.trusterList.length != trusterList.length) {
         this.graphAPI.updateTo(graphData); 
       }
-      
 
       this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues, peerObjs: peerObjs});
 
@@ -202,6 +204,49 @@ class App extends Component {
       })
     })
   }
+
+
+  componentDidMount() {
+    console.log('hi')
+    window.$(document).keydown(e => {
+      if (this.state.page !== '') {
+        return;
+      }
+      if (e.keyCode !== 39 && e.keyCode !== 37 ) {
+        return;
+      }
+
+      let pages = document.getElementsByClassName('Page')
+      let currentPage = 0;
+      for (let i = 0; i < pages.length; i++) {
+        let pageOffset = window.$(pages[i]).offset().top;
+        if (pageOffset < -200) {
+          currentPage += 1;
+        }
+      }
+
+      let targetPage = currentPage;
+
+      if (e.keyCode === 39) {
+        // right
+        targetPage += 1;
+        if (targetPage >= pages.length) {
+          targetPage = pages.length - 1;
+        }
+      } else if (e.keyCode === 37) {
+        // left
+        targetPage -= 1;
+        if (targetPage < 0) {
+          targetPage = 0;
+        }
+      }
+
+      window.$('#App-content').animate({
+        scrollTop: window.$('#App-content').scrollTop() + window.$(pages[targetPage]).offset().top + 1
+      }, 300);
+  });
+  }
+
   render() {
     let headerNavOverviewClass = this.state.page === '' ? 'active' : '';
     let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
@@ -209,7 +254,7 @@ class App extends Component {
     let header = (
       <header className="AppHeader">
         <div className="AppHeader__top">
-          <a href="#" className="AppHeader__top__titleLink" onClick={() => {this.setState({page: 'overview'})}}><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
+          <a href="#" className="AppHeader__top__titleLink"><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
           <nav>
             <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
             <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
@@ -226,7 +271,7 @@ class App extends Component {
     let content = <div>Unknown page: {this.state.page}</div>
 
     if (this.state.page === '') {
-      content = <div>
+      content = <div id="Overview">
         <div className="Page PageIntro">
           <Particles />
           <div className="VertCenter Page__content PageIntro__content">
@@ -240,7 +285,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div className="Page Page--paper PageTeam">
+        <div className="Page Page--paper PageTeam PageFillScreen">
           <div className="TwoBy TeamContainer">
             <div className="TwoBy__40 TeamSection__Name VertCenter">
             </div>
@@ -289,6 +334,68 @@ class App extends Component {
             </div>
           </div>
         </div>
+
+        <div className="Page PageFillScreen PageProblem Page--bordered">
+          <div className="SlideTitle">Real world problems</div>
+          <div className="ContentFrame">
+            <div className="BoringContent">
+              <p>Woof Woof</p>
+            </div>
+            <div className="VertPad"></div>
+            <div className="TwoBy">
+              <div className="ProblemExample">
+                <div className="Height90px">
+                  <img src={ImgOpenBazaar} />
+                </div>
+                <div className="BoringContent">
+                  <div className="VertPad">
+                    <ul>
+                      <li>Meow</li>
+                      <li>Blah</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="ProblemExample">
+                <div className="Height90px" style={{paddingTop: '30px'}}>
+                  <img src={ImgEbay}  width="123"/>
+                </div>
+                <div className="BoringContent">
+                  <div className="VertPad">
+                    <ul>
+                      <li>Meow</li>
+                      <li>Blah</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="Page PageFillScreen Page--gray">
+          <div className="SlideTitle">Use Case: Marketplace Reputation</div>
+          <div className="BoringContent ContentFrame">
+            <p>Overcrowding in ICOs</p>
+          </div>
+        </div>
+
+
+        <div className="Page PageFillScreen Page--graph">
+          <div className="SlideTitle">What we built at the hackathon</div>
+          <div className="BoringContent ContentFrame">
+            <p>Overcrowding in ICOs</p>
+            <br />
+            <ul>
+              <li>asdf</li>
+              <li>asdf</li>
+              <li>asdf</li>
+              <li>asdf</li>
+              <li>asdf</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     } else if (this.state.page === 'explorer') {
       // let sink = <div className="Explorer__sink">
@@ -416,7 +523,7 @@ class App extends Component {
     return (
       <div className="App">
         {header}
-        <div className="App-content">
+        <div id="App-content">
           {content}
         </div>
       </div>
