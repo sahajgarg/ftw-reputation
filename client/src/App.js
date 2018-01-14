@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgEbay from'./ebay.png';
 
-const contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
+var contractAddress = '0x94f90ba9390c5fb4f662913d594b004d2f7e8e8c';
 
 
 let Color = new ColorHash({saturation: 0.5});
@@ -87,14 +87,15 @@ class App extends Component {
       })
       // Instantiate contract once web3 provided.
       this.instantiateContract();
+      setInterval(() => {
+        this.retrieve();
+      }, 1000)
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
 
-    setInterval(() => {
-      this.retrieve();
-    }, 1000)
+    
   }
 
   updateEdge(trustee, rating) {
@@ -214,15 +215,22 @@ class App extends Component {
     var trustGraphInstance
 
     // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      trustGraph.at(contractAddress).then((instance) => {
-        trustGraphInstance = instance
-        this.setState({trustGraphInstance: trustGraphInstance});
 
-        this.state.web3.eth.defaultAccount = accounts[0];
-      }).then(() => {
-        this.retrieve(() => {
-          console.log('done');
+
+    this.state.web3.eth.net.getId((error, id) => {
+      if (id == '3') {
+        contractAddress = '0x59F06FB20057142E6996a530FaFe928E151d36EE'
+      }
+      this.state.web3.eth.getAccounts((error, accounts) => {
+        trustGraph.at(contractAddress).then((instance) => {
+          trustGraphInstance = instance
+          this.setState({trustGraphInstance: trustGraphInstance});
+
+          this.state.web3.eth.defaultAccount = accounts[0];
+        }).then(() => {
+          this.retrieve(() => {
+            console.log('done');
+          })
         })
       })
     })
