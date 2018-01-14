@@ -27,48 +27,50 @@ class App extends Component {
       updateTo: (data) => {}, // This will get updated with a function from Graph.js
     };
 
+
     this.state = {
       page: window.location.hash.replace('#',''), // '' (overview), explorer
       filterText: '',
       filterMin: 0,
       filterMax: 5,
+      explorerState: 'loading', // 'error', 'loaded'
       initialLoaded: false,
       peerObjs: [
-        {
-          id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
-          name: 'Name Is Super Long And Waaoowowwwowoigaods',
-          rating: 5,
-        },
-        {
-          id: 'me2',
-          name: 'Name',
-          rating: 4,
-        },
-        {
-          id: 'me3',
-          name: 'Name',
-          rating: 3,
-        },
-        {
-          id: 'me32',
-          name: 'Name',
-          rating: 2,
-        },
-        {
-          id: 'me33',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me52',
-          name: 'Name',
-          rating: 0,
-        },
-        {
-          id: 'me53',
-          name: 'Name',
-          rating: 0,
-        }
+        // {
+        //   id: '0x81f4019579b012a28515aa8bf0ea44d66f38f73b',
+        //   name: 'Name Is Super Long And Waaoowowwwowoigaods',
+        //   rating: 5,
+        // },
+        // {
+        //   id: 'me2',
+        //   name: 'Name',
+        //   rating: 4,
+        // },
+        // {
+        //   id: 'me3',
+        //   name: 'Name',
+        //   rating: 3,
+        // },
+        // {
+        //   id: 'me32',
+        //   name: 'Name',
+        //   rating: 2,
+        // },
+        // {
+        //   id: 'me33',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me52',
+        //   name: 'Name',
+        //   rating: 0,
+        // },
+        // {
+        //   id: 'me53',
+        //   name: 'Name',
+        //   rating: 0,
+        // }
       ]
     };
   }
@@ -188,13 +190,6 @@ class App extends Component {
       let setInitialUpdated = false;
 
       if (!this.state.initialUpdated && this.state.page === 'explorer') {
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
-        console.log('May the force')
         setInitialUpdated = true;
         this.graphAPI.updateTo(graphData);
       } else if (!this.state.trusterList) {
@@ -209,6 +204,7 @@ class App extends Component {
         trusteeList: trusteeList,
         ratingList: ratingList,
         trustValues: trustValues,
+        explorerState: 'loaded',
         initialUpdated: setInitialUpdated || this.state.initialUpdated,
         peerObjs: peerObjs
       });
@@ -242,6 +238,9 @@ class App extends Component {
           console.log('error', e)
         })
       } catch(e) {
+        this.setState({
+          explorerState: 'error',
+        })
         console.error(e)
       }
     })
@@ -559,7 +558,26 @@ class App extends Component {
         5: '5',
       };
 
+      let errorText = 'loading...';
+      let errorContent;
+      if (this.state.explorerState === 'error') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      } else if (this.state.explorerState === 'loading') {
+        errorText = 'Error: Unable to reach network';
+        errorContent = <div className="Explorer__error">
+          <div className="Explorer__error__text">
+            {errorText}
+          </div>
+        </div>
+      }
+
       content = <div className="Explorer">
+        {errorContent}
         <div className="Explorer__content">
           <div className="Explorer__content__graph">
             <Graph graphAPIObj={this.graphAPI} />
