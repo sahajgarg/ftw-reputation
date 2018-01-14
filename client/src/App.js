@@ -491,13 +491,19 @@ class App extends Component {
         <div className="Page PageFillScreen">
           <div className="SlideTitle">Papers Referenced in Literature Review</div>
           <div className="BoringContent ContentFrame">
+            <br />
             <p>We read a lot of papers to devise the best method for this project. Here are the most important:</p>
-            <ol>
-              <li>The PageRank Citation Ranking: Bringing Order to the Web</li>
-              <li>Manipulability of PageRank under Sybil Strategies</li>
-              <li>Survey of Sybil Attacks in Social Networks</li>
-              <li>A physical model for efficient ranking in networks</li>
-            </ol>
+            <br />
+            <ul>
+              <li>The PageRank Citation Ranking: Bringing Order to the Web
+              <a className="citation" href="http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf">http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf</a></li>
+              <li>Manipulability of PageRank under Sybil Strategies
+              <a className="citation" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.89.3812&rep=rep1&type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.89.3812&rep=rep1&type=pdf</a></li>
+              <li>Survey of Sybil Attacks in Social Networks
+              <a className="citation" href="https://arxiv.org/pdf/1504.05522.pdf">https://arxiv.org/pdf/1504.05522.pdf</a></li>
+              <li>A physical model for efficient ranking in networks
+              <a className="citation" href="https://arxiv.org/abs/1709.09002">https://arxiv.org/abs/1709.09002</a></li>
+            </ul>
           </div>
         </div>
 

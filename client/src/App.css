@@ -498,3 +498,9 @@ Green = #68c86f
 .PeerRating .ant-slider-handle {
   border-color: currentColor !important;
 }
+.citation {
+  font-size: 16px;
+  line-height: 16px;
+  margin-bottom: 16px;
+  display: block;
+}
