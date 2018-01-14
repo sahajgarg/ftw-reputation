@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import ForceGraph3D from './3d/index';
 
+let latestData = {
+  "nodes": [],
+  "links": []
+};
+
 class Graph extends Component {
   constructor(props) {
     super(props);
@@ -8,13 +13,14 @@ class Graph extends Component {
     this.myGraph;
     this.initted = false;
 
+    this.myGraph = ForceGraph3D();
+
     this.init = () => {
       let data = {
           "nodes": [],
           "links": []
       };
 
-      this.myGraph = ForceGraph3D();
 
       this.myGraph.width(this.container.offsetWidth)
       this.myGraph.height(this.container.offsetHeight)
@@ -31,7 +37,7 @@ class Graph extends Component {
 
       this.myGraph.nodeResolution(24);
       this.myGraph(this.container);
-      this.myGraph.graphData(data);
+      this.myGraph.graphData(latestData);
       this.myGraph.nodeRelSize(5)
 
       this.myGraph.nodeColor(node => {
@@ -42,25 +48,6 @@ class Graph extends Component {
       })
     }
 
-    this.props.graphAPIObj.updateTo = (data) => {
-      if (!this.initted) {
-        this.init();
-        this.initted = true;
-      }
-      console.log('ACTUALLLY to updating')
-      console.log('ACTUALLLY to updating')
-      console.log('ACTUALLLY to updating')
-      console.log('ACTUALLLY to updating')
-      console.log('ACTUALLLY to updating')
-      console.log(data)
-      this.myGraph.graphData(data);
-    }
-  }
-  shouldComponentUpdate() {
-    return false;
-  }
-  componentDidMount() {
-    this.container = document.getElementById('Graph__container');
     window.addEventListener("resize",  () => {
       try {
         this.myGraph.width(this.container.offsetWidth)
@@ -69,6 +56,27 @@ class Graph extends Component {
         console.log('Unable to work')
       }
     });
+
+    this.props.graphAPIObj.updateTo = (data) => {
+      if (!this.initted) {
+        this.init();
+        this.initted = true;
+      }
+      console.log('ACTUALLLY to updating')
+      latestData = data;
+      this.myGraph.graphData(latestData);
+    }
+  }
+  shouldComponentUpdate() {
+    return false;
+  }
+  componentDidMount() {
+    this.container = document.getElementById('Graph__container');
+    this.myGraph.graphData(latestData);
+    if (!this.initted) {
+      this.init();
+      this.initted = true;
+    }
   }
   render() {
 
