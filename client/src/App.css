@@ -371,7 +371,7 @@ Green = #68c86f
 }
 .Explorer__content__myTrust {
   /*background: blue;*/
-  width: 280px;
+  width: 300px;
   /*border-left: 1px solid #ddd;*/
 
 }
@@ -463,16 +463,17 @@ Green = #68c86f
   /*background: #eee;*/
   font-size: 20px;
   font-weight: 800;
-  padding: 3px 8px;
+  padding: 3px 8px 0 8px;
   text-align: center;
   border-radius: 0 4px 0 8px;
 }
 .PeerContent__id {
   word-break: break-all;
   font-size: 10px;
-  padding: 2px 8px;
+  padding: 0 8px 5px 8px;
   /*border-bottom: 1px solid;*/
   border-color: inherit;
+  opacity: 0.8;
 }
 .PeerRating {
   border-top: 1px solid;
