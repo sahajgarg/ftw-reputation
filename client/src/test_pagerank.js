@@ -37,7 +37,8 @@ const retreive = (callback) => {
 // {node_list, node_trust_scores, ratings, truster_list, trustee_list}
 const handler = (rank_source=null, pubkey_rank_source=null, personalization=0.15) => {
 	retreive(function(data) {
-		calculate_trust(data, rank_source, pubkey_rank_source, personalization);
+		trust_values = calculate_trust(data, rank_source, pubkey_rank_source, personalization);
+		return {'node_list': data['node_list'], 'trust_values': trust_values};
 	});
 }
 
