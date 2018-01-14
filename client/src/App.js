@@ -13,7 +13,7 @@ import ImgOpenBazaar from'./openBazaar.png';
 import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
 
-var contractAddress = '0x688770523a8f74f7438b83c62b56056d69af461b';
+var contractAddress = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
 
 
 let Color = new ColorHash({saturation: 0.5});
