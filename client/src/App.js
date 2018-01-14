@@ -9,7 +9,7 @@ import TrustGraphContract from './TrustGraph.json';
 import ColorHash from 'color-hash';
 import { calculate_trust } from './pagerank.js'
 
-const contractAddress = '0xf991cb7f62d85bdb6b2cc55235d1fc2d73fb7a90';
+const contractAddress = '0xf941bf092778900b20d08cd44f0950df6af4b9f7';
 
 
 
@@ -125,7 +125,7 @@ class App extends Component {
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
       //console.log(nodeList);
-      let trustValues = calculate_trust(data, this.state.rankSource, this.state.pubkeyRankSource);
+      let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
       console.log(trustValues);
       this.setState({nodeList: nodeList, trusterList: trusterList, trusteeList: trusteeList, ratingList: ratingList, trustValues: trustValues});
 
