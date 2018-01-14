@@ -490,9 +490,9 @@ class App extends Component {
         let show = false;
 
         if (this.state.filterText !== undefined) {
-          if (peer.id.indexOf(this.state.filterText) !== -1) {
+          if (peer.id.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
-          } else if (peer.name.indexOf(this.state.filterText) !== -1) {
+          } else if (peer.name.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1) {
             show = true;
           }
         } else {
