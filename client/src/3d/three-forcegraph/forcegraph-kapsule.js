@@ -184,37 +184,44 @@ export default Kapsule({
       if (customObj) {
         obj = customObj.clone();
       } else { // Default object (sphere mesh)
-        const val = valAccessor(node) || 1;
+        let val = valAccessor(node) || 1;
+
+        // if (window.currentHover) {
+        //   val = node.id === window.currentHover ? 2 : val;
+        // }
+
         if (!sphereGeometries.hasOwnProperty(val)) {
-          sphereGeometries[val] = new three.SphereGeometry(Math.cbrt(val) * state.nodeRelSize, state.nodeResolution, state.nodeResolution);
+          let size = Math.cbrt(val) * state.nodeRelSize
+          sphereGeometries[val] = new three.SphereGeometry(size, state.nodeResolution, state.nodeResolution);
         }
 
         const color = colorAccessor(node);
         if (!sphereMaterials.hasOwnProperty(color)) {
           let thisNodeOpacity = node.opacity ? node.opacity : state.nodeOpacity;
+          console.log(thisNodeOpacity)
           if (window.currentHover) {
             console.log(window.currentHover)
-            thisNodeOpacity = node.id === window.currentHover ? 1.0 : 0.3;
+            thisNodeOpacity = node.id === window.currentHover ? 1.0 : thisNodeOpacity;
           }
-          // sphereMaterials[color] = new three.MeshLambertMaterial({
-          //   color: colorStr2Hex(color || '#ffffaa'),
-          //   transparent: true,
-          //   opacity: thisNodeOpacity
-          // });
-
-
-          sphereMaterials[color] = new three.MeshPhysicalMaterial( {
-            // map: null,
+          sphereMaterials[color] = new three.MeshLambertMaterial({
             color: colorStr2Hex(color || '#ffffaa'),
-            metalness: 0.6,
-            roughness: 0.8,
-            opacity: thisNodeOpacity,
-            // side: three.BackSide,
             transparent: true,
-            // envMapIntensity: 5,
-            // premultipliedAlpha: true
-            // TODO: Add custom blend mode that modulates background color by this materials color.
-          } );
+            opacity: thisNodeOpacity
+          });
+
+
+          // sphereMaterials[color] = new three.MeshPhysicalMaterial( {
+          //   // map: null,
+          //   color: colorStr2Hex(color || '#ffffaa'),
+          //   metalness: 0.6,
+          //   roughness: 0.8,
+          //   opacity: thisNodeOpacity,
+          //   // side: three.BackSide,
+          //   transparent: true,
+          //   // envMapIntensity: 5,
+          //   // premultipliedAlpha: true
+          //   // TODO: Add custom blend mode that modulates background color by this materials color.
+          // } );
         }
 
         obj = new three.Mesh(sphereGeometries[val], sphereMaterials[color]);

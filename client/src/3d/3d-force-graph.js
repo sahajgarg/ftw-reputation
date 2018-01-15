@@ -211,13 +211,13 @@ export default Kapsule({
     state.scene.add( light1 );
 
 
-    var light2 = new three.PointLight( 0xffffff, 0.5, 400 );
-    light2.position.set( -50, -50, 50 );
-    state.scene.add( light2 );
+    // var light2 = new three.PointLight( 0xffffff, 0.5, 400 );
+    // light2.position.set( -50, -50, 50 );
+    // state.scene.add( light2 );
 
-    var light3 = new three.PointLight( 0xffffff, 0.5, 400 );
-    light3.position.set( 50, -50, -50 );
-    state.scene.add( light3 );
+    // var light3 = new three.PointLight( 0xffffff, 0.5, 400 );
+    // light3.position.set( 50, -50, -50 );
+    // state.scene.add( light3 );
     //
 
     // Kick-off renderer

@@ -36,10 +36,10 @@ class Graph extends Component {
       // })
       // this.myGraph.backgroundColor('#ffffff');
 
-      this.myGraph.nodeResolution(24);
+      this.myGraph.nodeResolution(12);
       this.myGraph(this.container);
       this.myGraph.graphData(latestData);
-      this.myGraph.nodeRelSize(5)
+      this.myGraph.nodeRelSize(13)
 
       this.myGraph.nodeColor(node => {
         if (node.color) {
@@ -67,16 +67,16 @@ class Graph extends Component {
       latestData = data;
       this.myGraph.graphData(latestData);
     }
-    this.props.graphAPIObj.hover = id => {
-      window.currentHover = id;
-      this.myGraph.graphData(latestData);
-    }
-    this.props.graphAPIObj.offHover = id => {
-      if (window.currentHover === id) {
-        window.currentHover = null;
-      }
-      this.myGraph.graphData(latestData);
-    }
+    // this.props.graphAPIObj.hover = id => {
+    //   window.currentHover = id;
+    //   this.myGraph.graphData(latestData);
+    // }
+    // this.props.graphAPIObj.offHover = id => {
+    //   if (window.currentHover === id) {
+    //     window.currentHover = null;
+    //   }
+    //   this.myGraph.graphData(latestData);
+    // }
   }
   shouldComponentUpdate() {
     return false;

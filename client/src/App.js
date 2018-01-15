@@ -192,9 +192,8 @@ class App extends Component {
         graphData.nodes.push({
           "id": nodeList[i],
           "name": randomName,
-          "val": trustValues[i]*5,
+          "val": trustValues[i]*trustValues[i]*0.9 + 0.1,
           "color": Color.hex(nodeList[i]),
-          "opacity": 0.9,
         })
       }
 
