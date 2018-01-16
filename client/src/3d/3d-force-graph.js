@@ -11,6 +11,7 @@ import {
   DirectionalLight,
   Raycaster,
   Vector2,
+  Vector3,
   Color
 } from 'three';
 
@@ -34,6 +35,7 @@ const three = window.THREE
     DirectionalLight,
     Raycaster,
     Vector2,
+    Vector3,
     Color
   };
 
@@ -205,14 +207,38 @@ export default Kapsule({
     // Populate scene
     state.scene.add(state.forceGraph);
     state.scene.add(new three.AmbientLight(0xffffff));
-    state.scene.add(new three.DirectionalLight(0xffffff, 0.6));
-    var light1 = new three.PointLight( 0xffffff, 0.5, 400 );
-    light1.position.set( 50, 50, 50 );
-    state.scene.add( light1 );
+    // state.scene.add(new three.DirectionalLight(0xffffff, 0.6));
+
+    let dLight1 = new three.DirectionalLight(0xffffff, 0.4);
+    dLight1.position.set(1, 1, 0.2);
+    state.scene.add(dLight1);
+
+    let dLight2 = new three.DirectionalLight(0xffffff, 0.2);
+    dLight2.position.set(-1, 1, 0.2);
+    state.scene.add(dLight2);
+
+    let dLight3 = new three.DirectionalLight(0xffffff, 0.2);
+    dLight3.position.set(0, -1, 0);
+    state.scene.add(dLight3);
+
+
+    // let dLight3 = new three.DirectionalLight(0xffffff, 0.2);
+    // dLight3.position.set(-1, 0, -1);
+    // state.scene.add(dLight3);
+
+    // let dLight4 = new three.DirectionalLight(0xffffff, 0.2);
+    // dLight4.position.set(0, -1, 0);
+    // state.scene.add(dLight4);
+
+
+    // var light1 = new three.PointLight( 0xffffff, 0.5, 400 );
+    // light1.position.set( 50, 50, 50 );
+    // state.scene.add( light1 );
+
 
 
     // var light2 = new three.PointLight( 0xffffff, 0.5, 400 );
-    // light2.position.set( -50, -50, 50 );
+    // light2.position.set( -50, -50, -50 );
     // state.scene.add( light2 );
 
     // var light3 = new three.PointLight( 0xffffff, 0.5, 400 );

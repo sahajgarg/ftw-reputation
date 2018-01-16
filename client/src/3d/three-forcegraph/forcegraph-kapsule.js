@@ -4,12 +4,14 @@
 
 import {
   SphereGeometry,
+  IcosahedronGeometry,
   BufferGeometry,
   BufferAttribute,
   Mesh,
   MeshLambertMaterial,
   MeshPhysicalMaterial,
-  TextureLoader,
+  DoubleSide,
+  Vector3,
   Line,
   LineBasicMaterial
 } from 'three';
@@ -36,12 +38,14 @@ const three = window.THREE
   ? window.THREE // Prefer consumption from global THREE, if exists
   : {
     SphereGeometry,
+    IcosahedronGeometry,
     BufferGeometry,
     BufferAttribute,
     Mesh,
     MeshLambertMaterial,
     MeshPhysicalMaterial,
-    TextureLoader,
+    DoubleSide,
+    Vector3,
     Line,
     LineBasicMaterial
   };
@@ -192,7 +196,9 @@ export default Kapsule({
 
         if (!sphereGeometries.hasOwnProperty(val)) {
           let size = Math.cbrt(val) * state.nodeRelSize
-          sphereGeometries[val] = new three.SphereGeometry(size, state.nodeResolution, state.nodeResolution);
+          // sphereGeometries[val] = new three.SphereGeometry(size, state.nodeResolution, state.nodeResolution);
+          sphereGeometries[val] = new three.IcosahedronGeometry(size, 1);//state.nodeResolution);
+          sphereGeometries[val].computeFlatVertexNormals();//state.nodeResolution);
         }
 
         const color = colorAccessor(node);
@@ -206,7 +212,8 @@ export default Kapsule({
           sphereMaterials[color] = new three.MeshLambertMaterial({
             color: colorStr2Hex(color || '#ffffaa'),
             transparent: true,
-            opacity: thisNodeOpacity
+            opacity: thisNodeOpacity,
+            // side: three.DoubleSide
           });
 
 
@@ -216,7 +223,7 @@ export default Kapsule({
           //   metalness: 0.6,
           //   roughness: 0.8,
           //   opacity: thisNodeOpacity,
-          //   // side: three.BackSide,
+          //   // side: three.DoubleSide,
           //   transparent: true,
           //   // envMapIntensity: 5,
           //   // premultipliedAlpha: true
