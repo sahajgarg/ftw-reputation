@@ -190,12 +190,18 @@ class App extends Component {
             myScoreGiven = data.trust_rating_list[j]
           }
         }
-        peerObjs.push({
+        let newPeerObj = {
           id: nodeList[i],
           name: randomName,
           rating: (trustValues[i]*5).toFixed(3),
           myScoreGiven: myScoreGiven
-        });
+        };
+
+        if (i === myIndex) {
+          peerObjs.unshift(newPeerObj);
+        } else {
+          peerObjs.push(newPeerObj);
+        }
 
         graphData.nodes.push({
           "id": nodeList[i],
@@ -588,7 +594,7 @@ class App extends Component {
                   {peer.name}{this.state.web3.eth.defaultAccount === peer.id ? ' (You)' : ''}
                 </div>
                 <div className="PeerContent__title__rating">
-                  {peer.rating}/5
+                  {this.state.web3.eth.defaultAccount !== peer.id ? peer.rating + '/5' : undefined}
                 </div>
               </div>
               <div className="PeerContent__id">
