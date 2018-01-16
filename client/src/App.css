@@ -35,23 +35,23 @@ Green = #68c86f
 
 .AppHeader {
   background-color: #fdfdfd;
-  width: 160px;
+  width: 190px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #ddd;
+  /*border-right: 1px solid #ddd;*/
   justify-content: space-between;
 }
 .AppHeader .letter {
-  color: #000;
+  /*color: #000;*/
 }
 .AppHeader__top {
-  width: 160px;
+  width: 190px;
 }
 .AppHeader h1.AppHeader__titleLink {
   text-align: left;
   color: #999;
-  padding: 16px;
-  padding-bottom: 30px;
+  padding: 16px 16px 0 16px;
+  /*padding-bottom: 30px;*/
   line-height: 1.5;
   font-weight: 800;
 }
@@ -63,16 +63,30 @@ Green = #68c86f
   display: flex;
   flex-direction: column;
   border-top: 1px solid #eee;
+  /*padding-right: 1px;*/
+  overflow: hidden;
+}
+.AppHeader__top h1 {
   user-select: none;
-  padding-right: 1px;
 }
 .AppHeader__top__titleLink {
   text-decoration: none !important;
 }
-.AppHeader__top__message {
+.AppHeader__titleUrl {
+  font-size: 14px;
+  padding: 16px 16px 16px 16px;
+  color: #000;
+  display: block;
+}
+.AppHeader__bottom__message {
   font-size: 11px;
   opacity: 0.7;
-  padding: 16px 12px 0 12px;
+  padding: 16px 16px 0 16px;
+}
+
+.AppHeader__top__message {
+  font-size: 12px;
+  padding: 16px 16px 0 16px;
 }
 
 .AppHeader__top nav div {
@@ -97,9 +111,20 @@ Green = #68c86f
   flex-grow: 1;
   overflow-y: scroll;
 }
+#Overview {
+  border-left: 1px solid #ddd;
+
+}
 
 .AppHeader__bottom__links {
-  padding: 16px;
+  padding: 16px 16px 0 16px;
+}
+.AppHeader__bottom__links > a {
+  display: block;
+  padding-bottom: 16px;
+}
+.AppHeader__bottom__links > a:hover {
+  text-decoration: underline;
 }
 
 @keyframes App-logo-spin {
@@ -232,7 +257,7 @@ Green = #68c86f
   display: inline;
 }
 .PlainTitle {
-  font-size: 48px;
+  font-size: 36px;
 }
 .Title {
   font-size: 48px;

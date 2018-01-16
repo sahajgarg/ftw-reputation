@@ -340,15 +340,27 @@ class App extends Component {
     let header = (
       <header className="AppHeader">
         <div className="AppHeader__top">
-          <a href="#" className="AppHeader__top__titleLink"><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
+          <a href="#" className="AppHeader__top__titleLink">
+          <h1 className="AppHeader__titleLink">
+            <span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb
+          </h1>
+          <span className="AppHeader__titleUrl">FTWreputation.com</span>
+          </a>
           <nav>
             <div><a href="#" className={headerNavExplorerClass}>Explorer</a></div>
             <div><a href="#about" className={headerNavOverviewClass}>About</a></div>
           </nav>
-          <div className="AppHeader__top__message">FTW is deployed on both the Ethereum <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
+          <div className="AppHeader__top__message">
+            Built at a hackathon by:
+            <br />- Sunny Aggarwal
+            <br />- Iris Li
+            <br />- Sahaj Garg
+          </div>
         </div>
         <div className="AppHeader__bottom">
+          <div className="AppHeader__bottom__message">FTW is deployed on both the Ethereum <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
           <div className="AppHeader__bottom__links">
+            <a href="https://ftwreputation.com">FTWreputation.com</a>
             <a href="https://github.com/sahajgarg/ftw-reputation" target="_blank">Github</a>
           </div>
         </div>
