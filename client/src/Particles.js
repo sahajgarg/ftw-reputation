@@ -11,7 +11,7 @@ class Particles extends Component {
 
     let ParticleNetwork = window.ParticleNetwork;
     var options = {
-      particleColor: '#c3e9c5',
+      particleColor: '#7bcf81',
       background: '#fff',
       interactive: false,
       speed: 'fast',
