@@ -334,16 +334,16 @@ class App extends Component {
   }
 
   render() {
-    let headerNavOverviewClass = this.state.page === '' ? 'active' : '';
-    let headerNavExplorerClass = this.state.page === 'explorer' ? 'active' : '';
+    let headerNavOverviewClass = this.state.page === 'about' ? 'active' : '';
+    let headerNavExplorerClass = this.state.page === '' ? 'active' : '';
 
     let header = (
       <header className="AppHeader">
         <div className="AppHeader__top">
           <a href="#" className="AppHeader__top__titleLink"><h1 className="AppHeader__titleLink"><span className="letter">F</span>lexible<br /><span className="letter">T</span>rust<br /><span className="letter">W</span>eb</h1></a>
           <nav>
-            <div><a href="#" className={headerNavOverviewClass}>Overview</a></div>
-            <div><a href="#explorer" className={headerNavExplorerClass}>Explorer</a></div>
+            <div><a href="#" className={headerNavExplorerClass}>Explorer</a></div>
+            <div><a href="#about" className={headerNavOverviewClass}>About</a></div>
           </nav>
           <div className="AppHeader__top__message">FTW is deployed on both the Ethereum <a href="https://ropsten.etherscan.io/address/0x59f06fb20057142e6996a530fafe928e151d36ee" target="_blank">Ropsten network</a> and the <a href="https://faucet-sokol.herokuapp.com/" target="_blank">POA Sokol network</a>. Set your web client accordingly.</div>
         </div>
@@ -357,7 +357,7 @@ class App extends Component {
 
     let content = <div>Unknown page: {this.state.page}</div>
 
-    if (this.state.page === '') {
+    if (this.state.page === 'about') {
       content = <div id="Overview">
         <div className="Page PageIntro">
           <Particles />
@@ -522,7 +522,7 @@ class App extends Component {
         </div>
 
       </div>
-    } else if (this.state.page === 'explorer') {
+    } else if (this.state.page === '') {
       // let sink = <div className="Explorer__sink">
       //   Options
       //     - Sybil: [toggle]
