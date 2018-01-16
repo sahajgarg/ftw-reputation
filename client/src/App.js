@@ -174,19 +174,27 @@ class App extends Component {
       var data = {'node_list': nodeList, 'truster_list': trusterList,
         'trustee_list': trusteeList, 'trust_rating_list': ratingList};
 
-      //console.log(nodeList);
       logDebug(this.state.rankSource);
       logDebug(this.state.web3.eth.defaultAccount);
       let trustValues = calculate_trust(data, this.state.rankSource, this.state.web3.eth.defaultAccount);
       logDebug(trustValues);
 
+      let myIndex = data.node_list.indexOf(this.state.web3.eth.defaultAccount);
+
       var randomName;
       for (i = 0; i < nodeList.length; i++) {
         randomName = random_name({ seed: i+1 });
+        let myScoreGiven = 0;
+        for (let j = 0; j < data.truster_list.length; j++) {
+          if (data.truster_list[j] === myIndex && data.trustee_list[j] === i) {
+            myScoreGiven = data.trust_rating_list[j]
+          }
+        }
         peerObjs.push({
           id: nodeList[i],
           name: randomName,
-          rating: (trustValues[i]*5).toFixed(3)
+          rating: (trustValues[i]*5).toFixed(3),
+          myScoreGiven: myScoreGiven
         });
 
         graphData.nodes.push({
@@ -564,7 +572,7 @@ class App extends Component {
             <div className="PeerContent" style={lightBackgroundStyle}>
               <div className="PeerContent__title">
                 <div className="PeerContent__title__name">
-                  {peer.name}
+                  {peer.name}{this.state.web3.eth.defaultAccount === peer.id ? ' (You)' : ''}
                 </div>
                 <div className="PeerContent__title__rating">
                   {peer.rating}/5
@@ -577,7 +585,7 @@ class App extends Component {
 
             <div className="PeerRating">
               Rate this user:
-              <Slider style={{color: peerColor}} min={0} max={5} onAfterChange={(value) => {
+              <Slider style={{color: peerColor}} min={0} max={5} defaultValue={peer.myScoreGiven} onAfterChange={(value) => {
 
                 this.updateEdge(peer.id, value);
 
