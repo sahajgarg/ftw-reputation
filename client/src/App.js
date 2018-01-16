@@ -560,6 +560,19 @@ class App extends Component {
           let lightBackgroundStyle = {
             background: `rgba(${peerColorRGB[0]}, ${peerColorRGB[1]}, ${peerColorRGB[2]}, 0.2)`,
           }
+          let peerRating
+
+          if (this.state.web3.eth.defaultAccount !== peer.id) {
+            peerRating = <div className="PeerRating">
+              Rate this user:
+              <Slider style={{color: peerColor}} min={0} max={5} defaultValue={peer.myScoreGiven} onAfterChange={(value) => {
+
+                this.updateEdge(peer.id, value);
+
+                console.log('Setting peer ' + peer.id + ' to ' + value)
+              }} />
+            </div>
+          }
           peerItems.push(<div className="PeerWrap"
             onMouseEnter={() => {
               console.log('on',peer.id)
@@ -583,15 +596,7 @@ class App extends Component {
               </div>
             </div>
 
-            <div className="PeerRating">
-              Rate this user:
-              <Slider style={{color: peerColor}} min={0} max={5} defaultValue={peer.myScoreGiven} onAfterChange={(value) => {
-
-                this.updateEdge(peer.id, value);
-
-                console.log('Setting peer ' + peer.id + ' to ' + value)
-              }} />
-            </div>
+            {peerRating}
           </div>
           </div>)
         }
@@ -695,7 +700,6 @@ class App extends Component {
         </div>
       </div>
     }
-
 
     return (
       <div className="App">
