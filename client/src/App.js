@@ -396,7 +396,7 @@ class App extends Component {
           </div>
           <div className="TwoBy TeamContainer">
             <div className="TwoBy__40 TeamSection__Name VertCenter">
-              <div className="TeamSection__Name__text">Sunny<br /> Aggarwal</div>
+              <a href="http://sunnya97.com/" className="TeamSection__Name__text">Sunny<br /> Aggarwal</a>
             </div>
             <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
@@ -409,7 +409,7 @@ class App extends Component {
 
           <div className="TwoBy TeamContainer">
             <div className="TwoBy__40 TeamSection__Name VertCenter">
-              <div className="TeamSection__Name__text">Iris<br /> Li</div>
+              <a href="https://iris.li/" className="TeamSection__Name__text">Iris<br /> Li</a>
             </div>
             <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
@@ -422,7 +422,7 @@ class App extends Component {
 
           <div className="TwoBy TeamContainer">
             <div className="TwoBy__40 TeamSection__Name VertCenter">
-              <div className="TeamSection__Name__text">Sahaj<br /> Garg</div>
+              <a href="https://www.linkedin.com/in/sahajgarg/" className="TeamSection__Name__text">Sahaj<br /> Garg</a>
             </div>
             <div className="Team TwoBy__60 VertCenter">
               <div className="TeamSection">
