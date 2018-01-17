@@ -244,6 +244,7 @@ Green = #68c86f
 .TeamSection__Name__text {
   width: 100%;
   padding-right: 30px;
+  color: inherit;
 }
 .PageTeam__Title {
   padding-bottom: 0px;
