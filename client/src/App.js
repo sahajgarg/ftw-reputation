@@ -12,8 +12,9 @@ import random_name from 'node-random-name';
 import ImgOpenBazaar from'./openBazaar.png';
 // import ImgLedgerNano from'./ledgerNano.png';
 import ImgPropy from'./propy.jpg';
+var contractAddress = require('./contractAddress.js').contractAddress;
 
-var contractAddress = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
+//var contractAddress = '0xb8ec2f633b1b2ed5eb673756757bb378cb82a3f6';
 
 
 let logDebug = (message) => {

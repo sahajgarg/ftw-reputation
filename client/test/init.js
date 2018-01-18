@@ -1,6 +1,6 @@
 var TrustGraph = artifacts.require("./TrustGraph.sol");
 
-contract_address = '0x93dec6b8d0b48ef028200e35fdd6b218ddab2e81';
+var contractAddress = require('../src/contractAddress.js').contractAddress;
 
 contract('TrustGraph', function(accounts) {
   it("should do a couple links", function() {
@@ -10,7 +10,7 @@ contract('TrustGraph', function(accounts) {
     var nodeList;
     var edgeList;
 
-    return TrustGraph.at(contract_address).then(function(instance) {
+    return TrustGraph.at(contractAddress).then(function(instance) {
         graph = instance;
         console.log(graph.address);
         num_nodes = Math.floor(accounts.length/2);
